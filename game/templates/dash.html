@@ -7,7 +7,7 @@
     <div class="container">
         <h1>Dashboard</h1>
         <div id="playerList" class="row">
-            <h2>Players</h2>
+            <h2>Players: {{ num_players }}</h2>
             {% for player in players %}
             <div class="col-sm"style="background-color:#aaa;">
                 <h3>Player: {{player.player}} </h3>
@@ -18,6 +18,9 @@
             {% endfor %}
         </div>
     </div>
+    <button class="btn btn-primary btn-md"
+            onClick="resetGame()" 
+            role="button" aria-disabled="true">Reset Game</button>
     <div class="row"> 
         <textarea class="form-control" id="chat-text" rows="10"></textarea><br>
     </div>

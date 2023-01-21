@@ -3,24 +3,27 @@
 {% block title %}Trivial Persuit{% endblock %}
 
 {% block content %}
-<body>
+<body onload="loadFunct({{question_id}})">
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-8">
                 <form action="" class='myform'>
                     <div class="form-group">
                         <label id="name" class="h5 pt-5">Player: {{name}}</label>
-                        </br>
-                        <label for="chat-text" class="h4 pt-2">Question</label>
-                        <p>ID: {{question_id}}</p>
-                        <p>Diff: {{diff}}</p>
-                        <p>C: {{category}}</p>
-                        <p>Q: {{question}}</p>
-                        <button type="button" onClick="showAnswer('{{answera}}', '{{answer}}', '{{name}}', '{{category}}')">A: {{answera}}</button>
-                        <button type="button" onClick="showAnswer('{{answerb}}', '{{answer}}', '{{name}}', '{{category}}')">B: {{answerb}}</button>
-                        <button type="button" onClick="showAnswer('{{answerc}}', '{{answer}}', '{{name}}', '{{category}}')">C: {{answerc}}</button>
-                        <button type="button" onClick="showAnswer('{{answerd}}', '{{answer}}', '{{name}}', '{{category}}')">D: {{answerd}}</button>
-                    </div>
+                    </br>
+                    <label for="chat-text" class="h4 pt-2">Question</label>
+                    <p>Player Number: {{question_id}}</p>
+                    <p>Current Player: {{current_player}}</p>
+                    <p>Diff: {{diff}}</p>
+                    {% if question_id == current_player %}
+                            <p>C: {{category}}</p>
+                            <p>Q: {{question}}</p>
+                            <button type="button" onClick="showAnswer('{{answera}}', '{{answer}}', '{{name}}', '{{category}}')">A: {{answera}}</button>
+                            <button type="button" onClick="showAnswer('{{answerb}}', '{{answer}}', '{{name}}', '{{category}}')">B: {{answerb}}</button>
+                            <button type="button" onClick="showAnswer('{{answerc}}', '{{answer}}', '{{name}}', '{{category}}')">C: {{answerc}}</button>
+                            <button type="button" onClick="showAnswer('{{answerd}}', '{{answer}}', '{{name}}', '{{category}}')">D: {{answerd}}</button>
+                        </div>
+                    {% endif %}
                     <div id="answer" class="form-group" hidden=''>
                         
                         <label for="input">Answer</label><br>
@@ -37,6 +40,6 @@
 {% endblock %}
 {% block script %}
     {% load static %}
-    <script src="{% static '/js/script.js' %}"></script>
+    <script src="{% static '/js/q_script.js' %}"></script>
     <link rel="stylesheet" href="{% static '/css/styles.css' %}">
 {% endblock %}

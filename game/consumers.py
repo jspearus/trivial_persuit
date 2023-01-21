@@ -3,7 +3,8 @@ from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 from core.trivia_api import get_trivia
 
-from .models import Player, CompletedCategory
+from .models import Player, GameData
+from .views import update_current_player
 
 
 class GameConsumer(WebsocketConsumer):
@@ -22,12 +23,30 @@ class GameConsumer(WebsocketConsumer):
         message = text_data_json['message']
         username = text_data_json['username']
         difficulty = text_data_json['difficulty']
+        player = Player.objects.filter(player=username).first()
         if message == 'Correct':
-            player = Player.objects.filter(player=username).first()
+            if player.completed_category == 'None':
+                player.completed_category = ''
             player.completed_category += difficulty
             player.completed_category += ','
             player.score = player.score + 1
+            if player.score > 2:
+                print(f"{username}: WON!!!")
+                message = "WON!!!!!"
             player.save()
+            update_current_player(1)
+
+        elif message == 'Incorrect':
+            update_current_player(1)
+
+        elif message == 'game':
+            if difficulty == 'reset':
+                players = Player.objects.all()
+                players.delete()
+                gameData = GameData.objects.filter(name='game').first()
+                gameData.num_players = 0
+                gameData.current_player = 1
+                gameData.save()
 
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from core.trivia_api import get_trivia
-from .models import Player, CompletedCategory
+from .models import Player, GameData
 import random
 
 questions = []
@@ -8,7 +8,18 @@ catagories = ['general_knoladge', 'sciences', 'history', 'arts_and_literatures',
               'film_and_tv', 'food_and_drinks', 'geography', 'music',
               'society_and_culture', 'sport_and_leisure']
 
+
 # Create your views here.
+
+
+def update_current_player(value):
+    gameData = GameData.objects.filter(name='game').first()
+    gameData.current_player += 1
+    if gameData.current_player > gameData.num_players:
+        gameData.current_player = 1
+    gameData.save()
+    print(f"Current Player: {gameData.current_player}")
+    print(f"Nunmber Players: {gameData.num_players}")
 
 
 def index(request):
@@ -18,16 +29,21 @@ def index(request):
 
 
 def join(request):
+    gameData = GameData.objects.filter(name='game').first()
     if request.method == "POST":
         name = request.POST['player_name']
         diff = request.POST['diff']
         if not Player.objects.filter(player=name).exists():
-            Player.objects.create(player=name, difficulty=diff)
+            gameData.num_players += 1
+            gameData.save()
+            Player.objects.create(
+                player=name, player_number=gameData.num_players, difficulty=diff)
         return redirect(f'/question/{name}')
     return render(request, 'join.html', {})
 
 
 def question(request, name):
+    gameData = GameData.objects.filter(name='game').first()
     global questions, catagories
     cat = random.sample(range(10), 10)
     category = catagories[cat[0]]
@@ -45,11 +61,10 @@ def question(request, name):
     answerb = trivia_data[0]['incorrectAnswers'][1]
     answerc = trivia_data[0]['incorrectAnswers'][2]
     answerd = trivia_data[0]['incorrectAnswers'][3]
-    if player.score > 2:
-        category = "You Win!!"
     return render(request, 'question.html', {
         'name': name,
-        'question_id': question_id,
+        'question_id': player.player_number,
+        'current_player': gameData.current_player,
         'diff': diff,
         'category': category,
         'question': question,
@@ -77,7 +92,9 @@ def result(request):
 def dash(request):
     playerlist = []
     players = Player.objects.all()
+    gameData = GameData.objects.filter(name='game').first()
 
     return render(request, 'dash.html', {
         'players': players,
+        'num_players': gameData.num_players,
     })

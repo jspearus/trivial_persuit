@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Player, CompletedCategory
+from .models import Player, GameData
 # Register your models here.
 admin.site.register(Player)
-admin.site.register(CompletedCategory)
+admin.site.register(GameData)
