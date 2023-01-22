@@ -49,6 +49,7 @@ def join(request):
 
 def question_filter(comp_cat, diff, player):
     global questions, catagories
+    i = 0
     new_cat = []
     category_list = list(catagories.keys())
     for cat in category_list:
@@ -71,9 +72,10 @@ def question_filter(comp_cat, diff, player):
                 wrong_answers=trivia_data[q]['incorrectAnswers']
             )
             question.save()
+            i = q
             break
         break
-    return trivia_data
+    return trivia_data[i]
 
 
 def question(request, name):
@@ -88,17 +90,17 @@ def question(request, name):
 
     trivia_data = question_filter(comp_cat, player.difficulty, player.player)
 
-    question_id = trivia_data[0]['id']
-    category = trivia_data[0]['category']
-    question = trivia_data[0]['question']
-    answer = trivia_data[0]['correctAnswer']
-    answers = trivia_data[0]['incorrectAnswers']
+    question_id = trivia_data['id']
+    category = trivia_data['category']
+    question = trivia_data['question']
+    answer = trivia_data['correctAnswer']
+    answers = trivia_data['incorrectAnswers']
     answers.append(answer)
     random.shuffle(answers, random.random)
-    answera = trivia_data[0]['incorrectAnswers'][0]
-    answerb = trivia_data[0]['incorrectAnswers'][1]
-    answerc = trivia_data[0]['incorrectAnswers'][2]
-    answerd = trivia_data[0]['incorrectAnswers'][3]
+    answera = trivia_data['incorrectAnswers'][0]
+    answerb = trivia_data['incorrectAnswers'][1]
+    answerc = trivia_data['incorrectAnswers'][2]
+    answerd = trivia_data['incorrectAnswers'][3]
     return render(request, 'question.html', {
         'name': name,
         'question_id': player.player_number,
