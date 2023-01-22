@@ -25,6 +25,8 @@ class GameData(models.Model):
         default=1)
     num_players = models.IntegerField(
         default=0)
+    max_score = models.IntegerField(
+        default=10)
     Date_started = models.DateField(default=timezone.now)
 
     def __str__(self):
