@@ -137,4 +137,5 @@ def dash(request):
     return render(request, 'dash.html', {
         'players': players,
         'num_players': gameData.num_players,
+        'max_score': gameData.max_score,
     })
