@@ -71,9 +71,9 @@ def question_filter(comp_cat, diff, player):
                 wrong_answers=trivia_data[q]['incorrectAnswers']
             )
             question.save()
-            break
-
-    return trivia_data
+            return trivia_data
+        else:
+            return trivia_data
 
 
 def question(request, name):
