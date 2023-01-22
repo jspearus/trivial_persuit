@@ -72,7 +72,8 @@ def question_filter(comp_cat, diff, player):
             )
             question.save()
             break
-        return trivia_data
+        break
+    return trivia_data
 
 
 def question(request, name):

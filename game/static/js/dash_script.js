@@ -19,6 +19,9 @@ gameSocket.onmessage = function (e) {
     else if(data.message === 'Correct'){
         const slices = document.getElementById(data.username);
         slices.innerHTML = slices.innerHTML + data.difficulty + ',';
+        setTimeout(function() {
+            document.location.reload();
+        }, 500);
     }
     else if(data.difficulty === 'reset'){
         document.querySelector('#chat-text').value += ( 'Game Reset...\n')
