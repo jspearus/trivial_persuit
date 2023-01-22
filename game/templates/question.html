@@ -11,11 +11,12 @@
                     <div class="form-group">
                         <label id="name" class="h5 pt-5">Player: {{name}}</label>
                     </br>
-                    <label for="chat-text" class="h4 pt-2">Question</label>
-                    <p>Player Number: {{question_id}}</p>
+                    <p>Player Number: {{question_id}} - Score: {{score}}</p>
                     <p>Current Player: {{current_player}}</p>
                     <p>Diff: {{diff}}</p>
+                    <p>Slices: {{slices}}</p>
                     {% if question_id == current_player %}
+                    <label for="chat-text" class="h4 pt-2">Question</label>
                             <p>C: {{category}}</p>
                             <p>Q: {{question}}</p>
                             <button type="button" onClick="showAnswer('{{answera}}', '{{answer}}', '{{name}}', '{{category}}')">A: {{answera}}</button>

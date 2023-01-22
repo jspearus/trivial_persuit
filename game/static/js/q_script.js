@@ -27,7 +27,7 @@ function showAnswer(answer, Canswer, player, category) {
 
 gameSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
-    var delayInMilliseconds = 5000; //1 second
+    var delayInMilliseconds = 3000; //1 second
     console.log(data)
     setTimeout(function() {
         if(data.message === 'Correct'){

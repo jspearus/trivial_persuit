@@ -25,12 +25,10 @@ class GameConsumer(WebsocketConsumer):
         difficulty = text_data_json['difficulty']
         player = Player.objects.filter(player=username).first()
         if message == 'Correct':
-            if player.completed_category == 'None':
-                player.completed_category = ''
             player.completed_category += difficulty
             player.completed_category += ','
             player.score = player.score + 1
-            if player.score > 2:
+            if player.score > 9:
                 print(f"{username}: WON!!!")
                 message = "WON!!!!!"
             player.save()

@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect
 from core.trivia_api import get_trivia
-from .models import Player, GameData
+from .models import Player, GameData, Question
 import random
 
 questions = []
-catagories = ['general_knoladge', 'sciences', 'history', 'arts_and_literatures',
-              'film_and_tv', 'food_and_drinks', 'geography', 'music',
-              'society_and_culture', 'sport_and_leisure']
+catagories = {"Geography": "geography",
+              "Film & TV": "film_and_tv",
+              "Music": "music",
+              "History": "history",
+              "Arts & Literature": "arts_and_literature",
+              "Science": "science",
+              "Sport & Leisure": "sport_and_leisure",
+              "Society & Culture": "society_and_culture",
+              "General Knowledge": "general_knowledge",
+              "Food & Drink": "food_and_drink"}
 
 
 # Create your views here.
@@ -18,8 +25,6 @@ def update_current_player(value):
     if gameData.current_player > gameData.num_players:
         gameData.current_player = 1
     gameData.save()
-    print(f"Current Player: {gameData.current_player}")
-    print(f"Nunmber Players: {gameData.num_players}")
 
 
 def index(request):
@@ -42,14 +47,47 @@ def join(request):
     return render(request, 'join.html', {})
 
 
-def question(request, name):
-    gameData = GameData.objects.filter(name='game').first()
+def question_filter(comp_cat, diff, player):
     global questions, catagories
-    cat = random.sample(range(10), 10)
-    category = catagories[cat[0]]
+    new_cat = []
+    category_list = list(catagories.keys())
+    for cat in category_list:
+        if cat not in comp_cat:
+            new_cat.append(cat)
+    if len(new_cat) > 1:
+        cat = random.randint(0, len(new_cat)-1)
+    else:
+        cat = 0
+    trivia_data = get_trivia(diff, catagories[new_cat[cat]], '10')
+    for q in range(10):
+        if not Question.objects.filter(question_id=trivia_data[q]['id']):
+            question = Question.objects.create(
+                question_id=trivia_data[q]['id'],
+                player=player,
+                category=trivia_data[q]['category'],
+                difficulty=diff,
+                question=trivia_data[q]['question'],
+                answer=trivia_data[q]['correctAnswer'],
+                wrong_answers=trivia_data[q]['incorrectAnswers']
+            )
+            question.save()
+            break
+
+    return trivia_data
+
+
+def question(request, name):
+    global questions, catagories
+    gameData = GameData.objects.filter(name='game').first()
     player = Player.objects.filter(player=name).first()
-    diff = player.difficulty
-    trivia_data = get_trivia(diff, category, '10')
+
+    comp_cat = player.completed_category.split(',')
+    for cat in comp_cat:
+        if cat == '':
+            comp_cat.remove(cat)
+
+    trivia_data = question_filter(comp_cat, player.difficulty, player.player)
+
     question_id = trivia_data[0]['id']
     category = trivia_data[0]['category']
     question = trivia_data[0]['question']
@@ -65,7 +103,9 @@ def question(request, name):
         'name': name,
         'question_id': player.player_number,
         'current_player': gameData.current_player,
-        'diff': diff,
+        'diff': player.difficulty,
+        'score': player.score,
+        'slices': player.completed_category,
         'category': category,
         'question': question,
         'answera': answera,

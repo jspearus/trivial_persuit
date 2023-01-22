@@ -24,7 +24,7 @@ gameSocket.onmessage = function (e) {
         document.querySelector('#chat-text').value += ( 'Game Reset...\n')
         setTimeout(function() {
             document.location.reload();
-        }, 5000);
+        }, 1000);
     }
     else{
       document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.difficulty + '\n')

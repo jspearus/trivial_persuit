@@ -12,7 +12,7 @@ class Player(models.Model):
         default=0)
     difficulty = models.CharField(max_length=20, blank=True, null=True)
     completed_category = models.CharField(max_length=1000,
-                                          default='None')
+                                          default=',')
     Date_started = models.DateField(default=timezone.now)
 
     def __str__(self):
@@ -29,3 +29,17 @@ class GameData(models.Model):
 
     def __str__(self):
         return str(self.name) + ': ' + str(self.num_players)
+
+
+class Question(models.Model):
+    date = models.DateField(default=timezone.now)
+    question_id = models.CharField(max_length=25)
+    player = models.CharField(max_length=20)
+    category = models.CharField(max_length=30)
+    difficulty = models.CharField(max_length=10)
+    question = models.CharField(max_length=1000)
+    answer = models.CharField(max_length=1000)
+    wrong_answers = models.CharField(max_length=10000)
+
+    def __str__(self):
+        return str(self.player) + ': ' + str(self.question)
