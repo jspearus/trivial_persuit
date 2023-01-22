@@ -12,19 +12,19 @@
             <div class="col-sm"style="background-color:#aaa;">
                 <h3>Player: {{player.player}} </h3>
                 <h3>Score: {{player.score}} </h3>
-                <h5>Difficulty: {{player.difficulty}} </h5>
+                <h5>Difficulty: {{player.difficulty | title }} </h5>
                 <h5 id='{{player.player}}'>Slices: {{player.completed_category}} </h5>
                 
             </div>
             {% endfor %}
         </div>
     </div>
-    <button class="btn btn-primary btn-md"
-            onClick="resetGame()" 
-            role="button" aria-disabled="true">Reset Game</button>
     <div class="row"> 
         <textarea class="form-control" id="chat-text" rows="10"></textarea><br>
     </div>
+    <button class="btn btn-primary btn-md"
+            onClick="resetGame()" 
+            role="button" aria-disabled="true">Reset Game</button>
 </body>
 {% endblock %}
 {% block script %}
