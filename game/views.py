@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from core.trivia_api import get_trivia
 from .models import Player, GameData, Question
 import random
+import socket
 
 questions = []
 catagories = {"Geography": "geography",
@@ -135,9 +136,11 @@ def dash(request):
     playerlist = []
     players = Player.objects.all()
     gameData = GameData.objects.filter(name='game').first()
-
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
     return render(request, 'dash.html', {
         'players': players,
         'num_players': gameData.num_players,
         'max_score': gameData.max_score,
+        'address': IPAddr,
     })

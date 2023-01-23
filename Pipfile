@@ -7,6 +7,7 @@ name = "pypi"
 django = "*"
 requests = "*"
 channels = "==3.0.5"
+sockets = "*"
 
 [dev-packages]
 

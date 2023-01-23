@@ -1,3 +1,4 @@
 django
 requests
 channels==3.0.5
+sockets

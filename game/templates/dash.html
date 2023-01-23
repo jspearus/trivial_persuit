@@ -6,12 +6,12 @@
 <body>
     <div class="container">
         <h1>Dashboard</h1>
+        <h3> Address: {{ address }}</h3>
         <div id="playerList" class="row">
             <h2>Players: {{ num_players }} - Max Score: {{max_score}}</h2>
             {% for player in players %}
             <div class="col-sm"style="background-color:#aaa;">
-                <h3>Player: {{player.player}} </h3>
-                <h3>Score: {{player.score}} </h3>
+                <h3>Player: {{player.player}} - Score: {{player.score}} </h3>
                 <h5>Difficulty: {{player.difficulty | title }} </h5>
                 <h5 id='{{player.player}}'>Slices: {{player.completed_category}} </h5>
                 
