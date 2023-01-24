@@ -16,3 +16,10 @@
     display: table;
     clear: both;
   }
+
+  body {
+    background-color: #FFFFFF;
+  }
+  #chat-text {
+    background-color: #FFFFFF;
+  }
