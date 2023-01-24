@@ -16,13 +16,34 @@
                     <p>Diff: {{diff}}</p>
                     <p>Slices: {{slices}}</p>
                     {% if question_id == current_player %}
-                    <label for="chat-text" class="h4 pt-2">Question</label>
+                    <label for="question" class="h4 pt-2">Question</label>
                             <p>C: {{category}}</p>
                             <p>Q: {{question}}</p>
-                            <button type="button" onClick="showAnswer('{{answera}}', '{{answer}}', '{{name}}', '{{category}}')">A: {{answera}}</button>
-                            <button type="button" onClick="showAnswer('{{answerb}}', '{{answer}}', '{{name}}', '{{category}}')">B: {{answerb}}</button>
-                            <button type="button" onClick="showAnswer('{{answerc}}', '{{answer}}', '{{name}}', '{{category}}')">C: {{answerc}}</button>
-                            <button type="button" onClick="showAnswer('{{answerd}}', '{{answer}}', '{{name}}', '{{category}}')">D: {{answerd}}</button>
+
+                            <button type="button"
+                                class="btn btn-secondary btn-md"
+                                style="margin-bottom: 20px; margin-right: 20px"
+                                onClick="showAnswer('{{answera}}', '{{answer}}', '{{name}}', '{{category}}')">
+                                A: {{answera}}
+                            </button>
+                            <button type="button" 
+                                class="btn btn-secondary btn-md"
+                                style="margin-bottom: 20px; margin-right: 20px"
+                                onClick="showAnswer('{{answerb}}', '{{answer}}', '{{name}}', '{{category}}')">
+                                B: {{answerb}}
+                            </button>
+                            <button type="button" 
+                                class="btn btn-secondary btn-md"
+                                style="margin-bottom: 20px; margin-right: 20px"
+                                onClick="showAnswer('{{answerc}}', '{{answer}}', '{{name}}', '{{category}}')">
+                                C: {{answerc}}
+                            </button>
+                            <button type="button" 
+                                class="btn btn-secondary btn-md"
+                                style="margin-bottom: 20px; margin-right: 20px"
+                                onClick="showAnswer('{{answerd}}', '{{answer}}', '{{name}}', '{{category}}')">
+                                D: {{answerd}}
+                            </button>
                         </div>
                     {% endif %}
                     <div id="answer" class="form-group" hidden=''>
