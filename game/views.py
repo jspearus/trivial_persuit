@@ -60,8 +60,8 @@ def question_filter(comp_cat, diff, player):
         cat = random.randint(0, len(new_cat)-1)
     else:
         cat = 0
-    trivia_data = get_trivia(diff, catagories[new_cat[cat]], '10')
-    for q in range(10):
+    trivia_data = get_trivia(diff, catagories[new_cat[cat]], '20')
+    for q in range(20):
         if not Question.objects.filter(question_id=trivia_data[q]['id']):
             question = Question.objects.create(
                 question_id=trivia_data[q]['id'],
@@ -75,7 +75,6 @@ def question_filter(comp_cat, diff, player):
             question.save()
             i = q
             break
-        break
     return trivia_data[i]
 
 

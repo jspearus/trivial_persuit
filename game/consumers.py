@@ -31,7 +31,8 @@ class GameConsumer(WebsocketConsumer):
             player.score = player.score + 1
             if player.score >= gameData.max_score:
                 print(f"{username}: WON!!!")
-                message = "WON!!!!!"
+                message = "won"
+                difficulty = player.player_number
             player.save()
             update_current_player(1)
 
@@ -44,6 +45,10 @@ class GameConsumer(WebsocketConsumer):
                 players.delete()
                 gameData = GameData.objects.filter(name='game').first()
                 gameData.num_players = 0
+                gameData.current_player = 0
+                gameData.save()
+
+            elif difficulty == 'start':
                 gameData.current_player = 1
                 gameData.save()
 

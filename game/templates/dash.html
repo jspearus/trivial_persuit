@@ -10,11 +10,11 @@
         <div id="playerList" class="row">
             <h2>Players: {{ num_players }} - Max Score: {{max_score}}</h2>
             {% for player in players %}
-            <div class="col-sm"style="background-color: #092F78;">
-                <h3>Player: {{player.player}} - Score: {{player.score}} </h3>
-                <h5>Difficulty: {{player.difficulty | title }} </h5>
-                <h5 id='{{player.player}}'>Slices: {{player.completed_category}} </h5>
-                
+            <div class="col-sm"
+                style="background-color: #092F78; color: white;">
+                    <h3>Player: {{player.player}} - Score: {{player.score}} </h3>
+                    <h5>Difficulty: {{player.difficulty | title }} </h5>
+                    <h5 id='{{player.player}}'>Slices: {{player.completed_category}} </h5>
             </div>
             {% endfor %}
         </div>
@@ -22,10 +22,18 @@
     <div class="row"> 
         <textarea class="form-control" id="chat-text" rows="10"></textarea><br>
     </div>
-    <button class="btn btn-md"
+    <button id='reset_btn'
+            class="btn btn-md "
+            hidden=''
             style="background-color: #092F78; color: #FFFFFF"
             onClick="resetGame()" 
             role="button" aria-disabled="true">Reset Game</button>
+
+    <button id='start_btn'
+            class="btn btn-md"
+            style="background-color: #092F78; color: #FFFFFF"
+            onClick="startGame()" 
+            role="button" aria-disabled="true">Start Game</button>
 </body>
 {% endblock %}
 {% block script %}

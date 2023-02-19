@@ -5,7 +5,9 @@ const gameSocket = new WebSocket(
     window.location.host +
     '/ws/game/'
 );
+
 let player_num = 0;
+
 function loadFunct(playerNum){
     player_num = playerNum;
     console.log(player_num)
@@ -36,7 +38,20 @@ gameSocket.onmessage = function (e) {
         else if(data.message === 'Incorrect'){
             document.location.reload();
         }
+        else if(data.message === 'game'){
+            if(data.difficulty === 'start'){
+                document.location.reload();
+            }
+            else if(data.difficulty === 'reset'){
+                window.location = '/';  
+            }
+        }
     }, delayInMilliseconds);
+    if(data.message === 'won'){
+        if(data.difficulty ===player_num){
+            alert("You won!");
+        }
+    }
 }
 
 function sendData(msg, player, category) {
