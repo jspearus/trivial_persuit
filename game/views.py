@@ -22,7 +22,7 @@ catagories = {"Geography": "geography",
 
 def update_current_player(value):
     gameData = GameData.objects.filter(name='game').first()
-    gameData.current_player += 1
+    gameData.current_player += 1fff
     if gameData.current_player > gameData.num_players:
         gameData.current_player = 1
     gameData.save()
