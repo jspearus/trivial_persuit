@@ -1,2 +1,3 @@
 /db.sqlite3
 game/migrations
+__pycache__
