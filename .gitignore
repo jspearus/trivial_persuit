@@ -1,2 +1,4 @@
 /db.sqlite3
 game/migrations
+core/__pycache__
+game/__pycache__
