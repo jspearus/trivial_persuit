@@ -22,7 +22,7 @@ class Player(models.Model):
 class GameData(models.Model):
     name = models.CharField(max_length=20, default='game')
     current_player = models.IntegerField(
-        default=1)
+        default=0)
     num_players = models.IntegerField(
         default=0)
     max_score = models.IntegerField(
