@@ -1,6 +1,7 @@
 bugs:
     question freezes
-    answered question and register multiple times
+    answered question and register multiple times:
+                                    button pressed multiple time before page loaded
     refresh gives new question
     winner message shows up twice on dashboard
 
