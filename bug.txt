@@ -1,0 +1,11 @@
+bugs:
+    question freezes
+    answered question and register multiple times
+    refresh gives new question
+    winner message shows up twice on dashboard
+
+
+
+feture:
+    add are you sure option
+    show current question on dahboard
