@@ -51,7 +51,6 @@ def join(request):
         return redirect(f'/question/{name}')
     return render(request, 'join.html', {})
 
-# todo added to test git pull command
 def question_filter(comp_cat, diff, player):
     global questions, catagories
     i = 0
@@ -109,9 +108,24 @@ def question(request, name):
         player.category = category
         player.question = question
         player.answer = answer
+        player.answer_a = answera
+        player.answer_b = answerb
+        player.answer_c = answerc
+        player.answer_d = answerd
         player.q_status = 'active'
         player.save()
         question_status = 'active'
+        
+    elif player.q_status == 'active':
+        question_status = player.q_status
+        category = player.category
+        question = player.question
+        answer = player.answer
+        answera = player.answer_a
+        answerb = player.answer_b
+        answerc = player.answer_c
+        answerd = player.answer_d
+        
     else:
         question_status = player.q_status
         category = player.category
@@ -156,7 +170,6 @@ def get_ip():
 
 
 def dash(request):
-    playerlist = []
     players = Player.objects.all()
     gameData = GameData.objects.filter(name='game').first()
     IPAddr = get_ip()

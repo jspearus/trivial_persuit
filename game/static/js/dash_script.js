@@ -24,6 +24,7 @@ gameSocket.onmessage = function (e) {
     else if(data.message === 'Correct'){
         const slices = document.getElementById(data.username);
         slices.innerHTML = slices.innerHTML + data.data + ',';
+        // todo reset button turns back to start button when answer is answerd 
         setTimeout(function() {
             document.location.reload();
         }, 500);
