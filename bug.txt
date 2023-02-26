@@ -1,5 +1,5 @@
 bugs:
-    question freezes
+    question freezes: need to add answerd a tru d to player model to load on refresh?
     answered question and register multiple times:
                                     button pressed multiple time before page loaded > possibly fixed with confirm popup
     refresh gives new question
