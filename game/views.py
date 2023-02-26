@@ -74,6 +74,7 @@ def question_filter(comp_cat, diff, player):
             )
             question.save()
             i = q
+            print(f"done {player}")
             break
     return trivia_data[i]
 

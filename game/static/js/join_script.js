@@ -15,8 +15,8 @@ function addPlayer() {
 
 function sendData(msg, player, difficulty) {
     gameSocket.send(JSON.stringify({
-        'message': msg,
         'username': player,
+        'message': msg,
         'difficulty': difficulty,
     }));
 }

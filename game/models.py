@@ -13,6 +13,9 @@ class Player(models.Model):
     difficulty = models.CharField(max_length=20, blank=True, null=True)
     completed_category = models.CharField(max_length=1000,
                                           default=',')
+    category = models.CharField(max_length=30, blank=True, null=True)
+    question = models.CharField(max_length=1000, blank=True, null=True)
+    answer = models.CharField(max_length=1000, blank=True, null=True)
     Date_started = models.DateField(default=timezone.now)
 
     def __str__(self):

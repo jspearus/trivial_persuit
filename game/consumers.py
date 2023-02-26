@@ -20,8 +20,8 @@ class GameConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
         username = text_data_json['username']
+        message = text_data_json['message']
         difficulty = text_data_json['difficulty']
         player = Player.objects.filter(player=username).first()
         gameData = GameData.objects.filter(name='game').first()
@@ -56,20 +56,20 @@ class GameConsumer(WebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'game_message',
-                'message': message,
                 'username': username,
+                'message': message,
                 'difficulty': difficulty,
             }
         )
 
     def game_message(self, event):
-        message = event['message']
         username = event['username']
+        message = event['message']
         difficulty = event['difficulty']
 
         self.send(text_data=json.dumps({
-            'message': message,
             'username': username,
+            'message': message,
             'difficulty': difficulty,
 
         }))
