@@ -51,7 +51,7 @@ def join(request):
         return redirect(f'/question/{name}')
     return render(request, 'join.html', {})
 
-
+# todo added to test git pull command
 def question_filter(comp_cat, diff, player):
     global questions, catagories
     i = 0
