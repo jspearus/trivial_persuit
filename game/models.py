@@ -17,6 +17,10 @@ class Player(models.Model):
     category = models.CharField(max_length=30, default=' ')
     question = models.CharField(max_length=1000, default=' ')
     answer = models.CharField(max_length=1000, default=' ')
+    answer_a = models.CharField(max_length=1000, default=' ')
+    answer_b = models.CharField(max_length=1000, default=' ')
+    answer_c = models.CharField(max_length=1000, default=' ')
+    answer_d = models.CharField(max_length=1000, default=' ')
     Date_started = models.DateField(default=timezone.now)
 
     def __str__(self):
