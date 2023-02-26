@@ -7,16 +7,16 @@ const gameSocket = new WebSocket(
 
 function addPlayer() {
     const playerName = document.querySelector('#player_name').value;
-    const difficulty = document.querySelector('#diff').value;
-    sendData("joined", playerName, difficulty);
+    const data = document.querySelector('#diff').value;
+    sendData("joined", playerName, data);
 }
 
 
 
-function sendData(msg, player, difficulty) {
+function sendData(msg, player, data) {
     gameSocket.send(JSON.stringify({
         'username': player,
         'message': msg,
-        'difficulty': difficulty,
+        'data': data,
     }));
 }

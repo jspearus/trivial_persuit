@@ -23,12 +23,12 @@ gameSocket.onmessage = function (e) {
     }
     else if(data.message === 'Correct'){
         const slices = document.getElementById(data.username);
-        slices.innerHTML = slices.innerHTML + data.difficulty + ',';
+        slices.innerHTML = slices.innerHTML + data.data + ',';
         setTimeout(function() {
             document.location.reload();
         }, 500);
     }
-    else if(data.difficulty === 'reset'){
+    else if(data.data === 'reset'){
         document.querySelector('#chat-text').value += ( 'Game Reset...\n')
         document.getElementById("start_btn").removeAttribute("hidden");
         document.getElementById("reset_btn").setAttribute("hidden", '');
@@ -36,25 +36,25 @@ gameSocket.onmessage = function (e) {
             document.location.reload();
         }, 1000);
     }
-    if (data.difficulty === 'start'){
+    if (data.data === 'start'){
         document.getElementById("reset_btn").removeAttribute("hidden");
         document.getElementById("start_btn").setAttribute("hidden", '');
     }
     else{
-      document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.difficulty + '\n')
+      document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.data + '\n')
       
     }
     if(data.message === 'won'){
-        document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.difficulty + '\n')
+        document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.data + '\n')
         document.getElementById("reset_btn").removeAttribute("hidden");
         document.getElementById("start_btn").setAttribute("hidden", '');
     }
 }
 
-function sendData(msg, player, difficulty) {
+function sendData(msg, player, data) {
     gameSocket.send(JSON.stringify({
         'username': player,
         'message': msg,
-        'difficulty': difficulty,
+        'data': data,
     }));
 }

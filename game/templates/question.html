@@ -3,7 +3,7 @@
 {% block title %}Trivial Persuit{% endblock %}
 
 {% block content %}
-<body onload="loadFunct({{question_id}})">
+<body onload="loadFunct({{player_id}})">
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-8">
@@ -11,12 +11,12 @@
                     <div class="form-group">
                         <label id="name" class="h5 pt-5">Player: {{name}}</label>
                     </br>
-                    <p>Player Number: {{question_id}} - Score: {{score}}</p>
+                    <p>Player Number: {{player_id}} - Score: {{score}}</p>
                     <p>Current Player: {{current_player}}</p>
                     <p>Diff: {{diff}}</p>
                     <p>Slices: {{slices}}</p>
-                    {% if question_id == current_player %}
-                    <label for="question" class="h4 pt-2">Question</label>
+                    {% if player_id == current_player %}
+                        <label for="question" class="h4 pt-2">Question</label>
                             <p>C: {{category}}</p>
                             <p>Q: {{question}}</p>
 
@@ -45,6 +45,11 @@
                                 D: {{answerd}}
                             </button>
                         </div>
+                    {% elif question_status == 'done'%}
+                        <label for="question" class="h4 pt-2">Pre Question</label>
+                            <p>C: {{category}}</p>
+                            <p>Q: {{question}}</p>
+                            <p>A: {{answer}}</p>
                     {% endif %}
                     <div id="answer" class="form-group" hidden=''>
                         

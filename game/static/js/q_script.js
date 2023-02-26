@@ -44,26 +44,26 @@ gameSocket.onmessage = function (e) {
             document.location.reload();
         }
         else if(data.message === 'game'){
-            if(data.difficulty === 'start'){
+            if(data.data === 'start'){
                 document.location.reload();
             }
-            else if(data.difficulty === 'reset'){
+            else if(data.data === 'reset'){
                 window.location = '/';  
             }
         }
     }, delayInMilliseconds);
     if(data.message === 'won'){
-        if(data.difficulty ===player_num){
+        if(data.data ===player_num){
             confirm("You won! Congrats");
         }
     }
 }
 
-function sendData(msg, player, category) {
+function sendData(msg, player, data) {
     gameSocket.send(JSON.stringify({
         'username': player,
         'message': msg,
-        'difficulty': category,
+        'data': data,
     }));
 }
 
