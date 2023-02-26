@@ -20,11 +20,11 @@ function showAnswer(answer, Canswer, player, category) {
       }
 }
 
-function sendData(msg, player, category) {
+function sendData(msg, player, data) {
     chatSocket.send(JSON.stringify({
-        'message': msg,
         'username': player,
-        'difficulty': category,
+        'message': msg,
+        'data': data,
     }));
 }
 

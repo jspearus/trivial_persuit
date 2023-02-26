@@ -26,6 +26,10 @@ def update_current_player(value):
     if gameData.current_player > gameData.num_players:
         gameData.current_player = 1
     gameData.save()
+    gameData = GameData.objects.filter(name='game').first()
+    player = Player.objects.filter(player_number=gameData.current_player).first()
+    player.q_status = 'next'
+    player.save()
 
 
 def index(request):
@@ -65,7 +69,7 @@ def question_filter(comp_cat, diff, player):
         if not Question.objects.filter(question_id=trivia_data[q]['id']):
             question = Question.objects.create(
                 question_id=trivia_data[q]['id'],
-                player=player,
+                player=player.player,
                 category=trivia_data[q]['category'],
                 difficulty=diff,
                 question=trivia_data[q]['question'],
@@ -74,36 +78,53 @@ def question_filter(comp_cat, diff, player):
             )
             question.save()
             i = q
+            print(f"done {player.player}")
             break
     return trivia_data[i]
 
 
 def question(request, name):
     global questions, catagories
-    gameData = GameData.objects.filter(name='game').first()
-    player = Player.objects.filter(player=name).first()
-
-    comp_cat = player.completed_category.split(',')
+    gameData = GameData.objects.filter(name=''game't(',')
     for cat in comp_cat:
         if cat == '':
             comp_cat.remove(cat)
-
-    trivia_data = question_filter(comp_cat, player.difficulty, player.player)
-
-    question_id = trivia_data['id']
-    category = trivia_data['category']
-    question = trivia_data['question']
-    answer = trivia_data['correctAnswer']
-    answers = trivia_data['incorrectAnswers']
-    answers.append(answer)
-    random.shuffle(answers, random.random)
-    answera = trivia_data['incorrectAnswers'][0]
-    answerb = trivia_data['incorrectAnswers'][1]
-    answerc = trivia_data['incorrectAnswers'][2]
-    answerd = trivia_data['incorrectAnswers'][3]
+    if player.q_status == 'next':
+        trivia_data = question_filter(comp_cat, player.difficulty, player)
+        
+        question_id = trivia_data['id']
+        category = trivia_data['category']
+        question = trivia_data['question']
+        answer = trivia_data['correctAnswer']
+        answers = trivia_data['incorrectAnswers']
+        answers.append(answer)
+        random.shuffle(answers, random.random)
+        answera = trivia_data['incorrectAnswers'][0]
+        answerb = trivia_data['incorrectAnswers'][1]
+        answerc = trivia_data['incorrectAnswers'][2]
+        answerd = trivia_data['incorrectAnswers'][3]
+        player.category = category
+        player.question = question
+        player.answer = answer
+        player.q_status = 'active'
+        player.save()
+        question_status = 'active'
+    else:
+        question_status = player.q_status
+        category = player.category
+        question = player.question
+        answer = player.answer
+        answers = ' '
+        answera = ' '
+        answerb = ' '
+        answerc = ' '
+        answerd = ' '
+    print(f"quest status = {question_status}")
+        
     return render(request, 'question.html', {
         'name': name,
-        'question_id': player.player_number,
+        'player_id': player.player_number,
+        'question_status':question_status,
         'current_player': gameData.current_player,
         'diff': player.difficulty.capitalize(),
         'score': player.score,
@@ -116,20 +137,6 @@ def question(request, name):
         'answerd': answerd,
         'answer': answer,
     })
-
-
-def result(request):
-    trivia_data = get_trivia('hard', 'history', '1')
-    category = trivia_data[0]['category']
-    question = trivia_data[0]['question']
-    answer = trivia_data[0]['correctAnswer']
-    return render(request, 'question.html', {
-        'category': category,
-        'question': question,
-        'answer': answer,
-        'result': result,
-    })
-
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
