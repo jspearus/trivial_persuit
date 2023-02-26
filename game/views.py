@@ -156,7 +156,6 @@ def get_ip():
 
 
 def dash(request):
-    playerlist = []
     players = Player.objects.all()
     gameData = GameData.objects.filter(name='game').first()
     IPAddr = get_ip()

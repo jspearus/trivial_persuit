@@ -1,12 +1,12 @@
 bugs:
     question freezes
     answered question and register multiple times:
-                                    button pressed multiple time before page loaded
+                                    button pressed multiple time before page loaded > possibly fixed with confirm popup
     refresh gives new question
     winner message shows up twice on dashboard
 
 
 
 feture:
-    add are you sure option
+    add are you sure option           - working not done
     show current question on dahboard
