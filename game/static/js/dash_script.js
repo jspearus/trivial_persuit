@@ -30,12 +30,12 @@ gameSocket.onmessage = function (e) {
         // todo reset button turns back to start button when answer is answerd
         setTimeout(function() {
             document.location.reload();
-        }, 1000);
+        }, 2000);
     }
     else if(data.message === 'Incorrect'){
         setTimeout(function() {
             document.location.reload();
-        }, 1000);
+        }, 2000);
     }
     else if(data.data === 'reset'){
         game = false;
@@ -51,10 +51,7 @@ gameSocket.onmessage = function (e) {
         document.getElementById("reset_btn").removeAttribute("hidden");
         document.getElementById("start_btn").setAttribute("hidden", '');
     }
-    else{
-      document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.data + '\n')
-      
-    }
+   
     if(data.message === 'won'){
         document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.data + '\n')
         document.getElementById("reset_btn").removeAttribute("hidden");
