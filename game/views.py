@@ -90,7 +90,6 @@ def question(request, name):
     global questions, catagories
     gameData = GameData.objects.filter(name='game').first()
     player = Player.objects.filter(player=name).first()
-
     comp_cat = player.completed_category.split(',')
     for cat in comp_cat:
         if cat == '':

@@ -44,11 +44,11 @@ gameSocket.onmessage = function (e) {
             document.location.reload();
         }
         else if(data.message === 'game'){
-            if(data.data === 'start'){
-                document.location.reload();
-            }
-            else if(data.data === 'reset'){
+            if(data.data === 'reset'){
                 window.location = '/';  
+            }
+            else if(data.data === 'start'){
+                document.location.reload();
             }
         }
     }, delayInMilliseconds);
