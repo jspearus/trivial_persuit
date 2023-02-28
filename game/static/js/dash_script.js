@@ -39,7 +39,6 @@ gameSocket.onmessage = function (e) {
     }
     else if(data.data === 'reset'){
         game = false;
-        document.querySelector('#chat-text').value += ( 'Game Reset...\n')
         document.getElementById("start_btn").removeAttribute("hidden");
         document.getElementById("reset_btn").setAttribute("hidden", '');
         setTimeout(function() {
@@ -53,7 +52,6 @@ gameSocket.onmessage = function (e) {
     }
    
     if(data.message === 'won'){
-        document.querySelector('#chat-text').value += ( data.username +': ' + data.message +': ' + data.data + '\n')
         document.getElementById("reset_btn").removeAttribute("hidden");
         document.getElementById("start_btn").setAttribute("hidden", '');
     }
