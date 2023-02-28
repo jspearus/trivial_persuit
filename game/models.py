@@ -39,10 +39,27 @@ class GameData(models.Model):
 
     def __str__(self):
         return str(self.name) + ': ' + str(self.num_players)
+    
+class CurrentQuestion(models.Model):
+    name = models.CharField(max_length=20, default='game')
+    category = models.CharField(max_length=30, blank=True, null=True)
+    question = models.CharField(max_length=1000, blank=True, null=True)
+    answer = models.CharField(max_length=1000, blank=True, null=True)
+    answer_a = models.CharField(max_length=1000, blank=True, null=True)
+    answer_b = models.CharField(max_length=1000, blank=True, null=True)
+    answer_c = models.CharField(max_length=1000, blank=True, null=True)
+    answer_d = models.CharField(max_length=1000, blank=True, null=True)
+
+class PreQuestion(models.Model):
+    name = models.CharField(max_length=20, default='game')
+    pre_category = models.CharField(max_length=30, blank=True, null=True)
+    pre_question = models.CharField(max_length=1000, blank=True, null=True)
+    pre_answer = models.CharField(max_length=1000, blank=True, null=True)
 
 
 class Question(models.Model):
     date = models.DateField(default=timezone.now)
+    game_id = models.CharField(max_length=25, blank=True, null=True)
     question_id = models.CharField(max_length=25)
     player = models.CharField(max_length=20)
     category = models.CharField(max_length=30)

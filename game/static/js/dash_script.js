@@ -1,3 +1,6 @@
+
+let game = true;
+
 const gameSocket = new WebSocket(
     'ws://' +
     window.location.host +
@@ -24,12 +27,18 @@ gameSocket.onmessage = function (e) {
     else if(data.message === 'Correct'){
         const slices = document.getElementById(data.username);
         slices.innerHTML = slices.innerHTML + data.data + ',';
-        // todo reset button turns back to start button when answer is answerd 
+        // todo reset button turns back to start button when answer is answerd
         setTimeout(function() {
             document.location.reload();
-        }, 500);
+        }, 1000);
+    }
+    else if(data.message === 'Incorrect'){
+        setTimeout(function() {
+            document.location.reload();
+        }, 1000);
     }
     else if(data.data === 'reset'){
+        game = false;
         document.querySelector('#chat-text').value += ( 'Game Reset...\n')
         document.getElementById("start_btn").removeAttribute("hidden");
         document.getElementById("reset_btn").setAttribute("hidden", '');
@@ -38,6 +47,7 @@ gameSocket.onmessage = function (e) {
         }, 1000);
     }
     if (data.data === 'start'){
+        game = true;
         document.getElementById("reset_btn").removeAttribute("hidden");
         document.getElementById("start_btn").setAttribute("hidden", '');
     }

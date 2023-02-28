@@ -5,8 +5,8 @@
 {% block content %}
 <body>
     <div class="container">
-        <h1>Dashboard</h1>
-        <h3> Address: {{address}}:8000</h3>
+        <h1>Dashboard - Address: {{address}}:8000</h1>
+        </br>
         <div id="playerList" class="row">
             <h2>Players: {{ num_players }} - Max Score: {{max_score}}</h2>
             {% for player in players %}
@@ -19,10 +19,28 @@
             {% endfor %}
         </div>
     </div>
-    <div class="row"> 
+
+    <div id="questions" class="row"> 
         {% comment %} todo add current question display {% endcomment %}
-        <textarea class="form-control" id="chat-text" rows="10"></textarea><br>
+        {% comment %} <textarea class="form-control" id="chat-text" rows="10"></textarea><br> {% endcomment %}
+        <div id="PreQuestion" class="col">
+            <h2>Previous Question</h2>
+            <h5>Category: {{ PreQuestion.pre_category }}</h5>
+            <h6>Question: {{ PreQuestion.pre_question }}</h6>
+            <h5>A: {{ PreQuestion.pre_answer}}</h5>
+        </div>
+        <div id="CurQuestion" class="col">
+            <h2>Current Question</h2>
+            <h5>Category: {{CurrentQuestion.category}}</h5>
+            <h6>Question: {{CurrentQuestion.question}}</h6>
+            <h5>A: {{CurrentQuestion.answer_a}}</h5>
+            <h5>B: {{CurrentQuestion.answer_b}}</h5>
+            <h5>C: {{CurrentQuestion.answer_c}}</h5>
+            <h5>D: {{CurrentQuestion.answer_d}}</h5>
+        </div>
     </div>
+
+    </br></br></br></br></br>
     <button id='reset_btn'
             class="btn btn-md "
             hidden=''

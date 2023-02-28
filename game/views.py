@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from core.trivia_api import get_trivia
-from .models import Player, GameData, Question
+from .models import Player, GameData, Question, CurrentQuestion, PreQuestion
 import random
 import socket
 
@@ -22,9 +22,14 @@ catagories = {"Geography": "geography",
 
 def update_current_player(value):
     gameData = GameData.objects.filter(name='game').first()
-    gameData.current_player += 1
+    player = Player.objects.filter(player_number=gameData.current_player).first()
+    preQuestion = PreQuestion.objects.filter(name='game').first()
+    preQuestion.pre_category = player.category
+    preQuestion.pre_question = player.question
+    preQuestion.pre_answer = player.answer
+    preQuestion.save()
     if gameData.current_player > gameData.num_players:
-        gameData.current_player = 1
+        gameData.current_player = value
     gameData.save()
     gameData = GameData.objects.filter(name='game').first()
     player = Player.objects.filter(player_number=gameData.current_player).first()
@@ -77,7 +82,6 @@ def question_filter(comp_cat, diff, player):
             )
             question.save()
             i = q
-            print(f"done {player.player}")
             break
     return trivia_data[i]
 
@@ -93,7 +97,6 @@ def question(request, name):
             comp_cat.remove(cat)
     if player.q_status == 'next':
         trivia_data = question_filter(comp_cat, player.difficulty, player)
-        
         question_id = trivia_data['id']
         category = trivia_data['category']
         question = trivia_data['question']
@@ -105,6 +108,15 @@ def question(request, name):
         answerb = trivia_data['incorrectAnswers'][1]
         answerc = trivia_data['incorrectAnswers'][2]
         answerd = trivia_data['incorrectAnswers'][3]
+        curQuestion = CurrentQuestion.objects.filter(name='game').first()
+        curQuestion.category = category
+        curQuestion.question = question
+        curQuestion.answer = answer
+        curQuestion.answer_a = answera
+        curQuestion.answer_b = answerb
+        curQuestion.answer_c = answerc
+        curQuestion.answer_d = answerd
+        curQuestion.save()
         player.category = category
         player.question = question
         player.answer = answer
@@ -172,10 +184,15 @@ def get_ip():
 def dash(request):
     players = Player.objects.all()
     gameData = GameData.objects.filter(name='game').first()
+    preQuestion = PreQuestion.objects.filter(name='game').first()
+    currentQuestion = CurrentQuestion.objects.filter(name='game').first()
     IPAddr = get_ip()
     return render(request, 'dash.html', {
         'players': players,
         'num_players': gameData.num_players,
         'max_score': gameData.max_score,
         'address': IPAddr,
+        'CurrentQuestion': currentQuestion,
+        'PreQuestion': preQuestion,
+        
     })
