@@ -1,12 +1,14 @@
 bugs:
-    question freezes: need to add answerd a tru d to player model to load on refresh?
+    question freezes - posibbly fixed with confirm popup
+
     answered question and register multiple times:
-                                    button pressed multiple time before page loaded > possibly fixed with confirm popup
+                                    button pressed multiple time before page loaded- posibbly fixed with confirm popup
     refresh gives new question
     winner message shows up twice on dashboard
 
 
 
 feture:
-    add are you sure option           - working not done
+    add are you sure option
     show current question on dahboard
+
