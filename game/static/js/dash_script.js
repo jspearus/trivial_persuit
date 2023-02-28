@@ -49,6 +49,9 @@ gameSocket.onmessage = function (e) {
         game = true;
         document.getElementById("reset_btn").removeAttribute("hidden");
         document.getElementById("start_btn").setAttribute("hidden", '');
+        setTimeout(function() {
+            document.location.reload();
+        }, 2000);
     }
    
     if(data.message === 'won'){
