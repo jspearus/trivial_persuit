@@ -3,8 +3,7 @@ bugs:
 
     answered question and register multiple times:
                                     button pressed multiple time before page loaded- posibbly fixed with confirm popup
-    refresh gives new question
-    winner message shows up twice on dashboard
+currentQuestion not updating????
 
 
 

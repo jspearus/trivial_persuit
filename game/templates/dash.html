@@ -8,7 +8,10 @@
         <h1>Dashboard - Address: {{address}}:8000</h1>
         </br>
         <div id="playerList" class="row">
-            <h2>Players: {{ num_players }} - Max Score: {{max_score}}</h2>
+            <h3>Players: {{ num_players }} - Max Score: {{max_score}}</h3>
+            {% if current_player != 'None' %}
+                <h2>Current Player: {{ current_player }}</h2>
+            {% endif %}
             {% for player in players %}
             <div class="col-sm"
                 style="background-color: #092F78; color: white;">

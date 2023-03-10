@@ -28,8 +28,9 @@ def update_current_player(value):
     preQuestion.pre_question = player.question
     preQuestion.pre_answer = player.answer
     preQuestion.save()
+    gameData.current_player = gameData.current_player  + value
     if gameData.current_player > gameData.num_players:
-        gameData.current_player = value
+        gameData.current_player = 1
     gameData.save()
     gameData = GameData.objects.filter(name='game').first()
     player = Player.objects.filter(player_number=gameData.current_player).first()
@@ -185,6 +186,13 @@ def dash(request):
     gameData = GameData.objects.filter(name='game').first()
     preQuestion = PreQuestion.objects.filter(name='game').first()
     currentQuestion = CurrentQuestion.objects.filter(name='game').first()
+    player = Player.objects.filter(player_number=gameData.current_player).first()
+    if (player):
+        current_player = player.player
+    else:
+        print("none")
+        current_player = 'None'
+        
     IPAddr = get_ip()
     return render(request, 'dash.html', {
         'players': players,
@@ -193,5 +201,6 @@ def dash(request):
         'address': IPAddr,
         'CurrentQuestion': currentQuestion,
         'PreQuestion': preQuestion,
+        'current_player': current_player
         
     })
