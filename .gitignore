@@ -2,3 +2,4 @@
 game/migrations
 core/__pycache__
 game/__pycache__
+node_modules
