@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <Random />
       <header className="App-header">
-        <h1>Pursuit React</h1>
+        <h1>PursuitReact</h1>
       </header>
     </div>
   );
