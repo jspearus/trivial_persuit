@@ -43,6 +43,10 @@ def index(request):
 
     })
 
+def home(request):
+    return render(request, 'home.html', {
+
+    })
 
 def join(request):
     gameData = GameData.objects.filter(name='game').first()
