@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from core.trivia_api import get_trivia
+from rest_framework import viewsets, filters
+from .serializers import  *
 from .models import Player, GameData, Question, CurrentQuestion, PreQuestion
 import random
 import socket
@@ -19,6 +21,35 @@ catagories = {"Geography": "geography",
 
 # Create your views here.
 
+class PlayerView(viewsets.ModelViewSet):
+    serializer_class = PlayerSerializer
+    queryset = Player.objects.all()
+    search_fields = ['player', 'category', 'difficulty', 'completed_category']
+    filter_backends = (filters.SearchFilter,)
+    
+class GameDataView(viewsets.ModelViewSet):
+    serializer_class = GameDataSerializer
+    queryset = GameData.objects.all()
+    search_fields = ['name', 'current_player', 'num_players', 'max_score', 'Date_started']
+    filter_backends = (filters.SearchFilter,)
+    
+class CurrentQuestionView(viewsets.ModelViewSet):
+    serializer_class = CurrentQuestionSerializer
+    queryset = CurrentQuestion.objects.all()
+    search_fields = ['name', 'category', 'question', 'answer']
+    filter_backends = (filters.SearchFilter,)
+    
+class PreQuestionView(viewsets.ModelViewSet):
+    serializer_class = PreQuestionSerializer
+    queryset = PreQuestion.objects.all()
+    search_fields = ['player', 'pre_category', 'pre_question', 'pre_answer']
+    filter_backends = (filters.SearchFilter,)
+    
+class QuestionView(viewsets.ModelViewSet):
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
+    search_fields = ['player', 'category', 'difficulty']
+    filter_backends = (filters.SearchFilter,)
 
 def update_current_player(value):
     gameData = GameData.objects.filter(name='game').first()

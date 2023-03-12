@@ -26,6 +26,7 @@ class GameConsumer(WebsocketConsumer):
         data = text_data_json['data']
         player = Player.objects.filter(player=username).first()
         gameData = GameData.objects.filter(name='game').first()
+        
         if message == 'Correct':
             player.completed_category += data
             player.completed_category += ','
@@ -59,6 +60,10 @@ class GameConsumer(WebsocketConsumer):
                 player = Player.objects.filter(player_number=1).first()
                 player.q_status = 'next'
                 player.save()
+        elif message == 'test':
+            username = 'server'
+            message = 'rec...'
+            data = 'works'
 
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
