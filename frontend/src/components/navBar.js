@@ -1,5 +1,6 @@
 
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,7 +13,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 const pages = ['Home', 'Join Game', 'Create Game'];
@@ -21,29 +21,51 @@ const settings = ['Profile', 'Account', 'Dashboard'];
 function ResponsiveAppBar({ setMenuOption }) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [page, setPage] = React.useState('');
+    const navigate = useNavigate();
 
 
     const handleOpenNavMenu = (event) => {
-        console.log(event.target.innerText);
+        setPage(event.target.innerText);
         setMenuOption(event.target.innerText)
         setAnchorElNav(event.currentTarget);
 
-    };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
+    }
 
     const handleCloseNavMenu = (event) => {
+        setPage(event.target.innerText);
         setMenuOption(event.target.innerText)
+
         setAnchorElNav(null);
     };
 
+    const handleOpenUserMenu = (event) => {
+        setPage(event.target.innerText);
+        setAnchorElUser(event.currentTarget);
+    };
+
+
     const handleCloseUserMenu = (event) => {
-        console.log(event.target.innerText);
+        setPage(event.target.innerText);
         setMenuOption(event.target.innerText)
         setAnchorElUser(null);
     };
+    React.useEffect(() => {
+        if (page != null) {
+            if (page.toLocaleLowerCase() === 'home') {
 
+                navigate('/');
+            }
+            else if (page.toLocaleLowerCase() === 'create game') {
+
+                navigate('/create');
+            }
+            else if (page.toLocaleLowerCase() === 'join game') {
+
+                navigate('/join');
+            }
+        }
+    }, [page, navigate]);
     return (
         <AppBar position="static">
             <Container maxWidth="xl">

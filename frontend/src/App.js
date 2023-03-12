@@ -1,9 +1,12 @@
-import React, { Component, useState } from 'react';
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 import './App.css';
 import NavBar from './components/navBar';
 import GameView from './components/game';
+import Create from './components/create';
+import Join from './components/join';
 
 const WS_URL = 'ws://192.168.1.22:8080/ws/game/';
 
@@ -44,13 +47,26 @@ function App() {
   const [menuOption, setMenuOption] = useState('HOME');
 
   return (
-    <div className="App">
-      <NavBar setMenuOption={setMenuOption} />
-      <GameView menuOption={menuOption} />
-      <header className="App-header">
-        <button onClick={() => sendClicked('jeff', 'test')}>click</button>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <NavBar setMenuOption={setMenuOption} />
+        <Routes>
+          <Route path='/'
+            element={
+              <>
+                <GameView menuOption={menuOption} />
+
+                <Button variant="contained"
+                  onClick={() => sendClicked('jeff', 'test')}>Test</Button>
+              </>
+            }
+          />
+          <Route path='/create' element={<Create />} />
+          <Route path='/join' element={<Join />} />
+        </Routes>
+
+      </div>
+    </Router>
   );
 
 }

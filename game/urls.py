@@ -13,10 +13,10 @@ router.register(r'q', views.QuestionView)
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('api/', include(router.urls)),
-    path('react/', views.index, name='index'),
+    path('', views.index, name='index'),
+    path('old/', views.home, name='home'),
     path('dash/', views.dash, name='dash'),
-    path('join/', views.join, name='join'),
+    path('api/', include(router.urls)),
+    # path('join/', views.join, name='join'),
     path('question/<str:name>/', views.question, name='question'),
 ]

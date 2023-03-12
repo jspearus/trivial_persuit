@@ -20,7 +20,6 @@ class GameConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        print(f"data {text_data_json}")
         username = text_data_json['username']
         message = text_data_json['message']
         data = text_data_json['data']
@@ -60,6 +59,7 @@ class GameConsumer(WebsocketConsumer):
                 player = Player.objects.filter(player_number=1).first()
                 player.q_status = 'next'
                 player.save()
+                
         elif message == 'test':
             username = 'server'
             message = 'rec...'
