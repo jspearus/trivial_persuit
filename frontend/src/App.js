@@ -13,36 +13,36 @@ const WS_URL = 'ws://192.168.1.22:8080/ws/game/';
 const chatSocket = new WebSocket(WS_URL);
 
 
-function sendMsg(user, msg, data) {
+function sendMsg(user, data_type, data) {
   chatSocket.send(JSON.stringify({
-    'message': msg,
     'username': user,
+    'data_type': data_type,
     'data': data,
   }));
 
 }
 
-function sendClicked(name, msg) {
-  sendMsg(name, msg, 'abcd')
+function sendClicked(name, datat, data) {
+  sendMsg(name, datat, data)
 }
 
 chatSocket.onmessage = function (event) {
   const json = JSON.parse(event.data);
   try {
-    if ((json.username === "server")) {
+    if ((json.username === "jeff")) {
+      console.log(`[MSG] Data received from server: ${json.username}`);
+      console.log(json.data);
 
-      console.log(`[message] Data received from server: ${json.username}`);
-      console.log(json.message);
     }
   } catch (err) {
-    console.log(err);
+    console.log(`[ERROR] : ${err}`);
   }
 
 };
 
 function App() {
   chatSocket.onopen = (event) => {
-    sendMsg('jeff', 'react', 'cmd')
+    // run code on load here
   };
   const [menuOption, setMenuOption] = useState('HOME');
 
@@ -57,7 +57,7 @@ function App() {
                 <GameView menuOption={menuOption} />
 
                 <Button variant="contained"
-                  onClick={() => sendClicked('jeff', 'test')}>Test</Button>
+                  onClick={() => sendClicked('jeff', 'test', 'config')}>Test</Button>
               </>
             }
           />
