@@ -7,6 +7,7 @@ import NavBar from './components/navBar';
 import GameView from './components/game';
 import Create from './components/create';
 import Join from './components/join';
+import Question from './components/questionView';
 
 const WS_URL = 'ws://192.168.1.22:8080/ws/game/';
 
@@ -48,7 +49,10 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="App"
+        sx={{
+          backgroundColor: '#ff0000',
+        }}>
         <NavBar setMenuOption={setMenuOption} />
         <Routes>
           <Route path='/'
@@ -63,6 +67,7 @@ function App() {
           />
           <Route path='/create' element={<Create />} />
           <Route path='/join' element={<Join />} />
+          <Route path='/question' element={<Question />} />
         </Routes>
 
       </div>

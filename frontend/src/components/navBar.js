@@ -62,7 +62,7 @@ function ResponsiveAppBar({ setMenuOption }) {
             }
             else if (page.toLocaleLowerCase() === 'join game') {
 
-                navigate('/join');
+                navigate('/question');
             }
         }
     }, [page, navigate]);
