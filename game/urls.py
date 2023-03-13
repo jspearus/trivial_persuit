@@ -1,5 +1,5 @@
 
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework import routers
 
 from . import views
@@ -11,9 +11,8 @@ router.register(r'courq', views.CurrentQuestionView)
 router.register(r'preq', views.PreQuestionView)
 router.register(r'q', views.QuestionView)
 
-
 urlpatterns = [
-    path('', views.index, name='index'),
+    re_path('.*/', views.index, name='index'),
     path('old/', views.home, name='home'),
     path('dash/', views.dash, name='dash'),
     path('api/', include(router.urls)),
