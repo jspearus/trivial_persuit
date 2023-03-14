@@ -48,7 +48,7 @@ class PreQuestionView(viewsets.ModelViewSet):
 class QuestionView(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
-    search_fields = ['player', 'category', 'difficulty']
+    search_fields = ['player', 'category', 'difficulty', 'question', 'answer']
     filter_backends = (filters.SearchFilter,)
 
 def update_current_player(value):

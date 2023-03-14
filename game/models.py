@@ -21,7 +21,7 @@ class Player(models.Model):
     answer_b = models.CharField(max_length=1000, default=' ')
     answer_c = models.CharField(max_length=1000, default=' ')
     answer_d = models.CharField(max_length=1000, default=' ')
-    Date_started = models.DateField(default=timezone.now)
+    Date_started = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return str(self.player)
@@ -35,7 +35,7 @@ class GameData(models.Model):
         default=0)
     max_score = models.IntegerField(
         default=10)
-    Date_started = models.DateField(default=timezone.now)
+    Date_started = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return str(self.name) + ': ' + str(self.num_players)

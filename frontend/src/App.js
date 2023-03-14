@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Button } from '@mui/material';
 
+import { getData, postData, putData, delData } from './components/rest';
+
 import './App.css';
 import NavBar from './components/navBar';
 import GameView from './components/game';
@@ -25,7 +27,47 @@ function sendMsg(user, data_type, data) {
 
 function sendClicked(name, datat, data) {
   sendMsg(name, datat, data)
+  //use it 
+  var config = { "Access-Control-Allow-Origin": "*" }
+  getData(config, (res) => {
+    console.log(res.data[0].name)
+    window.confirm(res.data[0].name);
+  }, (err) => {
+    //error
+    console.log(`GET REQUEST ERROR${err}`);
+  });
 }
+function postClicked(name, datat, data) {
+  sendMsg(name, datat, data)
+  //use it 
+  var config = { name: 'TEst game' }
+  postData(config, (res) => {
+  }, (err) => {
+    //error
+    console.log(`POST REQUEST ERROR ${err}`);
+  });
+}
+function putClicked(name, datat, data) {
+  sendMsg(name, datat, data)
+  //use it 
+  var config = { max_score: 25 }
+  putData(config, 7, (res) => {
+  }, (err) => {
+    //error
+    console.log(`PUT REQUEST ERROR ${err}`);
+  });
+}
+function delClicked(name, datat, data) {
+  sendMsg(name, datat, data)
+  //use it 
+  var config = { "Access-Control-Allow-Origin": "*" }
+  delData(config, 7, (res) => {
+  }, (err) => {
+    //error
+    console.log(`PUT REQUEST ERROR ${err}`);
+  });
+}
+
 
 chatSocket.onmessage = function (event) {
   const json = JSON.parse(event.data);
@@ -47,6 +89,7 @@ function App() {
   };
   const [menuOption, setMenuOption] = useState('HOME');
 
+
   return (
     <Router>
       <div className="App"
@@ -61,7 +104,11 @@ function App() {
                 <GameView menuOption={menuOption} />
 
                 <Button variant="contained"
-                  onClick={() => sendClicked('jeff', 'test', 'config')}>Test</Button>
+                  onClick={() => putClicked('jeff', 'test', 'config')}>PUT</Button>
+                <Button variant="contained"
+                  onClick={() => postClicked('jeff', 'test', 'config')}>POST</Button>
+                <Button variant="contained"
+                  onClick={() => delClicked('jeff', 'test', 'config')}>DELETE</Button>
               </>
             }
           />

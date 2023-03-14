@@ -35,7 +35,6 @@ function ResponsiveAppBar({ setMenuOption }) {
     const handleCloseNavMenu = (event) => {
         setPage(event.target.innerText);
         setMenuOption(event.target.innerText)
-
         setAnchorElNav(null);
     };
 

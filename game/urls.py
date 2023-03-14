@@ -12,10 +12,11 @@ router.register(r'preq', views.PreQuestionView)
 router.register(r'q', views.QuestionView)
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     re_path('.*/', views.index, name='index'),
+    path('', views.index, name='index'),
     path('old/', views.home, name='home'),
     path('dash/', views.dash, name='dash'),
-    path('api/', include(router.urls)),
     # path('join/', views.join, name='join'),
     path('question/<str:name>/', views.question, name='question'),
 ]
