@@ -44,7 +44,10 @@ const cards = [{
     "type": "Current Question",
     "quest": "This is another question",
     "cat": "History",
-    "answer": "The Answer too",
+    "answera": "A: The Answer a",
+    "answerb": "B: The Answer b",
+    "answerc": "C: The Answer c",
+    "answerd": "D: The Answer d",
 },];
 
 const players = [{
@@ -182,6 +185,18 @@ export default function GameView() {
                                         </Typography>
                                         <Typography>
                                             Answer: {card.answer}
+                                        </Typography>
+                                        <Typography>
+                                            {card.answera}
+                                        </Typography>
+                                        <Typography>
+                                            {card.answerb}
+                                        </Typography>
+                                        <Typography>
+                                            {card.answerc}
+                                        </Typography>
+                                        <Typography>
+                                            {card.answerd}
                                         </Typography>
                                     </CardContent>
                                     {/* <CardActions>
