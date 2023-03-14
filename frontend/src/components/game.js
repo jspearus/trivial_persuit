@@ -80,7 +80,7 @@ export default function GameView() {
             <AppBar position="relative">
                 <Toolbar>
                     <DashboardIcon color="secondary" sx={{ mr: 2 }} />
-                    <Typography sx={{ mr: 4 }} variant="h6" color="inherit" noWrap>
+                    <Typography sx={{ mr: 4 }} variant="h6" color="secondary" noWrap>
                         Dashboard
                     </Typography>
                     <Button color="secondary"

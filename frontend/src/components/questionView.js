@@ -47,19 +47,22 @@ export default function QuestionCard() {
         >
             <Card sx={{
                 width: 400,
-                backgroundColor: '#424242',
+                backgroundColor: 'white',
+                // backgroundColor: '#424242',
             }}>
                 <CardHeader
                     sx={{
-                        color: "#cfd8dc",
+                        // color: "#cfd8dc",
+                        color: "blue",
                     }}
+                    subheaderTypographyProps={{ color: 'blue' }}
 
                     title="PLayer: Jeff"
                     subheader="Difficulty: Easy"
                 />
 
                 <CardContent>
-                    <Typography variant="body2" color="#cfd8dc">
+                    <Typography variant="body2" color="blue">
                         This is where the question will be?
                     </Typography>
                 </CardContent>

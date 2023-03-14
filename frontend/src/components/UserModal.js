@@ -12,6 +12,8 @@ import Dialog from '@mui/material/Dialog';
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import { Grid } from '@material-ui/core';
 import { blue } from '@mui/material/colors';
 
 const emails = ['Player1', 'Player2'];
@@ -82,22 +84,38 @@ export default function UserModal() {
     };
 
     return (
-        <div>
-            <Typography variant="h4" component="div">
-                Curent User
-            </Typography>
-            <Typography variant="subtitle1" component="div">
-                Selected: {selectedValue}
-            </Typography>
-            <br />
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Select Or Create User
-            </Button>
-            <SimpleDialog
-                selectedValue={selectedValue}
-                open={open}
-                onClose={handleClose}
-            />
-        </div>
+        <Grid
+            container
+            spacing={1}
+            direction="column"
+            alignItems="center"
+            width="100%"
+            style={{ minHeight: '100vh' }}
+        >
+            <Card
+                sx={{
+                    width: 400,
+                    backgroundColor: 'white',
+                    // backgroundColor: '#424242',
+                }}>
+                <div>
+                    <Typography variant="h4" component="div">
+                        Curent User
+                    </Typography>
+                    <Typography variant="subtitle1" component="div">
+                        Selected: {selectedValue}
+                    </Typography>
+                    <br />
+                    <Button variant="outlined" onClick={handleClickOpen}>
+                        Select Or Create User
+                    </Button>
+                    <SimpleDialog
+                        selectedValue={selectedValue}
+                        open={open}
+                        onClose={handleClose}
+                    />
+                </div>
+            </Card>
+        </Grid >
     );
 }
