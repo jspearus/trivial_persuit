@@ -4,16 +4,16 @@ import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
+// import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+// import { red } from '@mui/material/colors';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import { dark } from '@mui/material/styles/createPalette';
-import { alignProperty } from '@mui/material/styles/cssUtils';
+// import { dark } from '@mui/material/styles/createPalette';
+// import { alignProperty } from '@mui/material/styles/cssUtils';
 import { Grid } from '@material-ui/core';
 
 const ExpandMore = styled((props) => {
@@ -46,7 +46,7 @@ export default function QuestionCard() {
             style={{ minHeight: '100vh' }}
         >
             <Card sx={{
-                width: 400,
+                width: 300,
                 backgroundColor: 'white',
                 // backgroundColor: '#424242',
             }}>

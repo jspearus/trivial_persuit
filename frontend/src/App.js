@@ -8,7 +8,7 @@ import { getData, postData, putData, delData } from './components/rest';
 import './App.css';
 import NavBar from './components/navBar';
 import GameView from './components/game';
-import Create from './components/create';
+// import Create from './components/create';
 import Join from './components/join';
 import Question from './components/questionView';
 

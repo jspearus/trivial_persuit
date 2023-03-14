@@ -94,7 +94,7 @@ export default function UserModal() {
         >
             <Card
                 sx={{
-                    width: 400,
+                    width: 300,
                     backgroundColor: 'white',
                     // backgroundColor: '#424242',
                 }}>
