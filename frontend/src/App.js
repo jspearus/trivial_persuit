@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Button } from '@mui/material';
 
+import UserModal from './components/UserModal';
 import { getData, postData, putData, delData } from './components/rest';
 
 import './App.css';
@@ -25,13 +26,15 @@ function sendMsg(user, data_type, data) {
 
 }
 
-function sendClicked(name, datat, data) {
+function getClicked(name, datat, data) {
   sendMsg(name, datat, data)
   //use it 
   var config = { "Access-Control-Allow-Origin": "*" }
   getData(config, (res) => {
-    console.log(res.data[0].name)
-    window.confirm(res.data[0].name);
+    console.log(res.data[1].name)
+    window.confirm(JSON.stringify(res.data));
+    const games = res.data.filter((game) => game.name == name)
+    window.confirm(games[0].name)
   }, (err) => {
     //error
     console.log(`GET REQUEST ERROR${err}`);
@@ -51,7 +54,7 @@ function putClicked(name, datat, data) {
   sendMsg(name, datat, data)
   //use it 
   var config = { max_score: 25 }
-  putData(config, 7, (res) => {
+  putData(config, 9, (res) => {
   }, (err) => {
     //error
     console.log(`PUT REQUEST ERROR ${err}`);
@@ -61,7 +64,7 @@ function delClicked(name, datat, data) {
   sendMsg(name, datat, data)
   //use it 
   var config = { "Access-Control-Allow-Origin": "*" }
-  delData(config, 7, (res) => {
+  delData(config, 8, (res) => {
   }, (err) => {
     //error
     console.log(`PUT REQUEST ERROR ${err}`);
@@ -104,6 +107,8 @@ function App() {
                 <GameView menuOption={menuOption} />
 
                 <Button variant="contained"
+                  onClick={() => getClicked('TEst game', 'test', 'config')}>GET</Button>
+                <Button variant="contained"
                   onClick={() => putClicked('jeff', 'test', 'config')}>PUT</Button>
                 <Button variant="contained"
                   onClick={() => postClicked('jeff', 'test', 'config')}>POST</Button>
@@ -112,7 +117,7 @@ function App() {
               </>
             }
           />
-          <Route path='/create' element={<Create />} />
+          <Route path='/create' element={<UserModal />} />
           <Route path='/join' element={<Join />} />
           <Route path='/question' element={<Question />} />
         </Routes>
