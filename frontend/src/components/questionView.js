@@ -57,7 +57,7 @@ export default function QuestionCard() {
                     }}
                     subheaderTypographyProps={{ color: 'blue' }}
 
-                    title="PLayer: Jeff"
+                    title="Player: Jeff"
                     subheader="Difficulty: Easy"
                 />
 
