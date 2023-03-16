@@ -116,7 +116,7 @@ export default function UserModal() {
                 }}>
                 <div>
                     <Dialog open={open} onClose={handleClose}>
-                        <DialogTitle>Subscribe</DialogTitle>
+                        <DialogTitle>Create User</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
                                 Please Enter Username (Can be whatever you want), select difficulty, and theme color
