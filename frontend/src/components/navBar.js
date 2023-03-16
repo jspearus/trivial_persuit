@@ -59,6 +59,10 @@ function ResponsiveAppBar({ setMenuOption }) {
 
                 navigate('/create');
             }
+            else if (page.toLocaleLowerCase() === 'profile') {
+
+                navigate('/join');
+            }
             else if (page.toLocaleLowerCase() === 'join game') {
 
                 navigate('/question');

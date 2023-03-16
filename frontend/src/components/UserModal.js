@@ -22,7 +22,8 @@ import { Grid, TextField } from '@material-ui/core';
 import { DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { blue } from '@mui/material/colors';
 
-const emails = ['Player1', 'Player2'];
+const diffList = ['Easy', 'Medium', 'Hard'];
+const themes = ['Red', 'Green', 'Blue', 'Orange', 'Purple', 'Yellow', 'Pink', 'Grey', 'White', 'Black'];
 
 function SimpleDialog(props) {
     const { onClose, selectedValue, open } = props;
@@ -38,7 +39,7 @@ function SimpleDialog(props) {
     return (
         <Dialog onClose={handleClose} open={open}>
             <DialogTitle>Select Or Create User</DialogTitle>
-            <List sx={{ pt: 0 }}>
+            {/* <List sx={{ pt: 0 }}>
                 {emails.map((email) => (
                     <ListItem disableGutters key={email}>
                         <ListItemButton onClick={() => handleListItemClick(email)} key={email}>
@@ -65,7 +66,7 @@ function SimpleDialog(props) {
                         <ListItemText primary="New User" />
                     </ListItemButton>
                 </ListItem>
-            </List>
+            </List> */}
         </Dialog>
     );
 }
@@ -77,10 +78,11 @@ SimpleDialog.propTypes = {
 };
 
 export default function UserModal() {
-    const [theme, setTheme] = React.useState('Blue');
-    const [difficulty, setDifficulty] = React.useState('Medium');
+    const [name, setName] = React.useState('');
+    const [theme, setTheme] = React.useState(1);
+    const [difficulty, setDifficulty] = React.useState(1);
     const [open, setOpen] = React.useState(false);
-    const [selectedValue, setSelectedValue] = React.useState('None Selected');
+    const [selectedValue, setSelectedValue] = React.useState('username');
 
     const handleThemeChange = (event) => {
         setTheme(event.target.value);
@@ -96,6 +98,9 @@ export default function UserModal() {
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
+        console.log(name)
+        console.log(diffList[difficulty])
+        console.log(themes[theme])
     };
 
     return (
@@ -122,7 +127,7 @@ export default function UserModal() {
                                 Please Enter Username (Can be whatever you want), select difficulty, and theme color
                             </DialogContentText>
                             <Box
-                                component="joinForm"
+                                component="form"
                                 sx={{
                                     '& > :not(style)': { m: 1, width: '25ch' },
                                 }}
@@ -132,11 +137,11 @@ export default function UserModal() {
                                 <TextField
                                     id="outlined-controlled"
                                     label="Enter Username"
-                                // value=""
-                                // onChange={(event) => {
-                                //     // setName(event.target.value);
-                                //     console.log(event)
-                                // }}
+                                    value={name}
+                                    onChange={(event) => {
+                                        setName(event.target.value);
+                    
+                                    }}
                                 />
                                 <FormControl >
                                     <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
@@ -147,9 +152,9 @@ export default function UserModal() {
                                         label="Difficulty"
                                         onChange={handleChange}
                                     >
-                                        <MenuItem value={10}>Easy</MenuItem>
-                                        <MenuItem value={20}>Medium</MenuItem>
-                                        <MenuItem value={30}>Hard</MenuItem>
+                                        <MenuItem value={0}>Easy</MenuItem>
+                                        <MenuItem value={1}>Medium</MenuItem>
+                                        <MenuItem value={2}>Hard</MenuItem>
                                     </Select>
                                 </FormControl>
                                 <FormControl >
@@ -161,12 +166,16 @@ export default function UserModal() {
                                         label="Theme"
                                         onChange={handleThemeChange}
                                     >
-                                        <MenuItem value={10}>Red</MenuItem>
-                                        <MenuItem value={20}>Green</MenuItem>
-                                        <MenuItem value={30}>Blue</MenuItem>
-                                        <MenuItem value={40}>Orange</MenuItem>
-                                        <MenuItem value={50}>Purple</MenuItem>
-                                        <MenuItem value={60}>Pink</MenuItem>
+                                        <MenuItem value={0}>Red</MenuItem>
+                                        <MenuItem value={1}>Green</MenuItem>
+                                        <MenuItem value={2}>Blue</MenuItem>
+                                        <MenuItem value={3}>Orange</MenuItem>
+                                        <MenuItem value={4}>Purple</MenuItem>
+                                        <MenuItem value={5}>Yellow</MenuItem>
+                                        <MenuItem value={6}>Pink</MenuItem>
+                                        <MenuItem value={7}>Grey</MenuItem>
+                                        <MenuItem value={8}>White</MenuItem>
+                                        <MenuItem value={9}>Black</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Box>
@@ -176,14 +185,14 @@ export default function UserModal() {
                             </DialogActions>
                         </DialogContent>
                     </Dialog>
-                    <Typography
+                    {/* <Typography
                         variant="h4"
                         sx={{
                             mt: 10,
                         }}
-                    >Join Game</Typography>
+                    >Join Game</Typography> */}
                     <Button sx={{
-                        mt: 10,
+                        mt: 30,
                     }}
                         variant="contained"
                         onClick={handleClickOpen}>

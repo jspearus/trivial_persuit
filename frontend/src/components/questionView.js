@@ -31,10 +31,15 @@ const ExpandMore = styled((props) => {
 
 export default function QuestionCard() {
     const [expanded, setExpanded] = React.useState(false);
+    const [answer, setAnswer] = React.useState('');
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+    const answerHandler = (ans) =>{
+        setAnswer(ans);
+        console.log(ans)
+    }
 
     return (
         <Grid
@@ -60,9 +65,12 @@ export default function QuestionCard() {
                     title="Player: Jeff"
                     subheader="Difficulty: Easy"
                 />
+                <Typography variant="body1" color="blue">
+                        Category: History
+                    </Typography>
 
                 <CardContent>
-                    <Typography variant="body2" color="blue">
+                    <Typography variant="body1" color="blue">
                         This is where the question will be?
                     </Typography>
                 </CardContent>
@@ -79,17 +87,33 @@ export default function QuestionCard() {
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography paragraph>Answers:</Typography>
-                        <Button variant='outlined'>
-                            Answer A: This will be the answer to the question.
+                        <Button onClick={() => {
+                                        answerHandler('a')
+                                    }}
+                        variant='outlined'>     
+                            Answer A: This will be the answer A to the question.
                         </Button>
-                        <Button variant='outlined'>
-                            Answer B: This will be the answer to the question.
+                        <br /><br />
+                        <Button onClick={() => {
+                                        answerHandler('b')
+                                    }}
+                        variant='outlined'>
+                            Answer B: This will be the answer B to the question.
                         </Button>
-                        <Button variant='outlined'>
-                            Answer C: This will be the answer to the question.
+                        <br /><br />
+                        <Button onClick={() => {
+                                        answerHandler('c')
+                                    }}
+                                    variant='outlined'>
+                            Answer C: This will be the answer C to the question.
                         </Button>
-                        <Button variant='outlined'>
-                            Answer D: This will be the answer to the question.
+                        <br /><br />
+                        <Button 
+                        onClick={() => {
+                            answerHandler('d')
+                        }}
+                        variant='outlined'>
+                            Answer D: This will be the answer D to the question.
                         </Button>
                     </CardContent>
                 </Collapse>

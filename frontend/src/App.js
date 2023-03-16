@@ -6,10 +6,9 @@ import UserModal from './components/UserModal';
 import { getData, postData, putData, delData } from './components/rest';
 
 import './App.css';
+import Welcome from './components/welcome';
 import NavBar from './components/navBar';
 import GameView from './components/game';
-// import Create from './components/create';
-import Join from './components/join';
 import Question from './components/questionView';
 
 const WS_URL = 'ws://192.168.1.22:8080/ws/game/';
@@ -104,7 +103,7 @@ function App() {
           <Route path='/'
             element={
               <>
-                <GameView menuOption={menuOption} />
+                <Welcome  />
 
                 <Button variant="contained"
                   onClick={() => getClicked('TEst game', 'test', 'config')}>GET</Button>
@@ -117,8 +116,8 @@ function App() {
               </>
             }
           />
-          <Route path='/create' element={<UserModal />} />
-          <Route path='/join' element={<Join />} />
+          <Route path='/create' element={<GameView menuOption={menuOption} />} />
+          <Route path='/join' element={<UserModal />} />
           <Route path='/question' element={<Question />} />
         </Routes>
 

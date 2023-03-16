@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 
-const URL = 'http://192.168.1.22:8080/api/game/';
+const URL = 'http://synapse.viewdns.net:8080/api/game/';
 
 export function getData(config, callback, errorcallback) {
     axios.get(URL, config)
