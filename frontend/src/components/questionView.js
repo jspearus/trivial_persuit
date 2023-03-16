@@ -36,9 +36,9 @@ export default function QuestionCard() {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    const answerHandler = (ans) =>{
+    const answerHandler = (ans) => {
         setAnswer(ans);
-        console.log(ans)
+
     }
 
     return (
@@ -66,13 +66,14 @@ export default function QuestionCard() {
                     subheader="Difficulty: Easy"
                 />
                 <Typography variant="body1" color="blue">
-                        Category: History
-                    </Typography>
+                    Category: History
+                </Typography>
 
                 <CardContent>
                     <Typography variant="body1" color="blue">
                         This is where the question will be?
                     </Typography>
+                    <Typography paragraph>Selected Answer:{answer}</Typography>
                 </CardContent>
                 <CardActions disableSpacing>
                     <ExpandMore
@@ -88,36 +89,43 @@ export default function QuestionCard() {
                     <CardContent>
                         <Typography paragraph>Answers:</Typography>
                         <Button onClick={() => {
-                                        answerHandler('a')
-                                    }}
-                        variant='outlined'>     
+                            answerHandler('a')
+                        }}
+                            variant='outlined'>
                             Answer A: This will be the answer A to the question.
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
-                                        answerHandler('b')
-                                    }}
-                        variant='outlined'>
+                            answerHandler('b')
+                        }}
+                            variant='outlined'>
                             Answer B: This will be the answer B to the question.
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
-                                        answerHandler('c')
-                                    }}
-                                    variant='outlined'>
+                            answerHandler('c')
+                        }}
+                            variant='outlined'>
                             Answer C: This will be the answer C to the question.
                         </Button>
                         <br /><br />
-                        <Button 
-                        onClick={() => {
-                            answerHandler('d')
-                        }}
-                        variant='outlined'>
+                        <Button
+                            onClick={() => {
+                                answerHandler('d')
+                            }}
+                            variant='outlined'>
                             Answer D: This will be the answer D to the question.
                         </Button>
                     </CardContent>
                 </Collapse>
             </Card>
+            <Button
+                onClick={() => {
+                    console.log(`Submited ${answer}`)
+                }}
+                variant='contained'>
+                SUBMIT
+            </Button>
         </Grid >
     );
 }
