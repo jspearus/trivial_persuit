@@ -187,7 +187,7 @@ export default function UserModal() {
                     }}
                         variant="contained"
                         onClick={handleClickOpen}>
-                        Join Game
+                        Create User
                     </Button>
                 </div>
             </Card>
