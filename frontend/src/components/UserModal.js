@@ -119,7 +119,7 @@ export default function UserModal() {
                         <DialogTitle>Subscribe</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
-                                Please Enter Username (Can be whatever you want) and select difficulty
+                                Please Enter Username (Can be whatever you want), select difficulty, and theme color
                             </DialogContentText>
                             <Box
                                 component="joinForm"
