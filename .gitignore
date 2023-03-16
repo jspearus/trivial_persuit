@@ -4,3 +4,4 @@ core/__pycache__
 game/__pycache__
 node_modules
 frontend/build
+package-lock.json
