@@ -6,5 +6,7 @@ node_modules
 frontend/build
 package-lock.json
 package.json
+/frontend/src/package.json
+/frontend/src/package-lock.json
 /frontend/package.json
 /frontend/package-lock.json
