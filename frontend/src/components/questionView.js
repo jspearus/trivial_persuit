@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from '@mui/material';
 
 import { styled } from '@mui/material/styles';
@@ -15,6 +15,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 // import { dark } from '@mui/material/styles/createPalette';
 // import { alignProperty } from '@mui/material/styles/cssUtils';
 import { Grid } from '@material-ui/core';
+import { getData, postData, putData, delData } from './rest';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -29,9 +30,31 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function QuestionCard() {
+export default function QuestionCard(username) {
     const [expanded, setExpanded] = React.useState(false);
     const [answer, setAnswer] = React.useState('');
+    const [name, setName] = React.useState('');
+    // todo not the best way to do this view blinks when loading ??
+    if (username.username != 'None') {
+        localStorage.user = username.username;
+    }
+
+
+    useEffect(() => {
+        //use it 
+        var config = { "Access-Control-Allow-Origin": "*" }
+        getData(config, 'players', (res) => {
+            if (localStorage.user) {
+                const player = res.data.filter((player) => player.player == localStorage.user)
+                setName(player[0].player)
+            }
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+
+
+    }, [])
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -62,9 +85,12 @@ export default function QuestionCard() {
                     }}
                     subheaderTypographyProps={{ color: 'blue' }}
 
-                    title="Player: Jeff"
+                    title={name}
                     subheader="Difficulty: Easy"
                 />
+                {/* <Typography variant="body1" color="blue">
+                    {socketData[0].name}
+                </Typography> */}
                 <Typography variant="body1" color="blue">
                     Category: History
                 </Typography>

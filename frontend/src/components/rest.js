@@ -2,10 +2,10 @@
 import axios from 'axios';
 
 
-const URL = 'http://synapse.viewdns.net:8080/api/game/';
+const URL = 'http://synapse.viewdns.net:8080/api/';
 
-export function getData(config, callback, errorcallback) {
-    axios.get(URL, config)
+export function getData(config, db, callback, errorcallback) {
+    axios.get(`${URL}${db}/`, config)
         .then(res => {
             //do something
             if (callback != null) {
@@ -20,8 +20,8 @@ export function getData(config, callback, errorcallback) {
         })
 }
 
-export function postData(config, callback, errorcallback) {
-    axios.post(URL, config)
+export function postData(config, db, id, callback, errorcallback) {
+    axios.postput(`${URL}${db}/${id}/`, config)
         .then(res => {
             //do something
             if (callback != null) {
@@ -36,9 +36,8 @@ export function postData(config, callback, errorcallback) {
         })
 }
 
-export function putData(config, id, callback, errorcallback) {
-    console.log(`${URL}${id}/`)
-    axios.put(`${URL}${id}/`, config)
+export function putData(config, db, id, callback, errorcallback) {
+    axios.put(`${URL}${db}/${id}/`, config)
         .then(res => {
             //do something
             if (callback != null) {
@@ -52,9 +51,9 @@ export function putData(config, id, callback, errorcallback) {
             }
         })
 }
-export function delData(config, id, callback, errorcallback) {
-    console.log(`${URL}${id}/`)
-    axios.delete(`${URL}${id}/`, config)
+export function delData(config, db, id, callback, errorcallback) {
+    console.log(`${URL}${db}/${id}/`)
+    axios.delete(`${URL}${db}/${id}/`, config)
         .then(res => {
             //do something
             if (callback != null) {

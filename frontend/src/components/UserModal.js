@@ -77,7 +77,7 @@ SimpleDialog.propTypes = {
     selectedValue: PropTypes.string.isRequired,
 };
 
-export default function UserModal() {
+export default function UserModal({ setUsername }) {
     const [name, setName] = React.useState('');
     const [theme, setTheme] = React.useState(1);
     const [difficulty, setDifficulty] = React.useState(1);
@@ -98,6 +98,7 @@ export default function UserModal() {
     const handleClose = (value) => {
         setOpen(false);
         setSelectedValue(value);
+        setUsername(name)
         console.log(name)
         console.log(diffList[difficulty])
         console.log(themes[theme])
@@ -124,6 +125,9 @@ export default function UserModal() {
                         <DialogTitle>Create User</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
+                                Current User: {localStorage.user}
+                            </DialogContentText>
+                            <DialogContentText>
                                 Please Enter Username (Can be whatever you want), select difficulty, and theme color
                             </DialogContentText>
                             <Box
@@ -136,11 +140,11 @@ export default function UserModal() {
                             >
                                 <TextField
                                     id="outlined-controlled"
-                                    label="Enter Username"
+                                    label="Enter Or Change  Username"
                                     value={name}
                                     onChange={(event) => {
                                         setName(event.target.value);
-                    
+
                                     }}
                                 />
                                 <FormControl >
