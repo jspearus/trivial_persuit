@@ -146,6 +146,7 @@ export default function UserModal({ setUsername }) {
                                     onChange={(event) => {
                                         if (event.target.value !== '') {
                                             setName(event.target.value);
+                                            localStorage.user = event.target.value
                                         }
 
                                     }}
