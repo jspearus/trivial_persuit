@@ -140,10 +140,13 @@ export default function UserModal({ setUsername }) {
                             >
                                 <TextField
                                     id="outlined-controlled"
-                                    label="Enter Or Change  Username"
+                                    label="Enter Username"
+                                    placeholder={localStorage.user}
                                     value={name}
                                     onChange={(event) => {
-                                        setName(event.target.value);
+                                        if (event.target.value !== '') {
+                                            setName(event.target.value);
+                                        }
 
                                     }}
                                 />
