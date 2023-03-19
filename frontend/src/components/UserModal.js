@@ -194,7 +194,7 @@ export default function UserModal({ setUsername }) {
                         </DialogContent>
                     </Dialog>
                     <Typography
-                        variant="h4"
+                        variant="h5"
                         sx={{
                             mt: 10,
                         }}
@@ -204,7 +204,7 @@ export default function UserModal({ setUsername }) {
                     }}
                         variant="contained"
                         onClick={handleClickOpen}>
-                        Create User
+                        User Info
                     </Button>
                 </div>
             </Card>
