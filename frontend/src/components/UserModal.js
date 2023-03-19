@@ -122,7 +122,7 @@ export default function UserModal({ setUsername }) {
                 }}>
                 <div>
                     <Dialog open={open} onClose={handleClose}>
-                        <DialogTitle>Create User</DialogTitle>
+                        <DialogTitle>User Info:</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
                                 Current User: {localStorage.user}
@@ -193,14 +193,14 @@ export default function UserModal({ setUsername }) {
                             </DialogActions>
                         </DialogContent>
                     </Dialog>
-                    {/* <Typography
+                    <Typography
                         variant="h4"
                         sx={{
                             mt: 10,
                         }}
-                    >Join Game</Typography> */}
+                    >Username: {localStorage.user}</Typography>
                     <Button sx={{
-                        mt: 30,
+                        mt: 20,
                     }}
                         variant="contained"
                         onClick={handleClickOpen}>
