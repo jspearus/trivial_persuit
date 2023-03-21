@@ -30,15 +30,10 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function QuestionCard(username) {
+export default function QuestionCard() {
     const [expanded, setExpanded] = React.useState(false);
     const [answer, setAnswer] = React.useState('');
     const [name, setName] = React.useState('');
-    // todo not the best way to do this view blinks when loading ??
-    if (username.username != 'None') {
-        localStorage.user = username.username;
-    }
-
 
     useEffect(() => {
         //use it 

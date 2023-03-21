@@ -15,46 +15,14 @@ const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
 
 const chatSocket = new WebSocket(WS_URL);
 
-function sendMsg(user, data_type, data) {
-  chatSocket.send(JSON.stringify({
-    'username': user,
-    'data_type': data_type,
-    'data': data,
-  }));
 
-}
 
-chatSocket.onmessage = function (event) {
-  const json = JSON.parse(event.data);
-  try {
-    if ((json.username === "jeff")) {
-      console.log(`[MSG] Data received from server: ${json.username}`);
-      console.log(json.data);
 
-    }
-  } catch (err) {
-    console.log(`[ERROR] : ${err}`);
-  }
 
-};
-
-function getClicked(name, db, data) {
+function postClicked(id, db, data) {
   //use it 
-  var config = { "Access-Control-Allow-Origin": "*" }
-  getData(config, db, (res) => {
-    window.confirm(JSON.stringify(res.data));
-    const games = res.data.filter((game) => game.name == name)
-    window.confirm(games[0].name)
-  }, (err) => {
-    //error
-    console.log(`GET REQUEST ERROR${err}`);
-  });
-}
-
-function postClicked(name, datat, data) {
-  //use it 
-  var config = { name: 'TEst game' }
-  postData(config, (res) => {
+  var config = { name: data }
+  postData(config, db, id, (res) => {
   }, (err) => {
     //error
     console.log(`POST REQUEST ERROR ${err}`);
@@ -85,7 +53,43 @@ function App() {
   };
   const [menuOption, setMenuOption] = useState('HOME');
   const [socketData, setSocketData] = useState([]);
-  const [username, setUsername] = useState('None');
+
+
+  function sendMsg(user, data_type, data) {
+    chatSocket.send(JSON.stringify({
+      'username': user,
+      'data_type': data_type,
+      'data': data,
+    }));
+
+  }
+
+  chatSocket.onmessage = function (event) {
+    const json = JSON.parse(event.data);
+    try {
+      if ((json.username === "jeff")) {
+        setSocketData(json);
+
+      }
+    } catch (err) {
+      console.log(`[ERROR] : ${err}`);
+    }
+
+  };
+
+  function getGameData(db, name) {
+    var config = { "Access-Control-Allow-Origin": "*" }
+    getData(config, db, (res) => {
+      const games = res.data.filter((game) => game.name == name)
+      console.log(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`)
+
+      //todo trying to send this to component with useState ?????
+      // setGameData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
+    }, (err) => {
+      //error
+      console.log(`GET REQUEST ERROR${err}`);
+    });
+  }
 
 
   return (
@@ -102,19 +106,22 @@ function App() {
                 <Welcome />
 
                 <Button variant="contained"
-                  onClick={() => getClicked('TEst game', 'game', 'config')}>GET</Button>
+                  onClick={() => getGameData('game', 'game')}>Game</Button>
                 <Button variant="contained"
-                  onClick={() => putClicked('jeff', 'test', 'config')}>PUT</Button>
+                  onClick={() => getGameData('game', 'TEst game')}>Test</Button>
                 <Button variant="contained"
-                  onClick={() => postClicked('jeff', 'test', 'config')}>POST</Button>
+                  onClick={() => sendMsg('jeff', 'debug', 'quest')}>Quest</Button>
                 <Button variant="contained"
-                  onClick={() => delClicked('jeff', 'test', 'config')}>DELETE</Button>
+                  onClick={() => sendMsg('jeff', 'debug', 'players')}>Player</Button>
               </>
             }
           />
-          <Route path='/create' element={<GameView menuOption={menuOption} />} />
-          <Route path='/join' element={<UserModal setUsername={setUsername} />} />
-          <Route path='/question' element={<Question username={username} />} />
+          <Route path='/create' element={<GameView
+            socketData={socketData}
+          />} />
+
+          <Route path='/join' element={<UserModal />} />
+          <Route path='/question' element={<Question />} />
         </Routes>
 
       </div>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -9,11 +9,18 @@ import '@fontsource/roboto/700.css';
 const Welcome = () => {
 
     return (
-        <div>
+        <Container
+            sx={{
+                bgcolor: 'dark-grey',
+                pt: 8,
+                pb: '75%',
+                display: 'flex',
+                flexDirection: 'row',
+            }}>
             <Typography variant="h3"
             >Welcome To Pursuit React</Typography>
             <br />
-        </div>
+        </Container>
     );
 }
 

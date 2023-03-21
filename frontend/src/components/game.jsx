@@ -18,7 +18,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
+
+import { getData, postData, putData, delData } from './rest';
 
 function Copyright() {
     return (
@@ -33,36 +35,65 @@ function Copyright() {
     );
 }
 
-const cards = [{
+let cards = [{
     "id": 1,
     "type": "Previous Question",
-    "quest": "This is a question",
-    "cat": "Sports",
-    "answer": "The Answer",
+    "quest": "",
+    "cat": "",
+    "answer": "",
 }, {
     "id": 2,
     "type": "Current Question",
     "quest": "This is another question",
     "cat": "History",
-    "answera": "A: The Answer a",
-    "answerb": "B: The Answer b",
-    "answerc": "C: The Answer c",
-    "answerd": "D: The Answer d",
+    "answera": "A: ",
+    "answerb": "B: ",
+    "answerc": "C: ",
+    "answerd": "D: ",
 },];
 
-const players = [{
-    "id": 1,
-    "name": "Jeff",
-    "diff": "Easy",
-    "sclices": ",History, Sports,",
-    "points": 2,
-}, {
-    "id": 2,
-    "name": "Tom",
-    "diff": "Easy",
-    "sclices": ",Music,",
-    "points": 1,
-},];
+let testPlayers = [
+    {
+        "player_number": 1,
+        "player": "Jeff",
+        "difficullty": "Easy",
+        "completed_category": ",History, Sports,",
+        "score": 2,
+    }, {
+        "player_number": 2,
+        "player": "Tom",
+        "difficullty": "Easy",
+        "completed_category": ",Music,",
+        "score": 1,
+    }, {
+        "player_number": 3,
+        "player": "Tim",
+        "difficullty": "Easy",
+        "completed_category": ",Music,",
+        "score": 1,
+    }, {
+        "player_number": 4,
+        "player": "Jim",
+        "difficullty": "Easy",
+        "completed_category": ",Music,",
+        "score": 1,
+    },
+    {
+        "player_number": 5,
+        "player": "Jay",
+        "difficullty": "Easy",
+        "completed_category": ",Music,",
+        "score": 1,
+    }, {
+        "player_number": 6,
+        "player": "Superlongnamen",
+        "difficullty": "Easy",
+        "completed_category": ",Music,",
+        "score": 1,
+    },];
+
+let players = [];
+
 
 const theme = createTheme({
     palette: {
@@ -76,7 +107,105 @@ const theme = createTheme({
 }
 );
 
-export default function GameView() {
+export default function GameView(props) {
+    const [gameData, setGameData] = React.useState('');
+    const [preQuestion, setpreQuestion] = React.useState({
+        name: '',
+        pre_category: '',
+        pre_question: '',
+        pre_answer: ''
+    });
+    const [curQuestion, setCurQuestion] = React.useState({
+        name: '',
+        category: '',
+        question: '',
+        answera: '',
+        answerb: '',
+        answerc: '',
+        answerd: '',
+    });
+
+    React.useEffect(() => {
+        console.log(`sock: ${JSON.stringify(props.socketData)}`)
+        // if (props.socketData.data != undefined) {
+        //     getGameData('game', props.socketData.data);
+        // }
+        if (props.socketData.data === 'quest') {
+            getQuestionData('preq', 'game');
+            getQuestionData('courq', 'game');
+        }
+        else if (props.socketData.data === 'players') {
+            getPlayerData('players', 'all');
+        }
+    }, [props.socketData]);
+
+    function getPlayerData(db, name) {
+        var config = { "Access-Control-Allow-Origin": "*" }
+        getData(config, db, (res) => {
+            // const games = res.data.filter((game) => game.name == name)
+            console.log(`Players:  ${JSON.stringify(res.data)}`);
+
+            //todo trying to send this to component with useState ?????
+            // setPlaerData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+    }
+    function getGameData(db, name) {
+        var config = { "Access-Control-Allow-Origin": "*" }
+        getData(config, db, (res) => {
+            const games = res.data.filter((game) => game.name === name)
+            console.log(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`)
+
+            //todo trying to send this to component with useState ?????
+            setGameData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+    }
+    function getQuestionData(db, name) {
+        var config = { "Access-Control-Allow-Origin": "*" }
+        getData(config, db, (res) => {
+            const games = res.data.filter((game) => game.name === name)
+
+            //todo trying to send this to component with useState ?????
+            if (db === 'preq') {
+                setpreQuestion({
+                    name: games[0].name,
+                    pre_category: games[0].pre_category,
+                    pre_question: games[0].pre_question,
+                    pre_answer: games[0].pre_answer
+                });
+                cards[0].quest = preQuestion.pre_question;
+                cards[0].cat = preQuestion.pre_category;
+                cards[0].answer = preQuestion.pre_answer;
+            }
+            if (db === 'courq') {
+                setCurQuestion({
+                    name: games[0].name,
+                    category: games[0].category,
+                    question: games[0].question,
+                    answer: games[0].answer,
+                    answera: games[0].answer_a,
+                    answerb: games[0].answer_b,
+                    answerc: games[0].answer_c,
+                    answerd: games[0].answer_d,
+                });
+                cards[1].quest = curQuestion.question;
+                cards[1].cat = curQuestion.category;
+                cards[1].answera = 'A: ' + curQuestion.answera;
+                cards[1].answerb = 'B: ' + curQuestion.answerb;
+                cards[1].answerc = 'C: ' + curQuestion.answerc;
+                cards[1].answerd = 'D: ' + curQuestion.answerd;
+            }
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -84,7 +213,7 @@ export default function GameView() {
                 <Toolbar>
                     <DashboardIcon color="secondary" sx={{ mr: 2 }} />
                     <Typography sx={{ mr: 4 }} variant="h6" color="secondary" noWrap>
-                        Dashboard
+                        Dashboard: {gameData}
                     </Typography>
                     <Button color="secondary"
                         sx={{ mr: 4 }}
@@ -97,32 +226,30 @@ export default function GameView() {
                 </Toolbar>
             </AppBar>
             <main>
-                {/* Hero unit */}
+
                 <Box
                     sx={{
-                        bgcolor: 'background.paper',
+                        bgcolor: grey,
                         pt: 8,
                         pb: 6,
                         display: 'flex',
                         flexDirection: 'row',
                     }}
                 >
-                    <Container maxWidth="sm">
+                    <Container >
                         <Typography
                             component="h1"
                             variant="h2"
                             align="center"
-                            color="text.primary"
+                            color="white"
                             gutterBottom
                         >
                             Player Stats
                         </Typography>
-                        <Grid container spacing={12}>
-                            {players.map((player) => (
-                                <Grid item key={player.id} xs={12} sm={6} md={6}>
-                                    <Card
-                                        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                                    >
+                        <Grid container spacing={2}>
+                            {testPlayers.map((player) => (
+                                < Grid item key={player.player_number} xs={12} sm={6} md={2} >
+                                    <Card>
                                         {/* <CardMedia
                                         component="img"
                                         sx={{
@@ -132,18 +259,26 @@ export default function GameView() {
                                         image="https://source.unsplash.com/random"
                                         alt="random"
                                     /> */}
-                                        <CardContent sx={{ flexGrow: 1 }}>
-                                            <Typography gutterBottom variant="h5" component="h2">
-                                                {player.name}
+                                        <CardContent sx={{
+                                            flexGrow: 1,
+                                            display: 'flex',
+                                            flexDirection: 'column'
+
+                                        }}>
+                                            <Typography gutterBottom variant="h6">
+                                                {player.player}
+                                            </Typography>
+                                            <Typography >
+                                                Number: {player.player_number}
                                             </Typography>
                                             <Typography>
-                                                Dificulty: {player.diff}
+                                                Dificulty: {player.difficullty}
                                             </Typography>
                                             <Typography>
-                                                Slices: {player.sclices}
+                                                Slices: {player.completed_category}
                                             </Typography>
                                             <Typography>
-                                                Points {player.points}
+                                                Points {player.score}
                                             </Typography>
                                         </CardContent>
                                         {/* <CardActions>
@@ -162,7 +297,10 @@ export default function GameView() {
                         {cards.map((card) => (
                             <Grid item key={card.id} xs={12} sm={6} md={6}>
                                 <Card
-                                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column'
+                                    }}
                                 >
                                     {/* <CardMedia
                                         component="img"
@@ -177,13 +315,13 @@ export default function GameView() {
                                         <Typography gutterBottom variant="h5" component="h2">
                                             {card.type}
                                         </Typography>
-                                        <Typography>
+                                        <Typography gutterBottom variant="h6">
                                             Question: {card.quest}
                                         </Typography>
-                                        <Typography>
+                                        <Typography gutterBottom variant="p" >
                                             Category: {card.cat}
                                         </Typography>
-                                        <Typography>
+                                        <Typography gutterBottom variant="h6">
                                             Answer: {card.answer}
                                         </Typography>
                                         <Typography>
@@ -195,7 +333,7 @@ export default function GameView() {
                                         <Typography>
                                             {card.answerc}
                                         </Typography>
-                                        <Typography>
+                                        <Typography >
                                             {card.answerd}
                                         </Typography>
                                     </CardContent>

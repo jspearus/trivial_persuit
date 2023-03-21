@@ -30,6 +30,10 @@ class GameConsumer(WebsocketConsumer):
             username = username
             data = 'rec...test'
             data_type = data_type
+        else:
+            username = username
+            data_type = data_type
+            data = data
 
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
