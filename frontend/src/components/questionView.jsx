@@ -33,7 +33,21 @@ const ExpandMore = styled((props) => {
 export default function QuestionCard() {
     const [expanded, setExpanded] = React.useState(false);
     const [answer, setAnswer] = React.useState('');
-    const [name, setName] = React.useState('');
+    const [player, setPlayer] = React.useState({
+        player: '',
+        player_number: '',
+        score: 0,
+        difficulty: '',
+        completed_category: '',
+        q_status: '',
+        category: '',
+        question: '',
+        answer: '',
+        answer_a: '',
+        answer_b: '',
+        answer_c: '',
+        answer_d: ''
+    });
 
     useEffect(() => {
         //use it 
@@ -41,7 +55,21 @@ export default function QuestionCard() {
         getData(config, 'players', (res) => {
             if (localStorage.user) {
                 const player = res.data.filter((player) => player.player == localStorage.user)
-                setName(player[0].player)
+                setPlayer({
+                    player: player[0].player,
+                    player_number: player[0].player_number,
+                    score: player[0].score,
+                    difficulty: player[0].difficulty,
+                    completed_category: player[0].completed_category,
+                    q_status: player[0].q_status,
+                    category: player[0].category,
+                    question: player[0].question,
+                    answer: player[0].answer,
+                    answer_a: player[0].answer_a,
+                    answer_b: player[0].answer_b,
+                    answer_c: player[0].answer_c,
+                    answer_d: player[0].answer_d
+                })
             }
         }, (err) => {
             //error
@@ -80,19 +108,19 @@ export default function QuestionCard() {
                     }}
                     subheaderTypographyProps={{ color: 'blue' }}
 
-                    title={name}
+                    title={player.player}
                     subheader="Difficulty: Easy"
                 />
                 {/* <Typography variant="body1" color="blue">
                     {socketData[0].name}
                 </Typography> */}
                 <Typography variant="body1" color="blue">
-                    Category: History
+                    Category: {player.category}
                 </Typography>
 
                 <CardContent>
                     <Typography variant="body1" color="blue">
-                        This is where the question will be?
+                        {player.question}
                     </Typography>
                     <Typography paragraph>Selected Answer:{answer}</Typography>
                 </CardContent>
@@ -113,21 +141,21 @@ export default function QuestionCard() {
                             answerHandler('a')
                         }}
                             variant='outlined'>
-                            Answer A: This will be the answer A to the question.
+                            Answer A: {player.answer_a}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
                             answerHandler('b')
                         }}
                             variant='outlined'>
-                            Answer B: This will be the answer B to the question.
+                            Answer B: {player.answer_b}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
                             answerHandler('c')
                         }}
                             variant='outlined'>
-                            Answer C: This will be the answer C to the question.
+                            Answer C: {player.answer_c}
                         </Button>
                         <br /><br />
                         <Button
@@ -135,12 +163,17 @@ export default function QuestionCard() {
                                 answerHandler('d')
                             }}
                             variant='outlined'>
-                            Answer D: This will be the answer D to the question.
+                            Answer D: {player.answer_d}
                         </Button>
                     </CardContent>
                 </Collapse>
             </Card>
             <Button
+                style={{
+                    marginLeft: '-225px',
+                    marginTop: '25px',
+                    display: !expanded ? 'block' : 'none'
+                }}
                 onClick={() => {
                     console.log(`Submited ${answer}`)
                 }}

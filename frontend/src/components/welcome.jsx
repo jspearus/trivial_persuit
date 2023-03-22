@@ -18,7 +18,7 @@ const Welcome = () => {
                 flexDirection: 'row',
             }}>
             <Typography variant="h3"
-            >Welcome To Pursuit React</Typography>
+            >Welcome To inQUIZitive</Typography>
             <br />
         </Container>
     );
