@@ -109,11 +109,11 @@ export default function QuestionCard() {
                     subheaderTypographyProps={{ color: 'blue' }}
 
                     title={player.player}
-                    subheader="Difficulty: Easy"
                 />
-                {/* <Typography variant="body1" color="blue">
-                    {socketData[0].name}
-                </Typography> */}
+                <Typography variant="body1" color="blue">
+                    Difficulty: {player.difficulty}
+                </Typography>
+                <br />
                 <Typography variant="body1" color="blue">
                     Category: {player.category}
                 </Typography>
