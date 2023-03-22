@@ -13,7 +13,7 @@ const Welcome = () => {
             sx={{
                 bgcolor: 'dark-grey',
                 pt: 8,
-                pb: '75%',
+                pb: '50%',
                 display: 'flex',
                 flexDirection: 'row',
             }}>
