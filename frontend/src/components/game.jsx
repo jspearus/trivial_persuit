@@ -92,8 +92,6 @@ let testPlayers = [
         "score": 1,
     },];
 
-let players = [];
-
 
 const theme = createTheme({
     palette: {
@@ -109,7 +107,7 @@ const theme = createTheme({
 
 export default function GameView(props) {
     const [gameData, setGameData] = React.useState([]);
-    const [playerData, setPlayerData] = React.useState('');
+    const [playerData, setPlayerData] = React.useState([]);
     const [preQuestion, setpreQuestion] = React.useState({
         name: '',
         pre_category: '',
@@ -149,10 +147,11 @@ export default function GameView(props) {
             // const games = res.data.filter((game) => game.name == name)
             // console.log(`Players:  ${JSON.stringify(res.data)}`);
             setPlayerData(res.data)
-            players = playerData
-            players.map((player) => (
-                console.log(player)
-            ))
+            if (playerData.length > 0) {
+                playerData.map((player) => (
+                    console.log(player)
+                ))
+            }
 
             //todo trying to send this to component with useState ?????
             // setPlaerData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
@@ -226,11 +225,13 @@ export default function GameView(props) {
                     </Typography>
                     <Button color="secondary"
                         sx={{ mr: 4 }}
-                        variant="contained">
+                        variant="contained"
+                    >
                         Start</Button>
 
                     <Button color="secondary"
-                        variant="outlined">
+                        variant="outlined"
+                    >
                         Reset</Button>
                 </Toolbar>
             </AppBar>
@@ -243,6 +244,7 @@ export default function GameView(props) {
                         pb: 6,
                         display: 'flex',
                         flexDirection: 'row',
+
                     }}
                 >
                     <Container >
@@ -256,7 +258,8 @@ export default function GameView(props) {
                             Player Stats
                         </Typography>
                         <Grid container spacing={2}>
-                            {testPlayers.map((player) => (
+
+                            {playerData.map((player) => (
                                 < Grid item key={player.player_number} xs={12} sm={6} md={2} >
                                     <Card>
                                         {/* <CardMedia
@@ -290,10 +293,6 @@ export default function GameView(props) {
                                                 Points {player.score}
                                             </Typography>
                                         </CardContent>
-                                        {/* <CardActions>
-                                        <Button size="small">View</Button>
-                                        <Button size="small">Edit</Button>
-                                    </CardActions> */}
                                     </Card>
                                 </Grid>
                             ))}
