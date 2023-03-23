@@ -284,7 +284,7 @@ export default function GameView(props) {
                                                 Number: {player.player_number}
                                             </Typography>
                                             <Typography>
-                                                Dificulty: {player.difficullty}
+                                                Dificulty: {player.difficulty}
                                             </Typography>
                                             <Typography>
                                                 Slices: {player.completed_category}
