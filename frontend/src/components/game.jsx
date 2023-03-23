@@ -108,7 +108,8 @@ const theme = createTheme({
 );
 
 export default function GameView(props) {
-    const [gameData, setGameData] = React.useState('');
+    const [gameData, setGameData] = React.useState([]);
+    const [playerData, setPlayerData] = React.useState('');
     const [preQuestion, setpreQuestion] = React.useState({
         name: '',
         pre_category: '',
@@ -147,7 +148,8 @@ export default function GameView(props) {
         getData(config, db, (res) => {
             // const games = res.data.filter((game) => game.name == name)
             // console.log(`Players:  ${JSON.stringify(res.data)}`);
-            players = res.data
+            setPlayerData(res.data)
+            players = playerData
             players.map((player) => (
                 console.log(player)
             ))
