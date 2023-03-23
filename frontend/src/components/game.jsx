@@ -137,13 +137,20 @@ export default function GameView(props) {
         else if (props.socketData.data === 'players') {
             getPlayerData('players', 'all');
         }
+        else if (props.socketData.data === 'game') {
+            getGameData('game', 'all')
+        }
     }, [props.socketData]);
 
     function getPlayerData(db, name) {
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, db, (res) => {
             // const games = res.data.filter((game) => game.name == name)
-            console.log(`Players:  ${JSON.stringify(res.data)}`);
+            // console.log(`Players:  ${JSON.stringify(res.data)}`);
+            players = res.data
+            players.map((player) => (
+                console.log(player)
+            ))
 
             //todo trying to send this to component with useState ?????
             // setPlaerData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
