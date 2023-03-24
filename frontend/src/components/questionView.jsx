@@ -10,6 +10,7 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 // import { red } from '@mui/material/colors';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 // import { dark } from '@mui/material/styles/createPalette';
@@ -122,37 +123,44 @@ export default function QuestionCard() {
                     <Typography variant="body1" color="blue">
                         {player.question}
                     </Typography>
-                    <Typography paragraph>Selected Answer:{answer}</Typography>
+                    <Typography
+                        style={{
+                            color: 'blue',
+                            marginTop: '20px',
+                            display: !expanded ? 'block' : 'none'
+                        }} variant='p2'>Selected Answer: {answer}</Typography>
                 </CardContent>
+                <Typography variant="body1">Select an Answer then </Typography>
                 <CardActions disableSpacing>
+                    <Typography variant="body1">======= Tap to Submit ======{'>'} </Typography>
                     <ExpandMore
-                        expand={expanded}
+                        expand={!expanded}
                         onClick={handleExpandClick}
-                        aria-expanded={expanded}
+                        aria-expanded={!expanded}
                         aria-label="show more"
                     >
                         <QuestionAnswerIcon />
                     </ExpandMore>
                 </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={!expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography paragraph>Answers:</Typography>
                         <Button onClick={() => {
-                            answerHandler('a')
+                            answerHandler('A')
                         }}
                             variant='outlined'>
                             Answer A: {player.answer_a}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
-                            answerHandler('b')
+                            answerHandler('B')
                         }}
                             variant='outlined'>
                             Answer B: {player.answer_b}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
-                            answerHandler('c')
+                            answerHandler('C')
                         }}
                             variant='outlined'>
                             Answer C: {player.answer_c}
@@ -160,7 +168,7 @@ export default function QuestionCard() {
                         <br /><br />
                         <Button
                             onClick={() => {
-                                answerHandler('d')
+                                answerHandler('D')
                             }}
                             variant='outlined'>
                             Answer D: {player.answer_d}
@@ -172,7 +180,7 @@ export default function QuestionCard() {
                 style={{
                     marginLeft: '-225px',
                     marginTop: '25px',
-                    display: !expanded ? 'block' : 'none'
+                    display: expanded ? 'block' : 'none'
                 }}
                 onClick={() => {
                     console.log(`Submited ${answer}`)
@@ -180,6 +188,12 @@ export default function QuestionCard() {
                 variant='contained'>
                 SUBMIT
             </Button>
+            <Typography
+                style={{
+                    color: 'white',
+                    marginTop: '20px',
+                    display: expanded ? 'block' : 'none'
+                }} variant='h6'>Selected Answer: {answer}</Typography>
         </Grid >
     );
 }
