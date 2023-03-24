@@ -18,6 +18,10 @@ import { getData, postData, putData, delData } from './rest';
 const diffList = ['Easy', 'Medium', 'Hard'];
 const themes = ['Red', 'Green', 'Blue', 'Orange', 'Purple', 'Yellow', 'Pink', 'Grey', 'White', 'Black'];
 
+const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
+
+const chatSocket = new WebSocket(WS_URL);
+
 function SimpleDialog(props) {
     const { onClose, selectedValue, open } = props;
 
@@ -43,7 +47,7 @@ SimpleDialog.propTypes = {
     selectedValue: PropTypes.string.isRequired,
 };
 
-export default function UserModal() {
+export default function UserModal(props) {
     const [name, setName] = React.useState('');
     const [theme, setTheme] = React.useState(1);
     const [difficulty, setDifficulty] = React.useState(1);
@@ -59,30 +63,81 @@ export default function UserModal() {
     const handleClickOpen = () => {
         setOpen(true);
     };
-    function getRequest(name, db) {
-        let players = [];
-        //use it 
+    function sendMsg(user, data_type, data) {
+        chatSocket.send(JSON.stringify({
+            'username': user,
+            'data_type': data_type,
+            'data': data,
+        }));
+
+    }
+    function getRequest(name, db) {   //use it 
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, db, (res) => {
-            players = res.data.filter((player) => player.player == name)
-            console.log(`FromFunct: ${JSON.stringify(players)}`)
+            var config = {
+                player: name,
+                difficulty: diffList[difficulty],
+            }
+            var players = res.data.filter((player) => player.player == name)
+            // console.log(`FromFunct: ${JSON.stringify(players)}`)
+            if (players[0]) {
+                const id = players[0].id;
+                // console.log(`id: ${id}`)
+                // console.log(`db: ${db}`)
+                // console.log(`diff: ${diffList[difficulty]}`)
+                updatePlayer(name, diffList[difficulty], id);
+                sendMsg('jeff', 'debug', 'players')
+            }
+            else {
+                // console.log('notFound')
+                console.log(`legnth: ${res.data.length}`)
+                // console.log(`name: ${name}`)
+                // console.log(`diff: ${diffList[difficulty]}`)
+                postPlayer(db, name, diffList[difficulty], res.data.length + 1)
+                sendMsg('jeff', 'debug', 'players')
+            }
+
 
         }, (err) => {
             //error
             console.log(`GET REQUEST ERROR${err}`);
         });
-        return players;
     }
 
+
+    function postPlayer(db, name, diff, player_number) {
+        //use it 
+        var config = { player: name, difficulty: diff, player_number: player_number }
+        postData(config, db, (res) => {
+            console.log('created')
+            sendMsg('jeff', 'debug', 'players')
+        }, (err) => {
+            //error
+            console.log(`POST REQUEST ERROR ${err}`);
+        });
+    }
+    function updatePlayer(name, diff, id) {
+        //use it 
+        var config = { player: name, difficulty: diff }
+        putData(config, 'players', id, (res) => {
+            sendMsg('jeff', 'debug', 'players')
+        }, (err) => {
+            //error
+            console.log(`PUT REQUEST ERROR ${err}`);
+        });
+    }
     const handleClose = (value) => {
         setOpen(false);
         if (value.target.id == 'join') {
-            localStorage.user = name
+            if (name !== '') {
+                localStorage.user = name
+                setName('')
+            }
+            getRequest(localStorage.user, 'players')
+
             // console.log(name)
             // console.log(diffList[difficulty])
             // console.log(themes[theme])
-            const check = getRequest(name, 'players')
-            console.log(check)
 
         }
         else if (value.target.id == 'cancel') {

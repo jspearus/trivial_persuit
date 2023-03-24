@@ -20,8 +20,9 @@ export function getData(config, db, callback, errorcallback) {
         })
 }
 
-export function postData(config, db, id, callback, errorcallback) {
-    axios.postput(`${URL}${db}/${id}/`, config)
+export function postData(config, db, callback, errorcallback) {
+    console.log(`${URL}${db}/`)
+    axios.post(`${URL}${db}/`, config)
         .then(res => {
             //do something
             if (callback != null) {

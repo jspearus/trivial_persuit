@@ -116,11 +116,11 @@ function App() {
               </>
             }
           />
+          <Route path='/join' element={<UserModal setSocketData={setSocketData} />} />
           <Route path='/create' element={<GameView
             socketData={socketData}
           />} />
 
-          <Route path='/join' element={<UserModal />} />
           <Route path='/question' element={<Question />} />
         </Routes>
 
