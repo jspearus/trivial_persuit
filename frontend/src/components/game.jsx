@@ -35,64 +35,6 @@ function Copyright() {
     );
 }
 
-let cards = [{
-    "id": 1,
-    "type": "Previous Question",
-    "quest": "",
-    "cat": "",
-    "answer": "",
-}, {
-    "id": 2,
-    "type": "Current Question",
-    "quest": "This is another question",
-    "cat": "History",
-    "answera": "A: ",
-    "answerb": "B: ",
-    "answerc": "C: ",
-    "answerd": "D: ",
-},];
-
-let testPlayers = [
-    {
-        "player_number": 1,
-        "player": "Jeff",
-        "difficullty": "Easy",
-        "completed_category": ",History, Sports,",
-        "score": 2,
-    }, {
-        "player_number": 2,
-        "player": "Tom",
-        "difficullty": "Easy",
-        "completed_category": ",Music,",
-        "score": 1,
-    }, {
-        "player_number": 3,
-        "player": "Tim",
-        "difficullty": "Easy",
-        "completed_category": ",Music,",
-        "score": 1,
-    }, {
-        "player_number": 4,
-        "player": "Jim",
-        "difficullty": "Easy",
-        "completed_category": ",Music,",
-        "score": 1,
-    },
-    {
-        "player_number": 5,
-        "player": "Jay",
-        "difficullty": "Easy",
-        "completed_category": ",Music,",
-        "score": 1,
-    }, {
-        "player_number": 6,
-        "player": "Superlongnamen",
-        "difficullty": "Easy",
-        "completed_category": ",Music,",
-        "score": 1,
-    },];
-
-
 const theme = createTheme({
     palette: {
         primary: {
@@ -108,21 +50,8 @@ const theme = createTheme({
 export default function GameView(props) {
     const [gameData, setGameData] = React.useState([]);
     const [playerData, setPlayerData] = React.useState([]);
-    const [preQuestion, setpreQuestion] = React.useState({
-        name: '',
-        pre_category: '',
-        pre_question: '',
-        pre_answer: ''
-    });
-    const [curQuestion, setCurQuestion] = React.useState({
-        name: '',
-        category: '',
-        question: '',
-        answera: '',
-        answerb: '',
-        answerc: '',
-        answerd: '',
-    });
+    const [preQuestion, setPreQuestion] = React.useState({});
+    const [curQuestion, setCurQuestion] = React.useState({});
 
     React.useEffect(() => {
         console.log(`sock: ${JSON.stringify(props.socketData)}`)
@@ -144,17 +73,13 @@ export default function GameView(props) {
     function getPlayerData(db, name) {
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, db, (res) => {
-            // const games = res.data.filter((game) => game.name == name)
-            // console.log(`Players:  ${JSON.stringify(res.data)}`);
             setPlayerData(res.data)
-            if (playerData.length > 0) {
-                playerData.map((player) => (
-                    console.log(player)
-                ))
-            }
-
-            //todo trying to send this to component with useState ?????
-            // setPlaerData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
+            console.log(`play: ${JSON.stringify(playerData)}`);
+            // if (playerData.length > 0) {
+            //     playerData.map((player) => (
+            //         console.log(player)
+            //     ))
+            // }
         }, (err) => {
             //error
             console.log(`GET REQUEST ERROR${err}`);
@@ -176,37 +101,13 @@ export default function GameView(props) {
     function getQuestionData(db, name) {
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, db, (res) => {
-            const games = res.data.filter((game) => game.name === name)
-
-            //todo trying to send this to component with useState ?????
-            if (db === 'preq') {
-                setpreQuestion({
-                    name: games[0].name,
-                    pre_category: games[0].pre_category,
-                    pre_question: games[0].pre_question,
-                    pre_answer: games[0].pre_answer
-                });
-                cards[0].quest = preQuestion.pre_question;
-                cards[0].cat = preQuestion.pre_category;
-                cards[0].answer = preQuestion.pre_answer;
+            if (db == 'preq') {
+                setPreQuestion(res.data[0]);
+                console.log(`pre: ${JSON.stringify(preQuestion)}`);
             }
-            if (db === 'courq') {
-                setCurQuestion({
-                    name: games[0].name,
-                    category: games[0].category,
-                    question: games[0].question,
-                    answer: games[0].answer,
-                    answera: games[0].answer_a,
-                    answerb: games[0].answer_b,
-                    answerc: games[0].answer_c,
-                    answerd: games[0].answer_d,
-                });
-                cards[1].quest = curQuestion.question;
-                cards[1].cat = curQuestion.category;
-                cards[1].answera = 'A: ' + curQuestion.answera;
-                cards[1].answerb = 'B: ' + curQuestion.answerb;
-                cards[1].answerc = 'C: ' + curQuestion.answerc;
-                cards[1].answerd = 'D: ' + curQuestion.answerd;
+            else if (db === 'courq') {
+                setCurQuestion(res.data[0]);
+                console.log(`cur: ${JSON.stringify(curQuestion)}`);
             }
         }, (err) => {
             //error
@@ -274,7 +175,7 @@ export default function GameView(props) {
                                         <CardContent sx={{
                                             flexGrow: 1,
                                             display: 'flex',
-                                            flexDirection: 'column'
+                                            flexDirection: 'column',
 
                                         }}>
                                             <Typography gutterBottom variant="h6">
@@ -299,18 +200,48 @@ export default function GameView(props) {
                         </Grid>
                     </Container>
                 </Box>
-                <Container sx={{ py: 8 }} maxWidth="md">
+
+                <Container sx={{
+                    bgcolor: grey,
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: '40px',
+                    marginBottom: '40px'
+                }} >
                     {/* End hero unit */}
-                    <Grid container spacing={12}>
-                        {cards.map((card) => (
-                            <Grid item key={card.id} xs={12} sm={6} md={6}>
-                                <Card
-                                    sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column'
-                                    }}
-                                >
-                                    {/* <CardMedia
+                    <Grid container spacing={8}>
+                        <Card
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                margin: '10px',
+                                marginRight: '20px'
+                            }}
+                        >
+                            <CardContent sx={{ flexGrow: 1 }}>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    Previous Question:
+                                </Typography>
+                                <Typography variant="h6">
+                                    Question: {preQuestion.pre_question}
+                                </Typography>
+                                <Typography variant="p" >
+                                    Category: {preQuestion.pre_category}
+                                </Typography>
+                                <Typography variant="h6">
+                                    Answer: {preQuestion.pre_answer}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                        <Card
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                margin: '10px',
+                                marginLeft: '20px'
+                            }}
+                        >
+                            {/* <CardMedia
                                         component="img"
                                         sx={{
                                             // 16:9
@@ -319,39 +250,40 @@ export default function GameView(props) {
                                         image="https://source.unsplash.com/random"
                                         alt="random"
                                     /> */}
-                                    <CardContent sx={{ flexGrow: 1 }}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {card.type}
-                                        </Typography>
-                                        <Typography gutterBottom variant="h6">
-                                            Question: {card.quest}
-                                        </Typography>
-                                        <Typography gutterBottom variant="p" >
-                                            Category: {card.cat}
-                                        </Typography>
-                                        <Typography gutterBottom variant="h6">
-                                            Answer: {card.answer}
-                                        </Typography>
-                                        <Typography>
-                                            {card.answera}
-                                        </Typography>
-                                        <Typography>
-                                            {card.answerb}
-                                        </Typography>
-                                        <Typography>
-                                            {card.answerc}
-                                        </Typography>
-                                        <Typography >
-                                            {card.answerd}
-                                        </Typography>
-                                    </CardContent>
-                                    {/* <CardActions>
+                            <CardContent sx={{
+                                flexGrow: 1
+
+                            }}>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    Current Question:
+                                </Typography>
+                                <Typography gutterBottom variant="h6">
+                                    Question: {curQuestion.question}
+                                </Typography>
+                                <Typography gutterBottom variant="p" >
+                                    Category: {curQuestion.category}
+                                </Typography>
+                                <Typography gutterBottom variant="h6">
+                                    Answer: {curQuestion.answer}
+                                </Typography>
+                                <Typography>
+                                    {curQuestion.answer_a}
+                                </Typography>
+                                <Typography>
+                                    {curQuestion.answer_b}
+                                </Typography>
+                                <Typography>
+                                    {curQuestion.answer_c}
+                                </Typography>
+                                <Typography >
+                                    {curQuestion.answer_d}
+                                </Typography>
+                            </CardContent>
+                            {/* <CardActions>
                                         <Button size="small">View</Button>
                                         <Button size="small">Edit</Button>
                                     </CardActions> */}
-                                </Card>
-                            </Grid>
-                        ))}
+                        </Card>
                     </Grid>
                 </Container>
             </main>
