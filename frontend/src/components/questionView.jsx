@@ -17,6 +17,8 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 // import { alignProperty } from '@mui/material/styles/cssUtils';
 import { Grid } from '@material-ui/core';
 import { getData, postData, putData, delData } from './rest';
+import sound from "../assets/submit.wav"
+import turn from "../assets/turn.wav"
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -78,9 +80,10 @@ export default function QuestionCard(props) {
             //error
             console.log(`GET REQUEST ERROR${err}`);
         });
+        // todo make this play only  its your turn
+        playTurn()
 
-
-    }, [])
+    }, [props.socketData])
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -88,6 +91,12 @@ export default function QuestionCard(props) {
     const answerHandler = (ans) => {
         setAnswer(ans);
 
+    }
+    function playSubmitted() {
+        new Audio(sound).play()
+    }
+    function playTurn() {
+        new Audio(turn).play()
     }
 
     return (
@@ -185,6 +194,7 @@ export default function QuestionCard(props) {
                 }}
                 onClick={() => {
                     console.log(`Submited ${answer}`)
+                    playSubmitted()
                 }}
                 variant='contained'>
                 SUBMIT
