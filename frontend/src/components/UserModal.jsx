@@ -85,7 +85,7 @@ export default function UserModal(props) {
                 // console.log(`id: ${id}`)
                 // console.log(`db: ${db}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
-                updatePlayer(name, diffList[difficulty], id);
+                updatePlayer(name, diffList[difficulty], theme, id);
                 sendMsg('jeff', 'debug', 'players')
             }
             else {
@@ -107,7 +107,12 @@ export default function UserModal(props) {
 
     function postPlayer(db, name, diff, player_number) {
         //use it 
-        var config = { player: name, difficulty: diff, player_number: player_number }
+        var config = {
+            player: name,
+            difficulty: diff,
+            player_number: player_number,
+            theme: themes[theme]
+        }
         postData(config, db, (res) => {
             console.log('created')
             sendMsg('jeff', 'debug', 'players')
@@ -116,10 +121,15 @@ export default function UserModal(props) {
             console.log(`POST REQUEST ERROR ${err}`);
         });
     }
-    function updatePlayer(name, diff, id) {
+    function updatePlayer(name, diff, theme, id) {
         //use it 
-        var config = { player: name, difficulty: diff }
+        var config = {
+            player: name,
+            difficulty: diff,
+            theme: themes[theme]
+        }
         putData(config, 'players', id, (res) => {
+            console.log('updated')
             sendMsg('jeff', 'debug', 'players')
         }, (err) => {
             //error

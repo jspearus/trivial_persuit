@@ -31,12 +31,13 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function QuestionCard() {
+export default function QuestionCard(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [answer, setAnswer] = React.useState('');
     const [player, setPlayer] = React.useState({
         player: '',
         player_number: '',
+        theme: '',
         score: 0,
         difficulty: '',
         completed_category: '',
@@ -59,6 +60,7 @@ export default function QuestionCard() {
                 setPlayer({
                     player: player[0].player,
                     player_number: player[0].player_number,
+                    theme: player[0].theme,
                     score: player[0].score,
                     difficulty: player[0].difficulty,
                     completed_category: player[0].completed_category,
@@ -99,33 +101,32 @@ export default function QuestionCard() {
         >
             <Card sx={{
                 width: 300,
-                backgroundColor: 'white',
+                backgroundColor: player.theme,
                 // backgroundColor: '#424242',
             }}>
                 <CardHeader
                     sx={{
                         // color: "#cfd8dc",
-                        color: "blue",
+                        color: "black",
                     }}
-                    subheaderTypographyProps={{ color: 'blue' }}
 
                     title={player.player}
                 />
-                <Typography variant="body1" color="blue">
+                <Typography variant="body1" color="black">
                     Difficulty: {player.difficulty}
                 </Typography>
                 <br />
-                <Typography variant="body1" color="blue">
+                <Typography variant="body1" color="black">
                     Category: {player.category}
                 </Typography>
 
                 <CardContent>
-                    <Typography variant="body1" color="blue">
+                    <Typography variant="body1" color="black">
                         {player.question}
                     </Typography>
                     <Typography
                         style={{
-                            color: 'blue',
+                            color: 'black',
                             marginTop: '20px',
                             display: !expanded ? 'block' : 'none'
                         }} variant='p2'>Selected Answer: {answer}</Typography>

@@ -5,7 +5,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player 
-        fields = ('id', 'player', 'player_number', 'score', 'difficulty', 'completed_category', 
+        fields = ('id', 'player', 'player_number', 'theme', 'score', 'difficulty', 'completed_category', 
                   'q_status', 'question', 'category', 'answer', 'answer_a',
                   'answer_b','answer_c', 'answer_d', 'Date_started')
         

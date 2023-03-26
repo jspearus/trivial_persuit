@@ -22,6 +22,11 @@ import { grey } from '@mui/material/colors';
 
 import { getData, postData, putData, delData } from './rest';
 
+const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
+
+const chatSocket = new WebSocket(WS_URL);
+
+
 function Copyright() {
     return (
         <Typography variant="body2" color="primary" align="center">
@@ -53,8 +58,21 @@ export default function GameView(props) {
     const [preQuestion, setPreQuestion] = React.useState({});
     const [curQuestion, setCurQuestion] = React.useState({});
 
+    function sendMsg(user, data_type, data) {
+        chatSocket.send(JSON.stringify({
+            'username': user,
+            'data_type': data_type,
+            'data': data,
+        }));
+
+    }
+
     React.useEffect(() => {
-        console.log(`sock: ${JSON.stringify(props.socketData)}`)
+        getPlayerData('players', 'all');
+    }, []);
+
+    React.useEffect(() => {
+        // console.log(`sock: ${JSON.stringify(props.socketData)}`)
         // if (props.socketData.data != undefined) {
         //     getGameData('game', props.socketData.data);
         // }
@@ -74,12 +92,7 @@ export default function GameView(props) {
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, db, (res) => {
             setPlayerData(res.data)
-            console.log(`play: ${JSON.stringify(playerData)}`);
-            // if (playerData.length > 0) {
-            //     playerData.map((player) => (
-            //         console.log(player)
-            //     ))
-            // }
+            // console.log(`play: ${JSON.stringify(playerData)}`);
         }, (err) => {
             //error
             console.log(`GET REQUEST ERROR${err}`);
@@ -127,11 +140,17 @@ export default function GameView(props) {
                     <Button color="secondary"
                         sx={{ mr: 4 }}
                         variant="contained"
+                        onClick={() => {
+                            sendMsg('dash', 'status', 'start')
+                        }}
                     >
                         Start</Button>
 
                     <Button color="secondary"
                         variant="outlined"
+                        onClick={() => {
+                            sendMsg('dash', 'status', 'reset')
+                        }}
                     >
                         Reset</Button>
                 </Toolbar>
@@ -162,7 +181,8 @@ export default function GameView(props) {
 
                             {playerData.map((player) => (
                                 < Grid item key={player.player_number} xs={12} sm={6} md={2} >
-                                    <Card>
+                                    <Card
+                                        style={{ backgroundColor: player.theme }}>
                                         {/* <CardMedia
                                         component="img"
                                         sx={{
@@ -267,16 +287,16 @@ export default function GameView(props) {
                                     Answer: {curQuestion.answer}
                                 </Typography>
                                 <Typography>
-                                    {curQuestion.answer_a}
+                                    A: {curQuestion.answer_a}
                                 </Typography>
                                 <Typography>
-                                    {curQuestion.answer_b}
+                                    B: {curQuestion.answer_b}
                                 </Typography>
                                 <Typography>
-                                    {curQuestion.answer_c}
+                                    C: {curQuestion.answer_c}
                                 </Typography>
                                 <Typography >
-                                    {curQuestion.answer_d}
+                                    D: {curQuestion.answer_d}
                                 </Typography>
                             </CardContent>
                             {/* <CardActions>

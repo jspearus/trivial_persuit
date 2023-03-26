@@ -69,7 +69,9 @@ function App() {
     try {
       if ((json.username === "jeff")) {
         setSocketData(json);
-
+      }
+      else if ((json.username === "dash")) {
+        setSocketData(json);
       }
     } catch (err) {
       console.log(`[ERROR] : ${err}`);
@@ -121,7 +123,8 @@ function App() {
             socketData={socketData}
           />} />
 
-          <Route path='/question' element={<Question />} />
+          <Route path='/question' element={<Question
+            socketData={socketData} />} />
         </Routes>
 
       </div>

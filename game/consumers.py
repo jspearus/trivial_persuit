@@ -4,7 +4,7 @@ from asgiref.sync import async_to_sync
 from core.trivia_api import get_trivia
 
 from .models import Player, GameData
-from .views import update_current_player
+from .gamelogic import update_current_player, question
 
 
 class GameConsumer(WebsocketConsumer):
@@ -26,10 +26,14 @@ class GameConsumer(WebsocketConsumer):
         # player = Player.objects.filter(player=username).first()
         # gameData = GameData.objects.filter(name='game').first()
                 
-        if data_type == 'test':
-            username = username
-            data = 'rec...test'
-            data_type = data_type
+        if data_type == 'status':
+            if data == 'start':
+                print("starting...")
+                update_current_player('game', 1)
+                question()
+                data = 'quest'
+            elif data == 'reset':
+                print("reset...")
         else:
             username = username
             data_type = data_type

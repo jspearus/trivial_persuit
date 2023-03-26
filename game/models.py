@@ -8,6 +8,7 @@ class Player(models.Model):
     player = models.CharField(max_length=20)
     player_number = models.IntegerField(
         blank=True, null=True)
+    theme = models.CharField(max_length=20, blank=True, null=True)
     score = models.IntegerField(
         default=0)
     difficulty = models.CharField(max_length=20, blank=True, null=True)
