@@ -148,11 +148,20 @@ export default function GameView(props) {
 
                     <Button color="secondary"
                         variant="outlined"
+                        sx={{
+                            mr: 20
+                        }}
                         onClick={() => {
                             sendMsg('dash', 'status', 'reset')
                         }}
                     >
                         Reset</Button>
+                    <Typography sx={{ mr: 8 }} variant="h4" color="white" noWrap>
+                        Number Of Players: 3 {gameData.num_players}
+                    </Typography>
+                    <Typography sx={{ mr: 4 }} variant="h4" color="white" noWrap>
+                        Current Player: 1 {gameData.current_player}
+                    </Typography>
                 </Toolbar>
             </AppBar>
             <main>

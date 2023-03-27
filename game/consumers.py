@@ -34,6 +34,11 @@ class GameConsumer(WebsocketConsumer):
                 data = 'quest'
             elif data == 'reset':
                 print("reset...")
+        elif data_type == 'setup':
+            if data == 'players':
+                game = GameData.objects.filter(name='game').first()
+                game.num_players = game.num_players + 1
+                game.save()
         else:
             username = username
             data_type = data_type

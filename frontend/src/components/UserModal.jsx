@@ -86,7 +86,7 @@ export default function UserModal(props) {
                 // console.log(`db: ${db}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
                 updatePlayer(name, diffList[difficulty], theme, id);
-                sendMsg('jeff', 'debug', 'players')
+                sendMsg('jeff', 'update', 'players')
             }
             else {
                 // console.log('notFound')
@@ -94,7 +94,9 @@ export default function UserModal(props) {
                 // console.log(`name: ${name}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
                 postPlayer(db, name, diffList[difficulty], res.data.length + 1)
-                sendMsg('jeff', 'debug', 'players')
+                // todo update game data with new player count
+                // todo changed data_type to setup to update gameData file
+                sendMsg('jeff', 'setup', 'players')
             }
 
 
