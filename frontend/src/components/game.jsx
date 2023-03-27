@@ -69,6 +69,7 @@ export default function GameView(props) {
 
     React.useEffect(() => {
         getPlayerData('players', 'all');
+        getGameData('game', 'game')
     }, []);
 
     React.useEffect(() => {
@@ -84,7 +85,7 @@ export default function GameView(props) {
             getPlayerData('players', 'all');
         }
         else if (props.socketData.data === 'game') {
-            getGameData('game', 'all')
+            getGameData('game', 'game')
         }
     }, [props.socketData]);
 
@@ -105,7 +106,9 @@ export default function GameView(props) {
             console.log(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`)
 
             //todo trying to send this to component with useState ?????
-            setGameData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
+            // todo save this as JSON Object!!!!!!!
+            // setGameData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
+            setGameData(games[0])
         }, (err) => {
             //error
             console.log(`GET REQUEST ERROR${err}`);
@@ -135,7 +138,7 @@ export default function GameView(props) {
                 <Toolbar>
                     <DashboardIcon color="secondary" sx={{ mr: 2 }} />
                     <Typography sx={{ mr: 4 }} variant="h6" color="secondary" noWrap>
-                        Dashboard: {gameData}
+                        Dashboard
                     </Typography>
                     <Button color="secondary"
                         sx={{ mr: 4 }}
@@ -156,11 +159,11 @@ export default function GameView(props) {
                         }}
                     >
                         Reset</Button>
-                    <Typography sx={{ mr: 8 }} variant="h4" color="white" noWrap>
-                        Number Of Players: 3 {gameData.num_players}
-                    </Typography>
                     <Typography sx={{ mr: 4 }} variant="h4" color="white" noWrap>
-                        Current Player: 1 {gameData.current_player}
+                        Current Player: {JSON.stringify(gameData.current_player)}
+                    </Typography>
+                    <Typography sx={{ mr: 8 }} variant="h4" color="white" noWrap>
+                        Number Of Players: {JSON.stringify(gameData.num_players)}
                     </Typography>
                 </Toolbar>
             </AppBar>
