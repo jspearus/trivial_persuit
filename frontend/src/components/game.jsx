@@ -163,7 +163,7 @@ export default function GameView(props) {
                         Current Player: {JSON.stringify(gameData.current_player)}
                     </Typography>
                     <Typography sx={{ mr: 8 }} variant="h4" color="white" noWrap>
-                        Number Of Players: {JSON.stringify(gameData.num_players)}
+                        Max Score: {JSON.stringify(gameData.max_score)}
                     </Typography>
                 </Toolbar>
             </AppBar>
