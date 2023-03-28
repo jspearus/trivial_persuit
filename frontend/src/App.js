@@ -67,12 +67,7 @@ function App() {
   chatSocket.onmessage = function (event) {
     const json = JSON.parse(event.data);
     try {
-      if ((json.username === "jeff")) {
-        setSocketData(json);
-      }
-      else if ((json.username === "dash")) {
-        setSocketData(json);
-      }
+      setSocketData(json);
     } catch (err) {
       console.log(`[ERROR] : ${err}`);
     }

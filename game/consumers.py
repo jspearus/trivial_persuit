@@ -31,8 +31,6 @@ class GameConsumer(WebsocketConsumer):
                 print("starting...")
                 update_current_player('game', 1)
                 question()
-                data = 'quest'
-                data= 'game'
             elif data == 'reset':
                 print("reset...")
         elif data_type == 'setup':

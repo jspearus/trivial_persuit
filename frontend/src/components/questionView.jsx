@@ -19,6 +19,8 @@ import { Grid } from '@material-ui/core';
 import { getData, postData, putData, delData } from './rest';
 import sound from "../assets/submit.wav"
 import turn from "../assets/turn2.wav"
+import correct from "../assets/correct.wav"
+import wrong from "../assets/wrong.wav"
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -36,6 +38,7 @@ const ExpandMore = styled((props) => {
 export default function QuestionCard(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [answer, setAnswer] = React.useState('');
+    const [answerl, setAnswerl] = React.useState('');
     const [player, setPlayer] = React.useState({
         player: '',
         player_number: '',
@@ -54,9 +57,8 @@ export default function QuestionCard(props) {
     });
 
     useEffect(() => {
-        //use it
-        // console.log(JSON.stringify(props.socketData))
-        // console.log(localStorage.user)
+        console.log(`data: ${props.socketData.data}`)
+        console.log(`playerNumber: ${player.player_number}`)
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, 'players', (res) => {
             if (localStorage.user) {
@@ -80,7 +82,7 @@ export default function QuestionCard(props) {
             console.log(`GET REQUEST ERROR${err}`);
         });
         if (props.socketData.data_type === 'nextplayer' &&
-            props.socketData.data === localStorage.user) {
+            props.socketData.data === player.player_number) {
 
             var config = { "Access-Control-Allow-Origin": "*" }
             getData(config, 'players', (res) => {
@@ -118,8 +120,21 @@ export default function QuestionCard(props) {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    const answerHandler = (ans) => {
+    const answerHandler = (ansl, ans) => {
+        setAnswerl(ansl);
         setAnswer(ans);
+
+    }
+    const answerChecker = () => {
+        console.log(`Correcrt answer: ${player.answer}`)
+        if (player.answer === answer) {
+            console.log('Correct!!')
+            new Audio(correct).play()
+        }
+        else {
+            console.log('Wrong!!')
+            new Audio(wrong).play()
+        }
 
     }
     function playSubmitted() {
@@ -168,7 +183,7 @@ export default function QuestionCard(props) {
                             color: 'black',
                             marginTop: '20px',
                             display: !expanded ? 'block' : 'none'
-                        }} variant='p2'>Selected Answer: {answer}</Typography>
+                        }} variant='p2'>Selected Answer: {answerl}</Typography>
                 </CardContent>
                 <Typography variant="body1">Select an Answer then </Typography>
                 <CardActions disableSpacing>
@@ -186,21 +201,21 @@ export default function QuestionCard(props) {
                     <CardContent>
                         <Typography paragraph>Answers:</Typography>
                         <Button onClick={() => {
-                            answerHandler('A')
+                            answerHandler('A', player.answer_a)
                         }}
                             variant='outlined'>
                             Answer A: {player.answer_a}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
-                            answerHandler('B')
+                            answerHandler('B', player.answer_b)
                         }}
                             variant='outlined'>
                             Answer B: {player.answer_b}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
-                            answerHandler('C')
+                            answerHandler('C', player.answer_c)
                         }}
                             variant='outlined'>
                             Answer C: {player.answer_c}
@@ -208,7 +223,7 @@ export default function QuestionCard(props) {
                         <br /><br />
                         <Button
                             onClick={() => {
-                                answerHandler('D')
+                                answerHandler('D', player.answer_d)
                             }}
                             variant='outlined'>
                             Answer D: {player.answer_d}
@@ -225,6 +240,7 @@ export default function QuestionCard(props) {
                 onClick={() => {
                     console.log(`Submited ${answer}`)
                     playSubmitted()
+                    answerChecker()
                 }}
                 variant='contained'>
                 SUBMIT

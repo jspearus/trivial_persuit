@@ -89,6 +89,14 @@ export default function GameView(props) {
             getGameData('game', 'game')
             console.log('game update')
         }
+        else if (props.socketData.data === 'start') {
+            getQuestionData('preq', 'game');
+            getQuestionData('courq', 'game');
+            getGameData('game', 'game')
+            getPlayerData('players', 'all');
+            // todo +1 is a temp fix!!!!!!!!!!!!1   
+            sendMsg('dash', 'nextplayer', parseInt(gameData.current_player))
+        }
     }, [props.socketData]);
 
     function getPlayerData(db, name) {
