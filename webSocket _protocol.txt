@@ -1,0 +1,18 @@
+{username: "string", data_type: "string", data: "string"}
+
+datatype = 'status'
+            data = 'start' = start game
+                 = 'reset' = reset game
+        
+        = 'setup'
+            data = 'players' = updates number of players
+
+        = 'debug'
+            data = 'game' = refresh game data
+                 = 'quest' = refresh question data
+                 = 'players' = refresh players data
+
+        = 'nextPlayer'
+            data: = name of next player
+
+        = ''

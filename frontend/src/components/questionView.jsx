@@ -18,7 +18,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import { Grid } from '@material-ui/core';
 import { getData, postData, putData, delData } from './rest';
 import sound from "../assets/submit.wav"
-import turn from "../assets/turn.wav"
+import turn from "../assets/turn2.wav"
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -54,7 +54,9 @@ export default function QuestionCard(props) {
     });
 
     useEffect(() => {
-        //use it 
+        //use it
+        // console.log(JSON.stringify(props.socketData))
+        // console.log(localStorage.user)
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, 'players', (res) => {
             if (localStorage.user) {
@@ -66,23 +68,51 @@ export default function QuestionCard(props) {
                     score: player[0].score,
                     difficulty: player[0].difficulty,
                     completed_category: player[0].completed_category,
-                    q_status: player[0].q_status,
-                    category: player[0].category,
-                    question: player[0].question,
-                    answer: player[0].answer,
-                    answer_a: player[0].answer_a,
-                    answer_b: player[0].answer_b,
-                    answer_c: player[0].answer_c,
-                    answer_d: player[0].answer_d
                 })
+                // todo make this play only  its your turn
+                // todo add later
+                // playTurn()
+                setExpanded(true)
             }
+
         }, (err) => {
             //error
             console.log(`GET REQUEST ERROR${err}`);
         });
-        // todo make this play only  its your turn
-        playTurn()
+        if (props.socketData.data_type === 'nextplayer' &&
+            props.socketData.data === localStorage.user) {
 
+            var config = { "Access-Control-Allow-Origin": "*" }
+            getData(config, 'players', (res) => {
+                if (localStorage.user) {
+                    const player = res.data.filter((player) => player.player == localStorage.user)
+                    setPlayer({
+                        player: player[0].player,
+                        player_number: player[0].player_number,
+                        theme: player[0].theme,
+                        score: player[0].score,
+                        difficulty: player[0].difficulty,
+                        completed_category: player[0].completed_category,
+                        q_status: player[0].q_status,
+                        category: player[0].category,
+                        question: player[0].question,
+                        answer: player[0].answer,
+                        answer_a: player[0].answer_a,
+                        answer_b: player[0].answer_b,
+                        answer_c: player[0].answer_c,
+                        answer_d: player[0].answer_d
+                    })
+                    // todo make this play only  its your turn
+                    // todo add later
+                    // playTurn()
+                    setExpanded(false)
+                }
+
+            }, (err) => {
+                //error
+                console.log(`GET REQUEST ERROR${err}`);
+            });
+        }
     }, [props.socketData])
 
     const handleExpandClick = () => {

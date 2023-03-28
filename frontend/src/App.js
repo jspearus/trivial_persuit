@@ -108,9 +108,9 @@ function App() {
                 <Welcome />
 
                 <Button variant="contained"
-                  onClick={() => getGameData('game', 'game')}>Game</Button>
+                  onClick={() => sendMsg('jeff', 'debug', 'game')}>Game</Button>
                 <Button variant="contained"
-                  onClick={() => getGameData('game', 'TEst game')}>Test</Button>
+                  onClick={() => sendMsg('jeff', 'nextplayer', 'Jeff')}>Test</Button>
                 <Button variant="contained"
                   onClick={() => sendMsg('jeff', 'debug', 'quest')}>Quest</Button>
                 <Button variant="contained"

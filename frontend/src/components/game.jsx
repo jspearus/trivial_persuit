@@ -55,8 +55,9 @@ const theme = createTheme({
 export default function GameView(props) {
     const [gameData, setGameData] = React.useState([]);
     const [playerData, setPlayerData] = React.useState([]);
-    const [preQuestion, setPreQuestion] = React.useState({});
+    const [preQuestion, setPreQuestion] = React.useState({})
     const [curQuestion, setCurQuestion] = React.useState({});
+    const [curPlayer, setCurPlayer] = React.useState('None');
 
     function sendMsg(user, data_type, data) {
         chatSocket.send(JSON.stringify({
@@ -86,6 +87,7 @@ export default function GameView(props) {
         }
         else if (props.socketData.data === 'game') {
             getGameData('game', 'game')
+            console.log('game update')
         }
     }, [props.socketData]);
 
@@ -99,16 +101,15 @@ export default function GameView(props) {
             console.log(`GET REQUEST ERROR${err}`);
         });
     }
+
     function getGameData(db, name) {
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, db, (res) => {
             const games = res.data.filter((game) => game.name === name)
-            console.log(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`)
+            // console.log(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`)
 
-            //todo trying to send this to component with useState ?????
-            // todo save this as JSON Object!!!!!!!
-            // setGameData(`${games[0].name}, ${games[0].current_player}, ${games[0].num_players}`);
             setGameData(games[0])
+            setCurPlayer(games[0].current_player)
         }, (err) => {
             //error
             console.log(`GET REQUEST ERROR${err}`);
@@ -159,11 +160,11 @@ export default function GameView(props) {
                         }}
                     >
                         Reset</Button>
-                    <Typography sx={{ mr: 4 }} variant="h4" color="white" noWrap>
-                        Current Player: {JSON.stringify(gameData.current_player)}
+                    <Typography sx={{ mr: 6 }} variant="h4" color="white" noWrap>
+                        Current Player: {curPlayer}
                     </Typography>
                     <Typography sx={{ mr: 8 }} variant="h4" color="white" noWrap>
-                        Max Score: {JSON.stringify(gameData.max_score)}
+                        Max Score: {gameData.max_score}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -241,13 +242,14 @@ export default function GameView(props) {
                     marginBottom: '40px'
                 }} >
                     {/* End hero unit */}
-                    <Grid container spacing={8}>
+                    <Grid container spacing={2}>
                         <Card
                             sx={{
                                 display: 'flex',
-                                flexDirection: 'column',
+                                flexDirection: 'row',
                                 margin: '10px',
-                                marginRight: '20px'
+                                marginRight: '20px',
+                                width: 550,
                             }}
                         >
                             <CardContent sx={{ flexGrow: 1 }}>
@@ -283,7 +285,9 @@ export default function GameView(props) {
                                         alt="random"
                                     /> */}
                             <CardContent sx={{
-                                flexGrow: 1
+                                flexGrow: 1,
+                                flexWrap: 'wrap',
+                                width: 550,
 
                             }}>
                                 <Typography gutterBottom variant="h5" component="h2">
