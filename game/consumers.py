@@ -25,14 +25,22 @@ class GameConsumer(WebsocketConsumer):
         data = text_data_json['data']
         # player = Player.objects.filter(player=username).first()
         # gameData = GameData.objects.filter(name='game').first()
-                
+                # update_current_player('game', 1)
         if data_type == 'status':
             if data == 'start':
                 print("starting...")
-                update_current_player('game', 1)
+                game = GameData.objects.filter(name='game').first()
+                game.current_player = 1
+                game.save()
                 question()
             elif data == 'reset':
                 print("reset...")
+                game = GameData.objects.filter(name='game').first()
+                game.current_player = 0
+                game.save()
+            elif data == 'nextplayer':
+                print("reset...")
+                
         elif data_type == 'setup':
             if data == 'players':
                 game = GameData.objects.filter(name='game').first()

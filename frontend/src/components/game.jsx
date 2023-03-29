@@ -90,12 +90,20 @@ export default function GameView(props) {
             console.log('game update')
         }
         else if (props.socketData.data === 'start') {
+            // todo this may casue a sync problem!!!!!!!!!!!!1   
+            getGameData('game', 'game')
             getQuestionData('preq', 'game');
             getQuestionData('courq', 'game');
-            getGameData('game', 'game')
             getPlayerData('players', 'all');
-            // todo +1 is a temp fix!!!!!!!!!!!!1   
-            sendMsg('dash', 'nextplayer', parseInt(gameData.current_player))
+            sendMsg('dash', 'status', 'nextplayer')
+        }
+        else if (props.socketData.data === 'reset') {
+            // todo this may casue a sync problem!!!!!!!!!!!!1   
+            getGameData('game', 'game')
+            getQuestionData('preq', 'game');
+            getQuestionData('courq', 'game');
+            getPlayerData('players', 'all');
+            sendMsg('dash', 'status', 'nextplayer')
         }
     }, [props.socketData]);
 

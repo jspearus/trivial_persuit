@@ -39,6 +39,7 @@ export default function QuestionCard(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [answer, setAnswer] = React.useState('');
     const [answerl, setAnswerl] = React.useState('');
+    const [gameData, setGameData] = React.useState([]);
     const [player, setPlayer] = React.useState({
         player: '',
         player_number: '',
@@ -57,8 +58,22 @@ export default function QuestionCard(props) {
     });
 
     useEffect(() => {
-        console.log(`data: ${props.socketData.data}`)
-        console.log(`playerNumber: ${player.player_number}`)
+
+        if (props.socketData.data_type === 'status' &&
+            props.socketData.data === 'nextplayer') {
+            var config = { "Access-Control-Allow-Origin": "*" }
+            getData(config, 'game', (res) => {
+                setGameData(res.data)
+                console.log(`game: ${JSON.stringify(gameData)}`);
+            }, (err) => {
+                //error
+                console.log(`GET REQUEST ERROR${err}`);
+            });
+
+        }
+    }, [props.socketData])
+
+    useEffect(() => {
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, 'players', (res) => {
             if (localStorage.user) {
@@ -81,41 +96,58 @@ export default function QuestionCard(props) {
             //error
             console.log(`GET REQUEST ERROR${err}`);
         });
-        if (props.socketData.data_type === 'nextplayer' &&
-            props.socketData.data === player.player_number) {
-
-            var config = { "Access-Control-Allow-Origin": "*" }
-            getData(config, 'players', (res) => {
-                if (localStorage.user) {
-                    const player = res.data.filter((player) => player.player == localStorage.user)
-                    setPlayer({
-                        player: player[0].player,
-                        player_number: player[0].player_number,
-                        theme: player[0].theme,
-                        score: player[0].score,
-                        difficulty: player[0].difficulty,
-                        completed_category: player[0].completed_category,
-                        q_status: player[0].q_status,
-                        category: player[0].category,
-                        question: player[0].question,
-                        answer: player[0].answer,
-                        answer_a: player[0].answer_a,
-                        answer_b: player[0].answer_b,
-                        answer_c: player[0].answer_c,
-                        answer_d: player[0].answer_d
-                    })
-                    // todo make this play only  its your turn
-                    // todo add later
-                    // playTurn()
-                    setExpanded(false)
-                }
-
-            }, (err) => {
-                //error
-                console.log(`GET REQUEST ERROR${err}`);
-            });
+        getData(config, 'game', (res) => {
+            setGameData(res.data)
+            console.log(`game: ${JSON.stringify(gameData)}`);
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+        if (player && gameData[0]) {
+            console.log('yes')
         }
-    }, [props.socketData])
+    }, []);
+
+    useEffect(() => {
+        if (gameData[0]) {
+            if (player.player_number === gameData[0].current_player) {
+                loadQuestion()
+            }
+        }
+    }, [gameData]);
+
+    const loadQuestion = () => {
+        var config = { "Access-Control-Allow-Origin": "*" }
+        getData(config, 'players', (res) => {
+            if (localStorage.user) {
+                const player = res.data.filter((player) => player.player == localStorage.user)
+                setPlayer({
+                    player: player[0].player,
+                    player_number: player[0].player_number,
+                    theme: player[0].theme,
+                    score: player[0].score,
+                    difficulty: player[0].difficulty,
+                    completed_category: player[0].completed_category,
+                    q_status: player[0].q_status,
+                    category: player[0].category,
+                    question: player[0].question,
+                    answer: player[0].answer,
+                    answer_a: player[0].answer_a,
+                    answer_b: player[0].answer_b,
+                    answer_c: player[0].answer_c,
+                    answer_d: player[0].answer_d
+                })
+                // todo make this play only  its your turn
+                // todo add later
+                // playTurn()
+                setExpanded(false)
+            }
+
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);

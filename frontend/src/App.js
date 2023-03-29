@@ -105,7 +105,7 @@ function App() {
                 <Button variant="contained"
                   onClick={() => sendMsg('jeff', 'debug', 'game')}>Game</Button>
                 <Button variant="contained"
-                  onClick={() => sendMsg('jeff', 'nextplayer', 'Jeff')}>Test</Button>
+                  onClick={() => sendMsg('jeff', 'status', 'nextplayer')}>next</Button>
                 <Button variant="contained"
                   onClick={() => sendMsg('jeff', 'debug', 'quest')}>Quest</Button>
                 <Button variant="contained"
