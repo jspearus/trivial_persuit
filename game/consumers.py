@@ -39,7 +39,10 @@ class GameConsumer(WebsocketConsumer):
                 game.current_player = 0
                 game.save()
             elif data == 'next':
+                # todo check to see if this works
                 print("updating next...")
+                update_current_player('game', 1)
+                data = 'players'
                 
         elif data_type == 'setup':
             if data == 'players':
