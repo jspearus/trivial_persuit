@@ -38,8 +38,8 @@ class GameConsumer(WebsocketConsumer):
                 game = GameData.objects.filter(name='game').first()
                 game.current_player = 0
                 game.save()
-            elif data == 'nextplayer':
-                print("reset...")
+            elif data == 'next':
+                print("updating next...")
                 
         elif data_type == 'setup':
             if data == 'players':

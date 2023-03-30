@@ -158,6 +158,7 @@ export default function QuestionCard(props) {
 
     }
     const answerChecker = () => {
+        // todo send player update cmd with websocket
         console.log(`Correcrt answer: ${player.answer}`)
         if (player.answer === answer) {
             console.log('Correct!!')

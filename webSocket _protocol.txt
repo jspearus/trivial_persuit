@@ -3,6 +3,7 @@
 datatype = 'status'
             data = 'start' = start game
                  = 'reset' = reset game
+                 = 'next' = update next player 
         
         = 'setup'
             data = 'players' = updates number of players
