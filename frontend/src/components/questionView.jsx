@@ -22,6 +22,11 @@ import turn from "../assets/turn2.wav"
 import correct from "../assets/correct.wav"
 import wrong from "../assets/wrong.wav"
 
+
+const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
+
+const chatSocket = new WebSocket(WS_URL);
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -56,6 +61,15 @@ export default function QuestionCard(props) {
         answer_c: '',
         answer_d: ''
     });
+
+    function sendMsg(user, data_type, data) {
+        chatSocket.send(JSON.stringify({
+            'username': user,
+            'data_type': data_type,
+            'data': data,
+        }));
+
+    }
 
     useEffect(() => {
 
@@ -116,6 +130,8 @@ export default function QuestionCard(props) {
         }
     }, [gameData]);
 
+
+
     const loadQuestion = () => {
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, 'players', (res) => {
@@ -163,10 +179,13 @@ export default function QuestionCard(props) {
         if (player.answer === answer) {
             console.log('Correct!!')
             new Audio(correct).play()
+            sendMsg(player.player, 'status', 'nextc')
+
         }
         else {
             console.log('Wrong!!')
             new Audio(wrong).play()
+            sendMsg(player.player, 'status', 'nextw')
         }
 
     }

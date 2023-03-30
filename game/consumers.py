@@ -38,11 +38,22 @@ class GameConsumer(WebsocketConsumer):
                 game = GameData.objects.filter(name='game').first()
                 game.current_player = 0
                 game.save()
-            elif data == 'next':
+            elif data == 'nextc':
                 # todo check to see if this works
-                print("updating next...")
+                print("correct updating next...")
+                player = Player.objects.filter(player=username).first()
+                player.score += 1
+                player.save()
                 update_current_player('game', 1)
-                data = 'players'
+                question()
+                data = 'nextplayer'
+                
+            elif data == 'nextw':
+                # todo check to see if this works
+                print("wrong updating next...")
+                update_current_player('game', 1)
+                question()
+                data = 'nextplayer'
                 
         elif data_type == 'setup':
             if data == 'players':
