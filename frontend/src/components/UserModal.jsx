@@ -10,7 +10,7 @@ import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, ThemeProvider } from '@material-ui/core';
 import { DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 
 import { getData, postData, putData, delData } from './rest';
@@ -170,7 +170,7 @@ export default function UserModal(props) {
                 sx={{
                     width: 300,
                     height: 400,
-                    backgroundColor: 'white',
+                    backgroundColor: themes[theme],
                     // backgroundColor: '#424242',
                 }}>
                 <div>
