@@ -21,6 +21,7 @@ import sound from "../assets/submit.wav"
 import turn from "../assets/turn2.wav"
 import correct from "../assets/correct.wav"
 import wrong from "../assets/wrong.wav"
+import winner from "../assets/winner.mp3"
 
 
 const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
@@ -84,6 +85,19 @@ export default function QuestionCard(props) {
                 console.log(`GET REQUEST ERROR${err}`);
             });
 
+        }
+        else if (props.socketData.data_type === 'status' &&
+            props.socketData.data === 'winner') {
+            // var config = { "Access-Control-Allow-Origin": "*" }
+            // getData(config, 'game', (res) => {
+            //     setGameData(res.data)
+            //     console.log(`game: ${JSON.stringify(gameData)}`);
+            // }, (err) => {
+            //     //error
+            //     console.log(`GET REQUEST ERROR${err}`);
+            // });
+
+            playWinner();
         }
     }, [props.socketData])
 
@@ -194,6 +208,9 @@ export default function QuestionCard(props) {
     }
     function playTurn() {
         new Audio(turn).play()
+    }
+    function playWinner() {
+        new Audio(winner).play()
     }
 
     return (

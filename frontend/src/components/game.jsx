@@ -105,6 +105,14 @@ export default function GameView(props) {
             getPlayerData('players', 'all');
             sendMsg('dash', 'status', 'nextplayer')
         }
+        else if (props.socketData.data === 'winner') {
+            // todo this may casue a sync problem!!!!!!!!!!!!1   
+            getGameData('game', 'game')
+            getQuestionData('preq', 'game');
+            getQuestionData('courq', 'game');
+            getPlayerData('players', 'all');
+            sendMsg('dash', 'status', 'nextplayer')
+        }
         else if (props.socketData.data === 'nextplayer') {
             // todo this may casue a sync problem!!!!!!!!!!!!1   
             getGameData('game', 'game')
