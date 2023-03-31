@@ -26,23 +26,28 @@ class GameConsumer(WebsocketConsumer):
         # player = Player.objects.filter(player=username).first()
         # gameData = GameData.objects.filter(name='game').first()
                 # update_current_player('game', 1)
+        game = GameData.objects.filter(name='game').first()
+
         if data_type == 'status':
             if data == 'start':
                 print("starting...")
-                game = GameData.objects.filter(name='game').first()
+                # game = GameData.objects.filter(name='game').first()
                 game.current_player = 1
-                game.save()
+                # game.save()
                 question()
             elif data == 'reset':
                 print("reset...")
-                game = GameData.objects.filter(name='game').first()
+                # game = GameData.objects.filter(name='game').first()
                 game.current_player = 0
-                game.save()
+                # game.save()
             elif data == 'nextc':
                 # todo check to see if this works
                 print("correct updating next...")
                 player = Player.objects.filter(player=username).first()
                 player.score += 1
+                if player.score >= game.max_score:
+                    # todo winner function here
+                    print('winner')
                 player.save()
                 update_current_player('game', 1)
                 question()
@@ -57,15 +62,17 @@ class GameConsumer(WebsocketConsumer):
                 
         elif data_type == 'setup':
             if data == 'players':
-                game = GameData.objects.filter(name='game').first()
+                # game = GameData.objects.filter(name='game').first()
                 game.num_players = game.num_players + 1
-                game.save()
+                # game.save()
                 data= 'game'
         else:
             username = username
             data_type = data_type
             data = data
 
+        game.save()
+        
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
