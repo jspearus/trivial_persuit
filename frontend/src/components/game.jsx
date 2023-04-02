@@ -330,9 +330,9 @@ export default function GameView(props) {
                                 <Typography gutterBottom variant="p" >
                                     Category: {curQuestion.category}
                                 </Typography>
-                                <Typography gutterBottom variant="h6">
+                                {/* <Typography gutterBottom variant="h6">
                                     Answer: {curQuestion.answer}
-                                </Typography>
+                                </Typography> */}
                                 <Typography>
                                     A: {curQuestion.answer_a}
                                 </Typography>
