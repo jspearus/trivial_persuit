@@ -87,8 +87,13 @@ export default function QuestionCard(props) {
             loadStats()
 
         }
-        else if (props.socketData.data_type === 'status' &&
-            props.socketData.data === 'winner') {
+        if (props.socketData.data_type === 'status' &&
+            props.socketData.data === 'reset') {
+            setAnswer('')
+            loadStats()
+
+        }
+        else if (props.socketData.data_type === 'winner') {
             // var config = { "Access-Control-Allow-Origin": "*" }
             // getData(config, 'game', (res) => {
             //     setGameData(res.data)

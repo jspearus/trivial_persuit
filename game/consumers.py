@@ -76,6 +76,7 @@ class GameConsumer(WebsocketConsumer):
                     curQuestion.answer_c = ''
                     curQuestion.answer_d = ''
                     curQuestion.save()
+                    data = player.player
                     
                     players = Player.objects.all()
                     for player in players:
@@ -83,8 +84,8 @@ class GameConsumer(WebsocketConsumer):
                         player.completed_category = ','
                         player.q_status = 'new'
                         player.save()
-                    time.sleep(2)
-                    data = 'winner'
+                    time.sleep(1.5)
+                    data_type = 'winner'
                 else:
                     print('next')
                     player.save()

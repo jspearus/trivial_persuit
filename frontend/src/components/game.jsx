@@ -19,6 +19,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
+import BasicModal from './winnerModal';
 
 import { getData, postData, putData, delData } from './rest';
 
@@ -54,6 +55,8 @@ const theme = createTheme({
 
 export default function GameView(props) {
     const [gameData, setGameData] = React.useState([]);
+    const [win, setWin] = React.useState(false);
+    const [winner, setWinner] = React.useState('');
     const [playerData, setPlayerData] = React.useState([]);
     const [preQuestion, setPreQuestion] = React.useState({})
     const [curQuestion, setCurQuestion] = React.useState({});
@@ -104,14 +107,15 @@ export default function GameView(props) {
             getQuestionData('courq', 'game');
             getPlayerData('players', 'all');
             sendMsg('dash', 'status', 'nextplayer')
+            setWinner(false)
+            setWinner('')
         }
-        else if (props.socketData.data === 'winner') {
-            // todo this may casue a sync problem!!!!!!!!!!!!1   
-            getGameData('game', 'game')
-            getQuestionData('preq', 'game');
-            getQuestionData('courq', 'game');
-            getPlayerData('players', 'all');
-            sendMsg('dash', 'status', 'nextplayer')
+        else if (props.socketData.data_type === 'winner') {
+            // todo this may casue a sync problem!!!!!!!!!!!!1 
+            setWin(true)
+            setWinner(props.socketData.data)
+
+
         }
         else if (props.socketData.data === 'nextplayer') {
             // todo this may casue a sync problem!!!!!!!!!!!!1   
@@ -166,6 +170,7 @@ export default function GameView(props) {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
+            <BasicModal win={win} player={winner} />
             <AppBar position="relative">
                 <Toolbar>
                     <DashboardIcon color="secondary" sx={{ mr: 2 }} />
