@@ -219,7 +219,7 @@ export default function GameView(props) {
                             color="white"
                             gutterBottom
                         >
-                            Player Stats
+                            Players:
                         </Typography>
                         <Grid container spacing={2}>
 

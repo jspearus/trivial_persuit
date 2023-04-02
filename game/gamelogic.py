@@ -25,11 +25,13 @@ def update_current_player(gName, value):
     gameData = GameData.objects.filter(name=gName).first()
     player = Player.objects.filter(player_number=gameData.current_player).first()
     print(player)
+    curQuestion = CurrentQuestion.objects.filter(name=gName).first()
     preQuestion = PreQuestion.objects.filter(name=gName).first()
-    preQuestion.pre_category = player.category
-    preQuestion.pre_question = player.question
-    preQuestion.pre_answer = player.answer
+    preQuestion.pre_category = curQuestion.category
+    preQuestion.pre_question = curQuestion.question
+    preQuestion.pre_answer = curQuestion.answer
     preQuestion.save()
+    curQuestion.save()
     # player = Player.objects.filter(player_number=gameData.current_player).first()
     player.q_status = 'next'
     player.save()

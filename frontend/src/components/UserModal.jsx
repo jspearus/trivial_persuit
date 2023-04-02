@@ -54,10 +54,17 @@ export default function UserModal(props) {
     const [open, setOpen] = React.useState(false);
 
     const handleThemeChange = (event) => {
-        setTheme(event.target.value);
+        if (event.target.value !== '') {
+            setTheme(event.target.value);
+            localStorage.theme = event.target.value
+        }
     };
     const handleChange = (event) => {
-        setDifficulty(event.target.value);
+        if (event.target.value !== '') {
+            setDifficulty(event.target.value);
+            localStorage.difficulty = event.target.value
+        }
+
     };
 
     const handleClickOpen = () => {
@@ -85,7 +92,7 @@ export default function UserModal(props) {
                 // console.log(`id: ${id}`)
                 // console.log(`db: ${db}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
-                updatePlayer(name, diffList[difficulty], theme, id);
+                updatePlayer(name, diffList[localStorage.difficulty], theme, id);
                 sendMsg('jeff', 'update', 'players')
             }
             else {
@@ -93,7 +100,7 @@ export default function UserModal(props) {
                 console.log(`legnth: ${res.data.length}`)
                 // console.log(`name: ${name}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
-                postPlayer(db, name, diffList[difficulty], res.data.length + 1)
+                postPlayer(db, name, diffList[localStorage.difficulty], res.data.length + 1)
                 // todo update game data with new player count
                 // todo changed data_type to setup to update gameData file
                 sendMsg('jeff', 'setup', 'players')
@@ -128,7 +135,7 @@ export default function UserModal(props) {
         var config = {
             player: name,
             difficulty: diff,
-            theme: themes[theme]
+            theme: themes[localStorage.theme]
         }
         putData(config, 'players', id, (res) => {
             console.log('updated')
@@ -170,7 +177,7 @@ export default function UserModal(props) {
                 sx={{
                     width: 300,
                     height: 400,
-                    backgroundColor: themes[theme],
+                    backgroundColor: themes[localStorage.theme],
                     // backgroundColor: '#424242',
                 }}>
                 <div>
@@ -209,7 +216,7 @@ export default function UserModal(props) {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={difficulty}
+                                        value={localStorage.difficulty}
                                         label="Difficulty"
                                         onChange={handleChange}
                                     >
@@ -223,7 +230,7 @@ export default function UserModal(props) {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={theme}
+                                        value={localStorage.theme}
                                         label="Theme"
                                         onChange={handleThemeChange}
                                     >

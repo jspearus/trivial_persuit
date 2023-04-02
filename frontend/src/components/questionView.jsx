@@ -84,6 +84,7 @@ export default function QuestionCard(props) {
                 //error
                 console.log(`GET REQUEST ERROR${err}`);
             });
+            loadStats()
 
         }
         else if (props.socketData.data_type === 'status' &&
@@ -117,6 +118,8 @@ export default function QuestionCard(props) {
                 // todo make this play only  its your turn
                 // todo add later
                 // playTurn()
+                setAnswer('')
+                setAnswerl('')
                 setExpanded(true)
             }
 
@@ -139,6 +142,8 @@ export default function QuestionCard(props) {
     useEffect(() => {
         if (gameData[0]) {
             if (player.player_number === gameData[0].current_player) {
+                setAnswer('')
+                setAnswerl('')
                 loadQuestion()
             }
         }
@@ -178,6 +183,30 @@ export default function QuestionCard(props) {
             console.log(`GET REQUEST ERROR${err}`);
         });
     }
+    const loadStats = () => {
+        var config = { "Access-Control-Allow-Origin": "*" }
+        getData(config, 'players', (res) => {
+            if (localStorage.user) {
+                const player = res.data.filter((player) => player.player == localStorage.user)
+                setPlayer({
+                    player: player[0].player,
+                    player_number: player[0].player_number,
+                    theme: player[0].theme,
+                    score: player[0].score,
+                    difficulty: player[0].difficulty,
+                    completed_category: player[0].completed_category,
+                })
+                // todo make this play only  its your turn
+                // todo add later
+                // playTurn()
+
+            }
+
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -185,6 +214,7 @@ export default function QuestionCard(props) {
     const answerHandler = (ansl, ans) => {
         setAnswerl(ansl);
         setAnswer(ans);
+        setExpanded(!expanded);
 
     }
     const answerChecker = () => {
@@ -236,6 +266,9 @@ export default function QuestionCard(props) {
                     title={player.player}
                 />
                 <Typography variant="body1" color="black">
+                    Score: {player.score}
+                </Typography>
+                <Typography variant="body1" color="black">
                     Difficulty: {player.difficulty}
                 </Typography>
                 <br />
@@ -254,9 +287,8 @@ export default function QuestionCard(props) {
                             display: !expanded ? 'block' : 'none'
                         }} variant='p2'>Selected Answer: {answerl}</Typography>
                 </CardContent>
-                <Typography variant="body1">Select an Answer then </Typography>
                 <CardActions disableSpacing>
-                    <Typography variant="body1">======= Tap to Submit ======{'>'} </Typography>
+                    <Typography variant="body1">======= Tap to Change ======{'>'} </Typography>
                     <ExpandMore
                         expand={!expanded}
                         onClick={handleExpandClick}
@@ -272,21 +304,21 @@ export default function QuestionCard(props) {
                         <Button onClick={() => {
                             answerHandler('A', player.answer_a)
                         }}
-                            variant='outlined'>
+                            variant='contained'>
                             Answer A: {player.answer_a}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
                             answerHandler('B', player.answer_b)
                         }}
-                            variant='outlined'>
+                            variant='contained'>
                             Answer B: {player.answer_b}
                         </Button>
                         <br /><br />
                         <Button onClick={() => {
                             answerHandler('C', player.answer_c)
                         }}
-                            variant='outlined'>
+                            variant='contained'>
                             Answer C: {player.answer_c}
                         </Button>
                         <br /><br />
@@ -294,7 +326,7 @@ export default function QuestionCard(props) {
                             onClick={() => {
                                 answerHandler('D', player.answer_d)
                             }}
-                            variant='outlined'>
+                            variant='contained'>
                             Answer D: {player.answer_d}
                         </Button>
                     </CardContent>
@@ -320,6 +352,12 @@ export default function QuestionCard(props) {
                     marginTop: '20px',
                     display: expanded ? 'block' : 'none'
                 }} variant='h6'>Selected Answer: {answer}</Typography>
+            <Typography
+                style={{
+                    color: 'white',
+                    marginTop: '20px',
+                    display: expanded ? 'block' : 'none'
+                }} variant='h6'>Slices: {player.completed_category}</Typography>
         </Grid >
     );
 }

@@ -4,7 +4,7 @@ from asgiref.sync import async_to_sync
 from core.trivia_api import get_trivia
 
 from .models import Player, GameData
-from .gamelogic import update_current_player, question
+from .gamelogic import update_current_player, question, CurrentQuestion
 
 
 class GameConsumer(WebsocketConsumer):
@@ -30,20 +30,36 @@ class GameConsumer(WebsocketConsumer):
         if data_type == 'status':
             if data == 'start':
                 print("starting...")
-                game = GameData.objects.filter(name='game').first()
-                game.current_player = 1
-                game.save()
+                update_current_player('game', 1)
                 question()
+                
             elif data == 'reset':
                 print("reset...")
                 game = GameData.objects.filter(name='game').first()
                 game.current_player = 0
                 game.save()
+                players = Player.objects.all()
+                for player in players:
+                    player.score = 0
+                    player.completed_category = ','
+                    player.q_status = 'new'
+                    player.save()
+                curQuestion = CurrentQuestion.objects.filter(name='game').first()
+                curQuestion.category = ''
+                curQuestion.question = ''
+                curQuestion.answer = ''
+                curQuestion.answer_a = ''
+                curQuestion.answer_b = ''
+                curQuestion.answer_c = ''
+                curQuestion.answer_d = ''
+                curQuestion.save()
+                    
             elif data == 'nextc':
                 # todo check to see if this works
                 print("correct updating next...")
                 game = GameData.objects.filter(name='game').first()
                 player = Player.objects.filter(player=username).first()
+                player.completed_category = player.completed_category + player.category + ','
                 player.score += 1
                 if player.score >= game.max_score:
                     # todo winner function here
@@ -51,7 +67,23 @@ class GameConsumer(WebsocketConsumer):
                     game = GameData.objects.filter(name='game').first()
                     game.current_player = 0
                     game.save()
-                    time.sleep(5)
+                    curQuestion = CurrentQuestion.objects.filter(name='game').first()
+                    curQuestion.category = ''
+                    curQuestion.question = ''
+                    curQuestion.answer = ''
+                    curQuestion.answer_a = ''
+                    curQuestion.answer_b = ''
+                    curQuestion.answer_c = ''
+                    curQuestion.answer_d = ''
+                    curQuestion.save()
+                    
+                    players = Player.objects.all()
+                    for player in players:
+                        player.score = 0
+                        player.completed_category = ','
+                        player.q_status = 'new'
+                        player.save()
+                    time.sleep(2)
                     data = 'winner'
                 else:
                     print('next')
