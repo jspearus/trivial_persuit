@@ -364,6 +364,13 @@ export default function QuestionCard(props) {
                     marginTop: '20px',
                     display: expanded ? 'block' : 'none'
                 }} variant='h6'>Slices: {player.completed_category}</Typography>
+            <svg style={{
+                color: 'white',
+                marginTop: '20px',
+                display: expanded ? 'block' : 'none'
+            }} >
+                <line x1={0} y1={10} x2={10} y2={20} stroke='red' />
+            </svg>
         </Grid >
     );
 }
