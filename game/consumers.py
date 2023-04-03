@@ -37,13 +37,15 @@ class GameConsumer(WebsocketConsumer):
                 print("reset...")
                 game = GameData.objects.filter(name='game').first()
                 game.current_player = 0
+                game.num_players = 0
                 game.save()
                 players = Player.objects.all()
-                for player in players:
-                    player.score = 0
-                    player.completed_category = ','
-                    player.q_status = 'new'
-                    player.save()
+                # for player in players:
+                #     player.score = 0
+                #     player.completed_category = ','
+                #     player.q_status = 'new'
+                #     player.save()
+                players.delete()
                 curQuestion = CurrentQuestion.objects.filter(name='game').first()
                 curQuestion.category = ''
                 curQuestion.question = ''
@@ -80,12 +82,11 @@ class GameConsumer(WebsocketConsumer):
                     data = player.player
                     
                     players = Player.objects.all()
-                    # for player in players:
-                    #     player.score = 0
-                    #     player.completed_category = ','
-                    #     player.q_status = 'new'
-                    #     player.save()
-                    players.delete()
+                    for player in players:
+                        player.score = 0
+                        player.completed_category = ','
+                        player.q_status = 'new'
+                        player.save()
                     time.sleep(1.5)
                     data_type = 'winner'
                 else:
