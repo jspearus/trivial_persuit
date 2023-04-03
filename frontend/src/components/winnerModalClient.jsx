@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { useNavigate } from 'react-router-dom';
+
 
 const style = {
     position: 'absolute',
@@ -16,7 +18,8 @@ const style = {
     p: 4,
 };
 
-export default function WionnerModal(props) {
+export default function WinnerModalClient(props) {
+    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false);
     React.useEffect(() => {
@@ -38,8 +41,26 @@ export default function WionnerModal(props) {
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                         {props.player} Has Won!
                     </Typography>
+                    <br></br>
+                    <Button onClick={() => {
+                        console.log('home')
+                        navigate('/')
+                    }}
+                        sx={{
+                            mr: 20,
+                        }}
+                        variant='contained'>
+                        Home
+                    </Button>
+                    <Button onClick={() => {
+                        console.log('play')
+                        navigate('/join')
+                    }}
+                        variant='contained'>
+                        Play Again
+                    </Button>
                 </Box>
             </Modal>
-        </div>
+        </div >
     );
 }
