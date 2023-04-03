@@ -92,7 +92,7 @@ export default function UserModal(props) {
                 // console.log(`id: ${id}`)
                 // console.log(`db: ${db}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
-                updatePlayer(name, diffList[localStorage.difficulty], theme, id);
+                updatePlayer(name, diffList[localStorage.difficulty], themes[localStorage.theme], id);
                 sendMsg('jeff', 'update', 'players')
             }
             else {
@@ -120,7 +120,7 @@ export default function UserModal(props) {
             player: name,
             difficulty: diff,
             player_number: player_number,
-            theme: themes[theme]
+            theme: themes[localStorage.theme]
         }
         postData(config, db, (res) => {
             console.log('created')
