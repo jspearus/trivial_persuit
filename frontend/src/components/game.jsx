@@ -19,7 +19,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
-import BasicModal from './winnerModal';
+import WinnerModal from './winnerModal';
 
 import { getData, postData, putData, delData } from './rest';
 
@@ -170,7 +170,7 @@ export default function GameView(props) {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <BasicModal win={win} player={winner} />
+            <WinnerModal win={win} player={winner} />
             <AppBar position="relative">
                 <Toolbar>
                     <DashboardIcon color="secondary" sx={{ mr: 2 }} />

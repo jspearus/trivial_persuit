@@ -23,6 +23,8 @@ import correct from "../assets/correct.wav"
 import wrong from "../assets/wrong.wav"
 import winner from "../assets/winner.mp3"
 
+import WinnerModalClient from './winnerModalClient';
+
 
 const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
 
@@ -46,6 +48,8 @@ export default function QuestionCard(props) {
     const [answer, setAnswer] = React.useState('');
     const [answerl, setAnswerl] = React.useState('');
     const [gameData, setGameData] = React.useState([]);
+    const [win, setWin] = React.useState(false);
+    const [winner, setWinner] = React.useState('');
     const [player, setPlayer] = React.useState({
         player: '',
         player_number: '',
@@ -94,20 +98,14 @@ export default function QuestionCard(props) {
 
         }
         else if (props.socketData.data_type === 'winner') {
-            // var config = { "Access-Control-Allow-Origin": "*" }
-            // getData(config, 'game', (res) => {
-            //     setGameData(res.data)
-            //     console.log(`game: ${JSON.stringify(gameData)}`);
-            // }, (err) => {
-            //     //error
-            //     console.log(`GET REQUEST ERROR${err}`);
-            // });
-
+            setWinner(props.socketData.data)
+            setWin(true)
             playWinner();
         }
     }, [props.socketData])
 
     useEffect(() => {
+        // todo make it create user if none exits  
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, 'players', (res) => {
             if (localStorage.user) {
@@ -125,6 +123,7 @@ export default function QuestionCard(props) {
                 // playTurn()
                 setAnswer('')
                 setAnswerl('')
+                setWinner(false)
                 setExpanded(true)
             }
 
@@ -257,6 +256,8 @@ export default function QuestionCard(props) {
             width="100%"
             style={{ minHeight: '100vh' }}
         >
+            {/* todo create winner and player states */}
+            <WinnerModalClient win={win} player={winner} />
             <Card sx={{
                 width: 300,
                 backgroundColor: player.theme,
