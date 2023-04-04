@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 // import { red } from '@mui/material/colors';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-// import { dark } from '@mui/material/styles/createPalette';
+import { Svg, RegPolygon, Triangle } from 'react-svg-path'
 // import { alignProperty } from '@mui/material/styles/cssUtils';
 import { Grid } from '@material-ui/core';
 import { getData, postData, putData, delData } from './rest';
@@ -365,21 +365,20 @@ export default function QuestionCard(props) {
                     marginTop: '20px',
                     display: expanded ? 'block' : 'none'
                 }} variant='h6'>Slices: {player.completed_category}</Typography>
-            <svg style={{
-                color: 'white',
-                marginTop: '20px',
+            <Svg style={{
+                marginTop: '10px',
                 display: expanded ? 'block' : 'none'
-            }} >
-                <line x1={0} y1={40}
-                    x2={80} y2={40}
-                    stroke='red' strokeWidth={5} />
-                <line x1={80} y1={40}
-                    x2={20} y2={80}
-                    stroke='red' strokeWidth={5} />
-                <line x1={20} y1={80}
-                    x2={0} y2={40}
-                    stroke='red' strokeWidth={5} />
-            </svg>
+            }} width={200} height={200}>
+                <RegPolygon
+                    size={150}
+                    sides={6}
+                    cx={100}
+                    cy={100}
+                    stroke="white"
+                    strokeWidth={10}
+                    fill="grey"
+                />
+            </Svg>
         </Grid >
     );
 }
