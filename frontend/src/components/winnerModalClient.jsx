@@ -15,7 +15,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 150,
+    width: 100,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -47,11 +47,22 @@ export default function WinnerModalClient(props) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                <Box
+                    sx={style}>
+                    <Typography id="modal-modal-title"
+                        variant="h6"
+                        sx={{
+                            mt: 2,
+                            align: "center"
+                        }}>
                         WINNER!!!
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography id="modal-modal-description"
+                        variant="h6"
+                        sx={{
+                            mb: 2,
+                            align: "center"
+                        }} >
                         {props.player} Has Won!
                     </Typography>
                     <br></br>
@@ -61,6 +72,7 @@ export default function WinnerModalClient(props) {
                     }}
                         sx={{
                             mr: 10,
+                            ml: 10,
                         }}
                         variant='contained'>
                         Home
