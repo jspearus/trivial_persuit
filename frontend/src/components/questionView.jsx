@@ -21,7 +21,7 @@ import sound from "../assets/submit.wav"
 import turn from "../assets/turn2.wav"
 import correct from "../assets/correct.wav"
 import wrong from "../assets/wrong.wav"
-import winner from "../assets/winner.mp3"
+import wintone from "../assets/winner.mp3"
 
 import WinnerModalClient from './winnerModalClient';
 
@@ -244,7 +244,7 @@ export default function QuestionCard(props) {
         new Audio(turn).play()
     }
     function playWinner() {
-        new Audio(winner).play()
+        new Audio(wintone).play()
     }
 
     return (
