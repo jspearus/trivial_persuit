@@ -5,6 +5,10 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom';
 
+const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
+
+const chatSocket = new WebSocket(WS_URL);
+
 
 const style = {
     position: 'absolute',
@@ -25,6 +29,15 @@ export default function WinnerModalClient(props) {
     React.useEffect(() => {
         setOpen(props.win);
     }, [props.win]);
+
+    function sendMsg(user, data_type, data) {
+        chatSocket.send(JSON.stringify({
+            'username': user,
+            'data_type': data_type,
+            'data': data,
+        }));
+
+    }
 
     return (
         <div>
@@ -54,7 +67,9 @@ export default function WinnerModalClient(props) {
                     </Button>
                     <Button onClick={() => {
                         console.log('play')
+                        sendMsg('game', 'status', 'reset')
                         navigate('/join')
+                        setOpen(false)
                     }}
                         variant='contained'>
                         Play Again

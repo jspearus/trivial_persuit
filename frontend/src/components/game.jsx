@@ -98,6 +98,7 @@ export default function GameView(props) {
             getQuestionData('preq', 'game');
             getQuestionData('courq', 'game');
             getPlayerData('players', 'all');
+            setWin(false)
             sendMsg('dash', 'status', 'nextplayer')
         }
         else if (props.socketData.data === 'reset') {
@@ -107,6 +108,7 @@ export default function GameView(props) {
             getQuestionData('courq', 'game');
             getPlayerData('players', 'all');
             sendMsg('dash', 'status', 'nextplayer')
+            setWin(false)
             setWinner(false)
             setWinner('')
         }

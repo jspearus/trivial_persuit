@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { Grid, TextField, ThemeProvider } from '@material-ui/core';
 import { DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
 import { getData, postData, putData, delData } from './rest';
 
@@ -48,6 +49,7 @@ SimpleDialog.propTypes = {
 };
 
 export default function UserModal(props) {
+    const navigate = useNavigate();
     const [name, setName] = React.useState('');
     const [theme, setTheme] = React.useState(1);
     const [difficulty, setDifficulty] = React.useState(1);
@@ -69,6 +71,15 @@ export default function UserModal(props) {
 
     const handleClickOpen = () => {
         setOpen(true);
+    };
+    const handleReplay = () => {
+        if (localStorage.user !== '') {
+            getRequest(localStorage.user, 'players')
+            navigate('/question')
+        }
+        else {
+            console.log('No Profile Found')
+        }
     };
     function sendMsg(user, data_type, data) {
         chatSocket.send(JSON.stringify({
@@ -265,6 +276,13 @@ export default function UserModal(props) {
                         variant="contained"
                         onClick={handleClickOpen}>
                         User Info
+                    </Button>
+                    <Button sx={{
+                        mt: 20,
+                    }}
+                        variant="contained"
+                        onClick={handleReplay}>
+                        Replay
                     </Button>
                 </div>
             </Card>

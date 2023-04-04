@@ -82,11 +82,12 @@ class GameConsumer(WebsocketConsumer):
                     data = player.player
                     
                     players = Player.objects.all()
-                    for player in players:
-                        player.score = 0
-                        player.completed_category = ','
-                        player.q_status = 'new'
-                        player.save()
+                # for player in players:
+                #     player.score = 0
+                #     player.completed_category = ','
+                #     player.q_status = 'new'
+                #     player.save()
+                    players.delete()
                     time.sleep(1.5)
                     data_type = 'winner'
                 else:

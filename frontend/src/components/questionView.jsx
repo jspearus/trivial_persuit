@@ -44,7 +44,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function QuestionCard(props) {
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = React.useState(true);
     const [answer, setAnswer] = React.useState('');
     const [answerl, setAnswerl] = React.useState('');
     const [gameData, setGameData] = React.useState([]);
@@ -105,6 +105,7 @@ export default function QuestionCard(props) {
     }, [props.socketData])
 
     useEffect(() => {
+        setWin(false)
         // todo make it create user if none exits  
         var config = { "Access-Control-Allow-Origin": "*" }
         getData(config, 'players', (res) => {
@@ -123,7 +124,7 @@ export default function QuestionCard(props) {
                 // playTurn()
                 setAnswer('')
                 setAnswerl('')
-                setWinner(false)
+                setWinner('')
                 setExpanded(true)
             }
 
@@ -369,7 +370,15 @@ export default function QuestionCard(props) {
                 marginTop: '20px',
                 display: expanded ? 'block' : 'none'
             }} >
-                <line x1={0} y1={10} x2={10} y2={20} stroke='red' />
+                <line x1={0} y1={40}
+                    x2={80} y2={40}
+                    stroke='red' strokeWidth={5} />
+                <line x1={80} y1={40}
+                    x2={20} y2={80}
+                    stroke='red' strokeWidth={5} />
+                <line x1={20} y1={80}
+                    x2={0} y2={40}
+                    stroke='red' strokeWidth={5} />
             </svg>
         </Grid >
     );
