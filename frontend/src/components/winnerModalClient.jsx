@@ -15,7 +15,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    width: 200,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -67,7 +67,6 @@ export default function WinnerModalClient(props) {
                     </Button>
                     <Button onClick={() => {
                         console.log('play')
-                        sendMsg('game', 'status', 'reset')
                         navigate('/join')
                         setOpen(false)
                     }}

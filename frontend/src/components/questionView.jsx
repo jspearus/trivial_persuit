@@ -142,6 +142,7 @@ export default function QuestionCard(props) {
         if (player && gameData[0]) {
             console.log('yes')
         }
+        sendMsg('game', 'setup', 'players')
     }, []);
 
     useEffect(() => {

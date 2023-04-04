@@ -38,7 +38,6 @@ class QuestionView(viewsets.ModelViewSet):
     search_fields = ['player', 'category', 'difficulty', 'question', 'answer']
     filter_backends = (filters.SearchFilter,)
 
-
 def index(request):
     return render(request, 'index.html', {
 

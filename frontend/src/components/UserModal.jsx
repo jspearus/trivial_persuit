@@ -104,7 +104,7 @@ export default function UserModal(props) {
                 // console.log(`db: ${db}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
                 updatePlayer(name, diffList[localStorage.difficulty], themes[localStorage.theme], id);
-                sendMsg('jeff', 'update', 'players')
+                sendMsg('game', 'update', 'players')
             }
             else {
                 // console.log('notFound')
@@ -114,7 +114,7 @@ export default function UserModal(props) {
                 postPlayer(db, name, diffList[localStorage.difficulty], res.data.length + 1)
                 // todo update game data with new player count
                 // todo changed data_type to setup to update gameData file
-                sendMsg('jeff', 'setup', 'players')
+                sendMsg('game', 'setup', 'players')
             }
 
 
@@ -135,7 +135,7 @@ export default function UserModal(props) {
         }
         postData(config, db, (res) => {
             console.log('created')
-            sendMsg('jeff', 'debug', 'players')
+            sendMsg('game', 'debug', 'players')
         }, (err) => {
             //error
             console.log(`POST REQUEST ERROR ${err}`);
