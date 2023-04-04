@@ -15,7 +15,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 100,
+    width: 250,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -71,8 +71,8 @@ export default function WinnerModalClient(props) {
                         navigate('/')
                     }}
                         sx={{
-                            mr: 10,
-                            ml: 10,
+                            mr: 2,
+                            ml: 1,
                         }}
                         variant='contained'>
                         Home
