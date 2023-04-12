@@ -15,7 +15,6 @@ const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
 
 const chatSocket = new WebSocket(WS_URL);
 
-
 function App() {
   chatSocket.onopen = (event) => {
     // run code on load here
