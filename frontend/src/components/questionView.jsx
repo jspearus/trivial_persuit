@@ -77,34 +77,6 @@ export default function QuestionCard(props) {
     }
 
     useEffect(() => {
-
-        if (props.socketData.data_type === 'status' &&
-            props.socketData.data === 'nextplayer') {
-            var config = { "Access-Control-Allow-Origin": "*" }
-            getData(config, 'game', (res) => {
-                setGameData(res.data)
-                console.log(`game: ${JSON.stringify(gameData)}`);
-            }, (err) => {
-                //error
-                console.log(`GET REQUEST ERROR${err}`);
-            });
-            loadStats()
-
-        }
-        if (props.socketData.data_type === 'status' &&
-            props.socketData.data === 'reset') {
-            setAnswer('')
-            loadStats()
-
-        }
-        else if (props.socketData.data_type === 'winner') {
-            setWinner(props.socketData.data)
-            setWin(true)
-            playWinner();
-        }
-    }, [props.socketData])
-
-    useEffect(() => {
         setWin(false)
         // todo make it create user if none exits  
         var config = { "Access-Control-Allow-Origin": "*" }
@@ -144,10 +116,40 @@ export default function QuestionCard(props) {
             console.log('yes')
         }
         setTimeout(() => {
-            sendMsg('game', 'setup', 'players')
+            // todo this is incrimenting player number
+            sendMsg('game', 'update', 'players')
         }, 1000);
 
     }, []);
+
+    useEffect(() => {
+
+        if (props.socketData.data_type === 'status' &&
+            props.socketData.data === 'nextplayer') {
+            var config = { "Access-Control-Allow-Origin": "*" }
+            getData(config, 'game', (res) => {
+                setGameData(res.data)
+                console.log(`game: ${JSON.stringify(gameData)}`);
+            }, (err) => {
+                //error
+                console.log(`GET REQUEST ERROR${err}`);
+            });
+            loadStats()
+
+        }
+        if (props.socketData.data_type === 'status' &&
+            props.socketData.data === 'reset') {
+            setAnswer('')
+            loadStats()
+
+        }
+        else if (props.socketData.data_type === 'winner') {
+            setWinner(props.socketData.data)
+            setWin(true)
+            playWinner();
+        }
+    }, [props.socketData])
+
 
     useEffect(() => {
         if (gameData[0]) {

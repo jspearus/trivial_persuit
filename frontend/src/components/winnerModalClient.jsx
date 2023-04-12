@@ -4,6 +4,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom';
+import { getData, putData, postData } from './rest';
+
+const diffList = ['Easy', 'Medium', 'Hard'];
+const themes = ['Red', 'Green', 'Blue', 'Orange', 'Purple', 'Yellow', 'Pink', 'Grey', 'White', 'Black'];
 
 const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
 
@@ -38,6 +42,73 @@ export default function WinnerModalClient(props) {
         }));
 
     }
+    function getRequest(name, db) {   //use it 
+        var config = { "Access-Control-Allow-Origin": "*" }
+        getData(config, db, (res) => {
+            var config = {
+                player: name,
+                difficulty: diffList[localStorage.difficulty],
+            }
+            var players = res.data.filter((player) => player.player == name)
+            // console.log(`FromFunct: ${JSON.stringify(players)}`)
+            if (players[0]) {
+                const id = players[0].id;
+                // console.log(`id: ${id}`)
+                // console.log(`db: ${db}`)
+                // console.log(`diff: ${diffList[difficulty]}`)
+                updatePlayer(name, diffList[localStorage.difficulty], themes[localStorage.theme], id);
+                sendMsg('game', 'update', 'players')
+            }
+            else {
+                // console.log('notFound')
+                console.log(`legnth: ${res.data.length}`)
+                // console.log(`name: ${name}`)
+                // console.log(`diff: ${diffList[difficulty]}`)
+                postPlayer(db, name, diffList[localStorage.difficulty], res.data.length + 1)
+                // todo update game data with new player count
+                // todo changed data_type to setup to update gameData file
+                sendMsg('game', 'setup', 'players')
+            }
+
+
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR${err}`);
+        });
+    }
+    function postPlayer(db, name, diff, player_number) {
+        //use it 
+        var config = {
+            player: name,
+            difficulty: diff,
+            player_number: player_number,
+            theme: themes[localStorage.theme]
+        }
+        postData(config, db, (res) => {
+            console.log('created')
+            sendMsg('game', 'debug', 'players')
+        }, (err) => {
+            //error
+            console.log(`POST REQUEST ERROR ${err}`);
+        });
+    }
+
+    function updatePlayer(name, diff, theme, id) {
+        //use it 
+        var config = {
+            player: name,
+            difficulty: diff,
+            theme: themes[localStorage.theme]
+        }
+        putData(config, 'players', id, (res) => {
+            console.log('updated')
+            sendMsg('jeff', 'debug', 'players')
+        }, (err) => {
+            //error
+            console.log(`PUT REQUEST ERROR ${err}`);
+        });
+    }
+
 
     return (
         <div>
@@ -67,6 +138,7 @@ export default function WinnerModalClient(props) {
                     </Typography>
                     <br></br>
                     <Button onClick={() => {
+                        setOpen(false)
                         console.log('home')
                         navigate('/')
                     }}
@@ -78,9 +150,18 @@ export default function WinnerModalClient(props) {
                         Home
                     </Button>
                     <Button onClick={() => {
-                        console.log('play')
-                        navigate('/join')
                         setOpen(false)
+                        setTimeout(() => {
+                            if (localStorage.user !== '') {
+                                getRequest(localStorage.user, 'players')
+                                navigate('/question')
+                            }
+                            else {
+                                console.log('No Profile Found')
+                            }
+                            navigate('/join')
+                        }, 500);
+
                     }}
                         variant='contained'>
                         Play Again
