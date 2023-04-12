@@ -51,6 +51,7 @@ SimpleDialog.propTypes = {
 export default function UserModal(props) {
     const navigate = useNavigate();
     const [name, setName] = React.useState('');
+    const [uId, setUId] = React.useState();
     const [theme, setTheme] = React.useState(1);
     const [difficulty, setDifficulty] = React.useState(1);
     const [open, setOpen] = React.useState(false);
@@ -91,19 +92,22 @@ export default function UserModal(props) {
     }
     function getRequest(name, db) {   //use it 
         var config = { "Access-Control-Allow-Origin": "*" }
+        console.log(`Local: ${localStorage.id}`)
         getData(config, db, (res) => {
             var config = {
                 player: name,
                 difficulty: diffList[difficulty],
             }
-            var players = res.data.filter((player) => player.player == name)
-            // console.log(`FromFunct: ${JSON.stringify(players)}`)
+            var players = res.data.filter((player) => player.id == localStorage.id)
+            console.log(`FromFunct: ${JSON.stringify(players[0])}`)
             if (players[0]) {
-                const id = players[0].id;
+                setUId(players[0].id);
+                localStorage.id = players[0].id;
+                console.log(`NEW Local: ${localStorage.id}`)
                 // console.log(`id: ${id}`)
                 // console.log(`db: ${db}`)
                 // console.log(`diff: ${diffList[difficulty]}`)
-                updatePlayer(name, diffList[localStorage.difficulty], themes[localStorage.theme], id);
+                updatePlayer(name, diffList[localStorage.difficulty], themes[localStorage.theme], localStorage.id);
                 sendMsg('game', 'update', 'players')
             }
             else {
@@ -128,6 +132,7 @@ export default function UserModal(props) {
     function postPlayer(db, name, diff, player_number) {
         //use it 
         var config = {
+            id: localStorage.id,
             player: name,
             difficulty: diff,
             player_number: player_number,
@@ -140,16 +145,31 @@ export default function UserModal(props) {
             //error
             console.log(`POST REQUEST ERROR ${err}`);
         });
+        getData(config, db, (res) => {
+            var config = {
+                player: name
+
+            }
+            var players = res.data.filter((player) => player.player == name)
+            console.log(`NEW USER ${players[0]}`);
+            localStorage.id = players[0].id
+            console.log(`NEW ID ${localStorage.id}`);
+
+        }, (err) => {
+            //error
+            console.log(`GET REQUEST ERROR ${err}`);
+        });
     }
     function updatePlayer(name, diff, theme, id) {
         //use it 
         var config = {
             player: name,
             difficulty: diff,
-            theme: themes[localStorage.theme]
+            theme: theme
         }
         putData(config, 'players', id, (res) => {
-            console.log('updated')
+            console.log(`PUT REQUEST ID ${id}`)
+            localStorage.id = id
             sendMsg('jeff', 'debug', 'players')
         }, (err) => {
             //error

@@ -25,7 +25,7 @@ class Player(models.Model):
     Date_started = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return str(self.player)
+        return str(self.player) + ': ' + str(self.id)
 
 
 class GameData(models.Model):
