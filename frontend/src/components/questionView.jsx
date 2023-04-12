@@ -130,6 +130,7 @@ export default function QuestionCard(props) {
 
         }, (err) => {
             //error
+            console.log(`USERNAME: ${localStorage.user}`);
             console.log(`GET REQUEST ERROR${err}`);
         });
         getData(config, 'game', (res) => {
@@ -142,7 +143,10 @@ export default function QuestionCard(props) {
         if (player && gameData[0]) {
             console.log('yes')
         }
-        sendMsg('game', 'setup', 'players')
+        setTimeout(() => {
+            sendMsg('game', 'setup', 'players')
+        }, 1000);
+
     }, []);
 
     useEffect(() => {
