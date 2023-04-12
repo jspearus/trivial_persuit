@@ -16,37 +16,6 @@ const WS_URL = 'ws://synapse.viewdns.net:8080/ws/game/';
 const chatSocket = new WebSocket(WS_URL);
 
 
-
-
-
-function postClicked(id, db, data) {
-  //use it 
-  var config = { name: data }
-  postData(config, db, id, (res) => {
-  }, (err) => {
-    //error
-    console.log(`POST REQUEST ERROR ${err}`);
-  });
-}
-function putClicked(name, datat, data) {
-  //use it 
-  var config = { max_score: 25 }
-  putData(config, 9, (res) => {
-  }, (err) => {
-    //error
-    console.log(`PUT REQUEST ERROR ${err}`);
-  });
-}
-function delClicked(name, datat, data) {
-  //use it 
-  var config = { "Access-Control-Allow-Origin": "*" }
-  delData(config, 8, (res) => {
-  }, (err) => {
-    //error
-    console.log(`PUT REQUEST ERROR ${err}`);
-  });
-}
-
 function App() {
   chatSocket.onopen = (event) => {
     // run code on load here
