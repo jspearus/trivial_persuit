@@ -279,9 +279,9 @@ export default function QuestionCard(props) {
 
                     title={player.player}
                 />
-                <Typography variant="body1" color="black">
+                {/* <Typography variant="body1" color="black">
                     Score: {player.score}
-                </Typography>
+                </Typography> */}
                 <Typography variant="body1" color="black">
                     Difficulty: {player.difficulty}
                 </Typography>
@@ -377,6 +377,7 @@ export default function QuestionCard(props) {
                 display: expanded ? 'block' : 'none'
             }} width={200} height={200}>
                 <RegPolygon
+
                     size={150}
                     sides={6}
                     cx={100}
@@ -385,6 +386,9 @@ export default function QuestionCard(props) {
                     strokeWidth={10}
                     fill="grey"
                 />
+                <text
+                    style={{ fontSize: 30 }}
+                    textAnchor="middle" x="100" y="110">{player.score}</text>
             </Svg>
         </Grid >
     );
